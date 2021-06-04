@@ -1,48 +1,56 @@
 <script>
     import { createEventDispatcher } from 'svelte';
+    import Task from '../components/Task.svelte';
     
 	const dispatch = createEventDispatcher();
 
     let newItem = '';
+    let level = 1;
+    const levels = [
+        {'🐀':1},
+        {'🐍':2}, 
+        {'🐆':3},
+        {'👹':4},
+        {'🐉':5}
+    ];
 	
-    let todoList = [{text: 'Write my first post', status: true},
-                    {text: 'Upload the post to the blog', status: false},
-                    {text: 'Publish the post at Facebook', status: false}];
+    let todoList = [{text: 'First task', status: false}];
 	
 	function addToList() {
-		todoList = [...todoList, {text: newItem, status: false}];
+        let task;
+        task = {text: newItem, status: false, level: level};
+		todoList = [...todoList, task];
 		newItem = '';
 	}
 	
-	function removeFromList(index) {
-		todoList.splice(index, 1)
+	function removeFromList(event) {
+		todoList.splice(event.detail.index, 1)
         todoList = todoList;
-        alert('Fight!');
-        dispatch('battle', { battle: true} );
     }
+    function callBattle(event) {
+        dispatch('startBattle',{ level: event.detail.level })
+    }
+    
 </script>
 
 <div class="container">
-    <input bind:value={newItem} type="text" placeholder="new todo item..">
+    <input bind:value={newItem} type="text" placeholder="Write your quest or task...">
+    <select bind:value={level}>
+        {#each levels as lvl}
+        <option value={lvl[Object.keys(lvl)]}> {Object.keys(lvl)} </option>
+        {/each}
+	</select>
     <button on:click={addToList}>Add</button>
     
     <br/>
     <div class="quest-list">
         {#each todoList as item, index}
-        <div class="quest">
-            <input bind:checked={item.status} type="checkbox">
-            <span class:checked={item.status}>{item.text}</span>
-            <span class="fight" on:click={() => removeFromList(index)}>⚔</span>
-            <br/>
-        </div>
+            <Task id={index} task={item} on:remove={removeFromList} on:startBattle={callBattle} />
         {/each} 
     </div>
 </div>
 
-<style> 
-	.checked {
-        text-decoration: line-through;
-    }
+<style>
     .container {
         width: 400px;
         border: 1px solid black;
@@ -54,11 +62,5 @@
         border: 1px dotted gray;
         margin: 10px auto;
         overflow:auto;
-    }
-    .quest {
-        text-align: left;
-    }
-    .fight {
-        cursor: pointer;
     }
 </style> 
