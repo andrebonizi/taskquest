@@ -16,10 +16,10 @@
 
 <div class="quest">
     <input bind:checked={task.status} type="checkbox">
-    <span> 💀 {task.level?task.level:1} : </span>
+    <span> Lvl.{task.level?task.level:1}💀 </span>
     <span class:checked={task.status}>{task.text}</span>
     <span class="fight" on:click={() => removeFromList(id, task.status)}>
-        <button>{task.status? '⚔' : '💣' }</button>
+        <button>{task.status? '⚔ ' : '💣 ' }</button>
     </span>
     <br/>
 </div>
@@ -27,11 +27,17 @@
 <style>
 	.checked {
         text-decoration: line-through;
+        color: red;
     }
     .quest {
         text-align: left;
+        margin-left: 10px;
     }
-    .fight {
+    input{
+        cursor: pointer;
+    }
+    button{
+        border-radius: 10px;
         cursor: pointer;
     }
 </style>

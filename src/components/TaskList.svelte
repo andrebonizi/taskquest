@@ -7,11 +7,11 @@
     let newItem = '';
     let level = 1;
     const levels = [
-        {'🐀':1},
-        {'🐍':2}, 
-        {'🐆':3},
-        {'👹':4},
-        {'🐉':5}
+        {'🐀 Rat':1},
+        {'🐍 Snake':2}, 
+        {'🐆 Tiger':3},
+        {'👹 Ogre':4},
+        {'🐉 Dragon':5}
     ];
 	
     let todoList = [{text: 'First task', status: false}];
@@ -34,13 +34,14 @@
 </script>
 
 <div class="container">
-    <input bind:value={newItem} type="text" placeholder="Write your quest or task...">
+    <input bind:value={newItem} type="text" placeholder="What will you fight?">
+    Monster:
     <select bind:value={level}>
         {#each levels as lvl}
         <option value={lvl[Object.keys(lvl)]}> {Object.keys(lvl)} </option>
         {/each}
 	</select>
-    <button on:click={addToList}>Add</button>
+    <button on:click={addToList}>Add➕</button>
     
     <br/>
     <div class="quest-list">
@@ -52,15 +53,24 @@
 
 <style>
     .container {
-        width: 400px;
-        border: 1px solid black;
-        margin: 20px auto;
+        width: 100%;
+        border: 5px outset whitesmoke;
+        border-radius: 10px;
+        margin: 20px;
+        padding: 20px;
+        background-color: lightgray;
     }
     .quest-list {
-        width: 280px;
+        width: 99%;
         height: 200px;
-        border: 1px dotted gray;
-        margin: 10px auto;
-        overflow:auto;
+        border: 5px inset whitesmoke;
+        overflow: auto;
+        background-color: whitesmoke;
+    }
+    input{
+        min-width: 50%;
+    }
+    select{
+        font-size: 1.5rem;
     }
 </style> 

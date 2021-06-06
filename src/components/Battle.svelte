@@ -7,13 +7,14 @@
 	
 	export let level = 1;
 	export let player;
+	const maxLife = player.life;
 	
 	let trigger = false;
 	let count = 12;
 	let timer;
 	$: enemy = {
-		life: 100 * level,
-		power: 10 * level,
+		life: 10 * level,
+		power: 1 * level,
 		speed: 1 * level,
 	};
 	
@@ -27,6 +28,10 @@
 	
 	onMount(() =>{
 		timer = startTimer();
+	})
+
+	onDestroy(()=>{
+		clearTimeout(timer);
 	})
 
 	function startTimer() {
@@ -70,7 +75,7 @@
 		if( player.life > 0 ){
 			player.gold += level;
 		}else{
-			player.life = 100;
+			player.life = player.maxLife;
 			player.gold = 0;
 		}
 		dispatch('endBattle', { player: player } );
@@ -86,7 +91,7 @@
 			{#if enemy.life <= 0} 
 				<div class="battle-reward">
 					<h1>You win! 🎉</h1>
-					<p>Got {level} gold!💵</p>
+					<h2>Got {level}💵 money!</h2>
 					<button on:click={finishBattle}>
 						❌ Finish!
 					</button> 
@@ -95,20 +100,20 @@
 			{:else}
 				<div class="health-bars">
 					<div>
-						{#if player.life < 25}😰{:else if player.life < 50}😬{:else if player.life < 75}😅{:else}🙂{/if}
+						{#if player.life < 3}😰{:else if player.life < 6}😬{:else if player.life < 8}😅{:else}🙂{/if}
 						{#key player.life}
 							{player.life}
 						{/key}
 						{#key player.life}
-						<progress in:fly={{x: 5, duration: 200, easing: bounceOut, opacity: 1}} value={player.life} max="100" />
+						<progress in:fly={{x: 5, duration: 200, easing: bounceOut, opacity: 1}} value={player.life} max={maxLife} />
 						{/key}
 					</div>
 					<div>
 						{#key enemy.life}
-							<progress in:fly={{x: 5, duration: 200, easing: bounceOut, opacity: 1}} value={enemy.life} max="100" />
+							<progress in:fly={{x: 5, duration: 200, easing: bounceOut, opacity: 1}} value={enemy.life} max={10 * level} />
 						{/key}
 						{enemy.life}
-						{#if enemy.life < 25}😰{:else if enemy.life < 50}😬{:else if enemy.life < 75}😅{:else}🙂{/if}
+						{#if enemy.life < 3}😰{:else if enemy.life < 6}😬{:else if enemy.life < 8}😅{:else}🙂{/if}
 					</div>
 				</div>
 				{#key trigger}
@@ -141,7 +146,7 @@
 	font-size: 1.5rem;
 }
 button{
-	border-radius: 30px;
+	border-radius: 50px;
 }
 .background{
 	position: absolute;
@@ -160,7 +165,7 @@ button{
 	background: whitesmoke;
     padding: 20px;
     border: 1px solid black;
-    border-radius: 5px;
+    border-radius: 50px;
     height: 50%;
     width: 50%;
 	z-index: 2;
