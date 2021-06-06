@@ -4,29 +4,57 @@
 
     export let hero;
 
+    let base = {
+        power: hero.power,
+        guard: hero.guard,
+        speed: hero.speed
+    }
+
     let equipments = {
         weapon: {},
-        clothes: {},
+        armor: {},
         misc: {}
     }
 
-    let items = [
-        {icon: '🍎', name: 'Maçã', type: 'consumable', description: 'Recupera a vida em 10 pontos.' },
-        {icon: '🍌', name: 'Banana', type: 'consumable', description: 'Recupera a vida em 10 pontos.' },
-        {icon: '🔪', name: 'Adaga', type: 'equipment', description: 'Equipamento.', attrib: {atk:1}},
-        {},{},{},{},{},{},{},
+    $: items = [
+        {icon: '🍎', name: 'Maçã', type: 'consumable', description: 'Recupera a vida.', attrib:{life:5} },
+        {icon: '🍌', name: 'Banana', type: 'consumable', description: 'Recupera a vida.', attrib:{life:5} },
+        {icon: '🔧', name: 'Chave de Boca', type: 'weapon', description: 'Equipamento.', attrib: {power:1}},
+        {icon: '🔨', name: 'Martelo', type: 'weapon', description: 'Equipamento.', attrib: {power:2}},
+        {icon: '🏹', name: 'Arco & Flecha', type: 'weapon', description: 'Equipamento.', attrib: {power:2}},
+        {icon: '🔪', name: 'Faca', type: 'weapon', description: 'Equipamento.', attrib: {power:3}},
+        {icon: '🗡️', name: 'Espada', type: 'weapon', description: 'Equipamento.', attrib: {power:4}},
+        {icon: '🔫', name: 'Revolver', type: 'weapon', description: 'Equipamento.', attrib: {power:5}},
+        {icon: '👕', name: 'Camisa', type: 'armor', description: 'Equipamento.', attrib: {guard:1}},
+        {icon: '👖', name: 'Calça Jeans', type: 'armor', description: 'Equipamento.', attrib: {guard:1}},
+        {icon: '👔', name: 'Roupa Social', type: 'armor', description: 'Equipamento.', attrib: {guard:1}},
+        {icon: '👘', name: 'Kimono', type: 'armor', description: 'Equipamento.', attrib: {guard:1}},
+        {icon: '💼', name: 'Maleta', type: 'misc', description: 'Equipamento.', attrib: {guard:1}},
+        {icon: '🎒', name: 'Mochila', type: 'misc', description: 'Equipamento.', attrib: {guard:1}},
+        {},{},{},{},{},{},
     ]
 
     function useItem(item, index){
-        item.type === 'consumable' ? consume(item) : equip(item);
+        item.type === 'consumable' ? consume(item, index) : equip(item, index);
     }
 
-    function consume(item){
+    function consume(item, index){
         alert(item.icon + item.name + ' consumed!')
+        hero.life += item.attrib.life? item.attrib.life: 0;
+        items[index] = {}
     }
 
-    function equip(item) {
-        alert(item.icon + item.name  + ' equiped!')
+    function equip(item, index) {
+        if (['weapon','armor','misc'].includes(item.type) ){
+            let aux = equipments[item.type];
+            equipments[item.type] = item;
+            items[index] = aux;
+            switch(item.type){
+                case 'weapon': hero.power = base.power + item.attrib.power;break;
+                case 'armor': hero.guard = base.guard + item.attrib.guard;break;
+                case 'speed': hero.speed = base.speed + item.attrib.speed;break;
+            }
+        }
     }
 
 </script>
@@ -48,9 +76,9 @@
         {/key}
 
         <div class="equipments">
-            <div>{equipments.weapon.name? equipments.weapon.name :'No weapon...'}</div>
-            <div>{equipments.clothes.name? equipments.clothes.name :'No clothes...'}</div>
-            <div>{equipments.misc.name? equipments.misc.name :'No misc...'}</div>
+            <div>{equipments.weapon.name? equipments.weapon.icon+' '+equipments.weapon.name :'No weapon...'}</div>
+            <div>{equipments.armor.name? equipments.armor.icon+' '+equipments.armor.name :'No clothes...'}</div>
+            <div>{equipments.misc.name? equipments.misc.icon+' '+equipments.misc.name :'No misc...'}</div>
         </div>
 	</div>
     <div class="container">
@@ -65,16 +93,14 @@
 
 <style>
     .container{
-        border: 1px solid black;
         width: 100%;
         height: 250px;
+        padding: 5px;
         display: grid;
         place-items: center;
         grid-template-columns: repeat(5, 50px);
         grid-template-rows: repeat(5, 50px);
         background-color: lightgray;
-        border: 5px outset whitesmoke;
-        border-radius: 20px;
     }
     .cell{
         border: 5px inset whitesmoke;
@@ -90,7 +116,6 @@
 		display: flex;
 		width: 100%;
         height: 50px;
-        flex-direction: row;
 		justify-content: space-around;
         align-items: center;
 	}
@@ -104,8 +129,6 @@
     .equipments{
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: flex-start;
     }
 
     .equipments > div {

@@ -2,6 +2,7 @@
 	import TaskList from './components/TaskList.svelte';
 	import Battle from './components/Battle.svelte';
 	import Inventory from './components/Inventory.svelte';
+	import Store from './components/Store.svelte';
 
 
 	export let name;
@@ -16,7 +17,7 @@
 		speed: 1,
 		gold: 0,
 	}
-	
+
 	function startBattle(event){
 		level = event.detail.level;
 		battle = true;
@@ -37,6 +38,7 @@
 	<div class="container">
 		<Inventory hero={ hero } />
 		<TaskList on:startBattle={startBattle} />
+		<Store />
 	</div>
 </main>
 

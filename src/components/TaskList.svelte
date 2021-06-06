@@ -35,7 +35,6 @@
 
 <div class="container">
     <input bind:value={newItem} type="text" placeholder="What will you fight?">
-    Monster:
     <select bind:value={level}>
         {#each levels as lvl}
         <option value={lvl[Object.keys(lvl)]}> {Object.keys(lvl)} </option>
@@ -54,7 +53,6 @@
 <style>
     .container {
         width: 100%;
-        border: 5px outset whitesmoke;
         border-radius: 10px;
         margin: 20px;
         padding: 20px;
@@ -69,8 +67,5 @@
     }
     input{
         min-width: 50%;
-    }
-    select{
-        font-size: 1.5rem;
     }
 </style> 
