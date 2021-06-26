@@ -17,20 +17,20 @@
     }
 
     $: items = [
-        {icon: '🍎', name: 'Maçã', type: 'consumable', description: 'Recupera a vida.', attrib:{life:5} },
+        {icon: '🍎', name: 'Apple', type: 'consumable', description: 'Recupera a vida.', attrib:{life:5} },
         {icon: '🍌', name: 'Banana', type: 'consumable', description: 'Recupera a vida.', attrib:{life:5} },
-        {icon: '🔧', name: 'Chave de Boca', type: 'weapon', description: 'Equipamento.', attrib: {power:1}},
-        {icon: '🔨', name: 'Martelo', type: 'weapon', description: 'Equipamento.', attrib: {power:2}},
-        {icon: '🏹', name: 'Arco & Flecha', type: 'weapon', description: 'Equipamento.', attrib: {power:2}},
-        {icon: '🔪', name: 'Faca', type: 'weapon', description: 'Equipamento.', attrib: {power:3}},
-        {icon: '🗡️', name: 'Espada', type: 'weapon', description: 'Equipamento.', attrib: {power:4}},
+        {icon: '🔧', name: 'Wrench', type: 'weapon', description: 'Equipamento.', attrib: {power:1}},
+        {icon: '🔨', name: 'Hammer', type: 'weapon', description: 'Equipamento.', attrib: {power:2}},
+        {icon: '🏹', name: 'Bow', type: 'weapon', description: 'Equipamento.', attrib: {power:2}},
+        {icon: '🔪', name: 'Knife', type: 'weapon', description: 'Equipamento.', attrib: {power:3}},
+        {icon: '🗡️', name: 'Sword', type: 'weapon', description: 'Equipamento.', attrib: {power:4}},
         {icon: '🔫', name: 'Revolver', type: 'weapon', description: 'Equipamento.', attrib: {power:5}},
-        {icon: '👕', name: 'Camisa', type: 'armor', description: 'Equipamento.', attrib: {guard:1}},
-        {icon: '👖', name: 'Calça Jeans', type: 'armor', description: 'Equipamento.', attrib: {guard:1}},
-        {icon: '👔', name: 'Roupa Social', type: 'armor', description: 'Equipamento.', attrib: {guard:1}},
+        {icon: '👕', name: 'Shirt', type: 'armor', description: 'Equipamento.', attrib: {guard:1}},
+        {icon: '👖', name: 'Jeans', type: 'armor', description: 'Equipamento.', attrib: {guard:1}},
+        {icon: '👔', name: 'Formal Shirt', type: 'armor', description: 'Equipamento.', attrib: {guard:1}},
         {icon: '👘', name: 'Kimono', type: 'armor', description: 'Equipamento.', attrib: {guard:1}},
-        {icon: '💼', name: 'Maleta', type: 'misc', description: 'Equipamento.', attrib: {guard:1}},
-        {icon: '🎒', name: 'Mochila', type: 'misc', description: 'Equipamento.', attrib: {guard:1}},
+        {icon: '💼', name: 'Mallet', type: 'misc', description: 'Equipamento.', attrib: {guard:1}},
+        {icon: '🎒', name: 'Backpack', type: 'misc', description: 'Equipamento.', attrib: {guard:1}},
         {},{},{},{},{},{},
     ]
 
@@ -60,7 +60,6 @@
 </script>
 
 <main>
-    <h2>Inventory</h2>
     <div>
         ♥️ {#key hero.life}
         <progress in:fly={{x: 5, duration: 200, easing: bounceOut, opacity: 1}} value={hero.life*10} max="100" />
@@ -69,9 +68,9 @@
         {/key}
     
         <div class="atributes">
-            <div>♠️Atq: {hero.power}</div>
-            <div>♦️Def: {hero.guard}</div>
-            <div>♣️Vel: {hero.speed}</div>
+            <div>💪Atq: {hero.power}</div>
+            <div>👷Def: {hero.guard}</div>
+            <div>🦵Vel: {hero.speed}</div>
         </div>
         {/key}
 
@@ -81,6 +80,8 @@
             <div>{equipments.misc.name? equipments.misc.icon+' '+equipments.misc.name :'No misc...'}</div>
         </div>
 	</div>
+    <div class="gold">💰 {hero.gold} </div>
+    <h2>Inventory</h2>
     <div class="container">
         {#each items as item, index}
             <div class="cell" on:click={()=>{useItem(item, index)}} >
@@ -88,13 +89,15 @@
             </div>
         {/each}
     </div>
-    <div class="gold">💰 {hero.gold} </div>
+    
 </main>
 
 <style>
+    main{
+        background-color: lightblue;
+    }
     .container{
-        width: 100%;
-        height: 250px;
+        width: fit-content;
         padding: 5px;
         display: grid;
         place-items: center;
@@ -120,7 +123,6 @@
         align-items: center;
 	}
     .atributes > div{
-        border:1px groove black;
         font-size: 1.2rem;
         margin: 1px;
         padding: 5px;
@@ -132,7 +134,6 @@
     }
 
     .equipments > div {
-        width: 90%;
         text-align: left;
         padding: 5px;
         margin: 5px;
