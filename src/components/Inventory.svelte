@@ -63,18 +63,30 @@
 
 <main>
     <div>
-        {hero.name} - Lvl.{hero.level}<br>
-        <p style="display:inline-block ;font-size: 2rem;">♥️</p> 
-        {#key hero.life} 
-            <progress in:fly={{x: 5, duration: 200, easing: bounceOut, opacity: 1}} value={hero.life*10} max="100" />
-            {hero.life}        
-            {#if hero.life < 3}😰{:else if hero.life < 6}😬{:else if hero.life < 8}😅{:else}🙂{/if}
-            <div class="atributes">
-                <div>♠︎Atq: {hero.power}</div>
-                <div>♦︎Def: {hero.guard}</div>
-                <div>♣︎Vel: {hero.speed}</div>
-            </div>
-        {/key}
+        <div class="hero-base">
+            {hero.name}
+            <p>
+                <span>
+                    Lvl. {hero.level}♛
+                </span>
+                <span>
+                    {hero.gold}💰
+                </span>
+            </p>
+        </div>
+        <div class="life-bar">
+            {#key hero.life} 
+                <span class="heart">♥️</span>
+                <progress in:fly={{x: 5, duration: 200, easing: bounceOut, opacity: 1}} value={hero.life*10} max="100" />
+                {hero.life}        
+                {#if hero.life < 3}😰{:else if hero.life < 6}😬{:else if hero.life < 8}😅{:else}🙂{/if}
+            {/key}
+        </div>
+        <div class="atributes">
+            <div>♠︎Atk: {hero.power}</div>
+            <div>♦︎Def: {hero.guard}</div>
+            <div>♣︎Spd: {hero.speed}</div>
+        </div>
 
         <div class="equipments">
             <div>{equipments.weapon.name? equipments.weapon.icon+' '+equipments.weapon.name :'No weapon...'}</div>
@@ -82,7 +94,6 @@
             <div>{equipments.misc.name? equipments.misc.icon+' '+equipments.misc.name :'No misc...'}</div>
         </div>
 	</div>
-    <div class="gold"> {hero.gold}💰 </div>
     <h2>Inventory</h2>
     <div class="container">
         {#each items as item, index}
@@ -96,7 +107,49 @@
 
 <style>
     main{
-        background-color: lightblue;
+        background-color: rgb(80, 93, 97);
+        border-radius: 20px;
+        padding: 10px;
+        font-family: 'Lobster';
+    }
+    h2{
+        text-shadow: 2px 2px 4px white;
+    }
+    .hero-base{
+        font-size: 2rem;
+        text-shadow: 3px 3px 5px black;
+        color: wheat;
+        display: flex;
+        justify-content: space-between;
+    }
+    .hero-base > p{
+        display: flex;
+        justify-content: space-between;
+        font-size: 1rem;
+        color: black;
+        text-shadow: 2px 2px 5px white;
+        width: 50%;
+    }
+    .heart{
+        color: rgb(110, 0, 0);
+        font-size: 2rem;
+        text-shadow: 2px 2px 2px black;
+    }
+    .life-bar {
+        display: inline;
+        font-size: 1rem;
+        color: black;
+        text-shadow: 2px 2px 5px gray;
+    }
+    .life-bar > progress{
+        border-radius: 20px;
+    }
+    progress::-webkit-progress-bar {
+        border-radius: 20px;
+    }
+    progress::-webkit-progress-value {
+        background: linear-gradient(red, black);
+        border-radius: 20px;
     }
     .container{
         width: fit-content;
@@ -105,7 +158,9 @@
         place-items: center;
         grid-template-columns: repeat(5, 50px);
         grid-template-rows: repeat(5, 50px);
-        background-color: lightgray;
+        background-color: rgb(121, 121, 121);
+        border-radius: 5px;
+        border: 3px inset gray;
     }
     .cell{
         border: 5px inset whitesmoke;
@@ -120,9 +175,10 @@
 	.atributes{
 		display: flex;
 		width: 100%;
-        height: 10px;
+        height: 50px;
 		justify-content: space-around;
         align-items: center;
+        color: black;
 	}
     .atributes > div{
         font-size: 1.2rem;
@@ -140,12 +196,9 @@
         padding: 5px;
         margin: 5px;
         padding-left: 10px;
-        border: 5px inset whitesmoke;
+        border: 5px inset rgb(146, 146, 146);
         background-color: whitesmoke;
+        border-radius: 10px;
     }
-
-	.gold {
-        font-size: 2rem;
-	}
 
 </style>

@@ -31,6 +31,9 @@
     }
     label{
         color: black;
+        display: inline-block;
+        margin-right: 20px;
+        text-shadow: 2px 2px 5px grey;
     }
     .quest {
         text-align: left;
@@ -49,9 +52,5 @@
         color: sandybrown;
         width: fit-content;
         height: 35px;
-    }
-    label{
-        display: inline-block;
-        margin-right: 20px;
     }
 </style>

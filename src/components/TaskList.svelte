@@ -65,21 +65,26 @@
 
 <style>
     h1 {
-        color: whitesmoke;
+        color: wheat;
         text-shadow: 2px 2px 5px black;
+        font-weight: lighter;
+        font-size: 2rem;
+        text-align: left;
+        padding-left: 30px;
     }
     p{
-        color: whitesmoke;
+        color: black;
         display: inline;
-        text-shadow: 2px 2px 3px black;
     }
     .container {
         width: 900px;
         border-radius: 10px;
         margin: 20px;
         padding: 20px;
-        background-color: rgb(131, 80, 33);
+        background: linear-gradient(brown, rgb(173, 87, 17));
         border: 5px outset rgb(173, 87, 17);
+        font-family: 'Lobster';
+        font-weight: lighter;
     }
     .quest-config, select{
         display: inline;
@@ -89,12 +94,13 @@
         height: 300px;
         border: 5px inset rgb(173, 87, 17);
         overflow: auto;
-        background-color: rgb(167, 119, 56);
+        background-color:rgb(167, 119, 56);
     }
     .quest-input{
         background-color: rgb(133, 127, 117);
         color: rgb(0, 0, 0);
         border-radius: 30px;
+        padding-left: 20px;
     }
     .quest-input::placeholder{
         color: rgb(43, 38, 38);
