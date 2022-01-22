@@ -40,7 +40,9 @@
 
     function consume(item, index){
         alert(item.icon + item.name + ' consumed!')
+        const maxLife = hero.level*10;
         hero.life += item.attrib.life? item.attrib.life: 0;
+        hero.life = hero.life >= maxLife ?  maxLife : hero.life;
         items[index] = {}
     }
 
@@ -61,17 +63,17 @@
 
 <main>
     <div>
-        ♥️ {#key hero.life}
-        <progress in:fly={{x: 5, duration: 200, easing: bounceOut, opacity: 1}} value={hero.life*10} max="100" />
-        {#key hero.life}{hero.life}        
-        {#if hero.life < 3}😰{:else if hero.life < 6}😬{:else if hero.life < 8}😅{:else}🙂{/if}
-        {/key}
-    
-        <div class="atributes">
-            <div>💪Atq: {hero.power}</div>
-            <div>👷Def: {hero.guard}</div>
-            <div>🦵Vel: {hero.speed}</div>
-        </div>
+        {hero.name} - Lvl.{hero.level}<br>
+        <p style="display:inline-block ;font-size: 2rem;">♥️</p> 
+        {#key hero.life} 
+            <progress in:fly={{x: 5, duration: 200, easing: bounceOut, opacity: 1}} value={hero.life*10} max="100" />
+            {hero.life}        
+            {#if hero.life < 3}😰{:else if hero.life < 6}😬{:else if hero.life < 8}😅{:else}🙂{/if}
+            <div class="atributes">
+                <div>♠︎Atq: {hero.power}</div>
+                <div>♦︎Def: {hero.guard}</div>
+                <div>♣︎Vel: {hero.speed}</div>
+            </div>
         {/key}
 
         <div class="equipments">
@@ -80,7 +82,7 @@
             <div>{equipments.misc.name? equipments.misc.icon+' '+equipments.misc.name :'No misc...'}</div>
         </div>
 	</div>
-    <div class="gold">💰 {hero.gold} </div>
+    <div class="gold"> {hero.gold}💰 </div>
     <h2>Inventory</h2>
     <div class="container">
         {#each items as item, index}
@@ -118,7 +120,7 @@
 	.atributes{
 		display: flex;
 		width: 100%;
-        height: 50px;
+        height: 10px;
 		justify-content: space-around;
         align-items: center;
 	}

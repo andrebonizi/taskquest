@@ -3,15 +3,17 @@
     import Task from '../components/Task.svelte';
     
 	const dispatch = createEventDispatcher();
-
+    export let name;
     let newItem = '';
     let level = 1;
     const levels = [
         {'🐀 Rat':1},
-        {'🐍 Snake':2}, 
-        {'🐆 Tiger':3},
-        {'👹 Ogre':4},
-        {'🐉 Dragon':5}
+        {'🦂 Scorpion:':2},
+        {'🐍 Snake':3}, 
+        {'🐆 Tiger':4},
+        {'🐊 Crocodille':5},
+        {'👹 Ogre':6},
+        {'🐉 Dragon':7}
     ];
 	
     let todoList = [{text: 'First task', status: false}];
@@ -30,42 +32,88 @@
     function callBattle(event) {
         dispatch('startBattle',{ level: event.detail.level })
     }
-    
+    function playerHit() {
+        dispatch('playerHit');
+    }
 </script>
 
 <div class="container">
-    <input bind:value={newItem} type="text" placeholder="What will you fight?">
-    <select bind:value={level}>
-        {#each levels as lvl}
-        <option value={lvl[Object.keys(lvl)]}> {Object.keys(lvl)} </option>
-        {/each}
-	</select>
-    <button on:click={addToList}>Add➕</button>
+    <h1>{name}'s quests!</h1><br>
+    <div class="quest-config">
+        <input bind:value={newItem} class="quest-input" type="text" placeholder="What will you fight for?">
+        <p>Enemy:</p>
+        <select bind:value={level} class="enemy-select">
+            {#each levels as lvl}
+            <option value={lvl[Object.keys(lvl)]}> {Object.keys(lvl)} </option>
+            {/each}
+        </select>
+        <div class="add-button" on:click={addToList}>Add ➕</div>
+    </div>
     
-    <br/>
     <div class="quest-list">
         {#each todoList as item, index}
-            <Task id={index} task={item} on:remove={removeFromList} on:startBattle={callBattle} />
+            <Task 
+                id={index} 
+                task={item} 
+                on:remove={removeFromList} 
+                on:startBattle={callBattle} 
+                on:hit={playerHit}
+            />
         {/each} 
     </div>
 </div>
 
 <style>
+    h1 {
+        color: whitesmoke;
+        text-shadow: 2px 2px 5px black;
+    }
+    p{
+        color: whitesmoke;
+        display: inline;
+        text-shadow: 2px 2px 3px black;
+    }
     .container {
-        width: 100%;
+        width: 900px;
         border-radius: 10px;
         margin: 20px;
         padding: 20px;
-        background-color: lightgray;
+        background-color: rgb(131, 80, 33);
+        border: 5px outset rgb(173, 87, 17);
+    }
+    .quest-config, select{
+        display: inline;
     }
     .quest-list {
         width: 99%;
-        height: 200px;
-        border: 5px inset whitesmoke;
+        height: 300px;
+        border: 5px inset rgb(173, 87, 17);
         overflow: auto;
-        background-color: whitesmoke;
+        background-color: rgb(167, 119, 56);
+    }
+    .quest-input{
+        background-color: rgb(133, 127, 117);
+        color: rgb(0, 0, 0);
+        border-radius: 30px;
+    }
+    .quest-input::placeholder{
+        color: rgb(43, 38, 38);
     }
     input{
         min-width: 50%;
+    }
+    .add-button{
+        display: inline-block;
+        width: fit-content;
+        background-color: rgb(122, 89, 58);
+        border-radius: 10px;
+        box-shadow: 2px 2px 5px black;
+        padding-left: 10px;
+        text-shadow: 1px 1px 3px black;
+        color: whitesmoke;
+    }
+    .enemy-select{
+        border-radius: 30px;
+        background-color: grey;
     }
 </style> 

@@ -3,12 +3,12 @@
 </script>
 
 <div class="container">
-    EITA
+    MARKET
 </div>
 
 <style>
     .container{
-        width: 500px;
+        width: 550px;
         height: 500px;
         border: 5px dotted lightgray;
         padding: 10px;

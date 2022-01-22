@@ -16,9 +16,12 @@
 		guard: 0,
 		speed: 1,
 		gold: 0,
+		xp: 0,
+		level: 1,
+		name: name
 	}
 
-	function startBattle(event){
+	function startBattle(event) {
 		level = event.detail.level;
 		battle = true;
 	}
@@ -27,17 +30,27 @@
 		hero = event.detail.player;
 		battle = false;
 	}
+
+	function playerHit() {
+		alert(`Don't give up! You lost 1 life!`)
+		hero.life-=1;
+	}
 </script>
 
 <main>
 	{#if battle}
 	<Battle level={level} player={hero} on:endBattle={handleBattle} />
 	{/if}
-	<h1>{name}'s quests!</h1>
+	
 
 	<div class="container">
 		<Inventory hero={ hero } />
-		<TaskList on:startBattle={startBattle} />
+		
+			<TaskList 
+				name={name} 
+				on:startBattle={startBattle} 
+				on:playerHit={playerHit}
+			/>
 		<Store />
 	</div>
 </main>

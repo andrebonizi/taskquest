@@ -18,13 +18,7 @@
 		speed: 1 * level,
 	};
 	
-	$: player = {
-		life: player.life,
-		power: player.power,
-		guard: player.guard,
-		speed: player.speed,
-		gold: player.gold
-	}
+	$: player = player;
 	
 	onMount(() =>{
 		timer = startTimer();
@@ -69,6 +63,13 @@
 		count = 12;
 	}
 
+	function gainXp(player) {
+		let curXp = player.xp;
+		let curLvl = player.level;
+
+
+
+	}
 
 	function finishBattle() {
 		clearTimeout(timer);
@@ -100,6 +101,7 @@
 			{:else}
 				<div class="health-bars">
 					<div>
+						{player.name}:
 						{#if player.life < 3}😰{:else if player.life < 6}😬{:else if player.life < 8}😅{:else}🙂{/if}
 						{#key player.life}
 							{player.life}
@@ -109,11 +111,12 @@
 						{/key}
 					</div>
 					<div>
+						Enemy:
 						{#key enemy.life}
 							<progress in:fly={{x: 5, duration: 200, easing: bounceOut, opacity: 1}} value={enemy.life} max={10 * level} />
 						{/key}
 						{enemy.life}
-						{#if enemy.life < 3}😰{:else if enemy.life < 6}😬{:else if enemy.life < 8}😅{:else}🙂{/if}
+						💀
 					</div>
 				</div>
 				{#key trigger}
