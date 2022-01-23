@@ -11,15 +11,18 @@
         status ? dispatch('startBattle', { level: task.level } ) : dispatch('hit');
     }
 
+    function fightButton(checked) {
+        return checked ? '💥 Fight!' : '🧨 Drop!';
+    }
 </script>
 
 
 <div class="quest">
     <input id="{id}" bind:checked={task.status} type="checkbox">
-    <span> Lvl.{task.level?task.level:1}💀 </span>
+    <span> Lv.{task.level?task.level:1}💀 </span>
     <label for="{id}" class:checked={task.status}>{task.text}</label>
     <span class="fight" on:click={() => removeFromList(id, task.status)}>
-        <button>{task.status? '💥 Fight!' : '🧨 Drop!' }</button>
+        <button>{fightButton(task.status)}</button>
     </span>
     <br/>
 </div>

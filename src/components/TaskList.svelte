@@ -38,7 +38,7 @@
 </script>
 
 <div class="container">
-    <h1>{name}'s quests!</h1><br>
+    <h1>📜{name}'s quests!</h1><br>
     <div class="quest-config">
         <input bind:value={newItem} class="quest-input" type="text" placeholder="What will you fight for?">
         <p>Enemy:</p>
@@ -82,7 +82,7 @@
         margin: 20px;
         padding: 20px;
         background: linear-gradient(brown, rgb(173, 87, 17));
-        border: 5px outset rgb(173, 87, 17);
+        border: 2px outset rgb(173, 87, 17);
         font-family: 'Lobster';
         font-weight: lighter;
     }
@@ -92,12 +92,12 @@
     .quest-list {
         width: 99%;
         height: 300px;
-        border: 5px inset rgb(173, 87, 17);
+        border: 3px inset rgb(173, 87, 17);
         overflow: auto;
         background-color:rgb(167, 119, 56);
     }
     .quest-input{
-        background-color: rgb(133, 127, 117);
+        background: linear-gradient(whitesmoke, rgb(133, 127, 117));
         color: rgb(0, 0, 0);
         border-radius: 30px;
         padding-left: 20px;
@@ -120,6 +120,6 @@
     }
     .enemy-select{
         border-radius: 30px;
-        background-color: grey;
+        background: linear-gradient(whitesmoke, rgb(133, 127, 117));
     }
 </style> 
