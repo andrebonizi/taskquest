@@ -67,7 +67,7 @@
             {hero.name}
             <p>
                 <span>
-                    Lvl. {hero.level}♛
+                    Level {hero.level}♛
                 </span>
                 <span>
                     {hero.gold}💰
@@ -87,7 +87,6 @@
             <div>♦︎Def: {hero.guard}</div>
             <div>♣︎Spd: {hero.speed}</div>
         </div>
-
         <div class="equipments">
             <div>{equipments.weapon.name? equipments.weapon.icon+' '+equipments.weapon.name :'No weapon...'}</div>
             <div>{equipments.armor.name? equipments.armor.icon+' '+equipments.armor.name :'No clothes...'}</div>
@@ -107,20 +106,23 @@
 
 <style>
     main{
-        background-color: rgb(80, 93, 97);
-        border-radius: 20px;
+        background: linear-gradient(rgba(20, 20, 70, 0.493), black);
+        border-radius: 10px;
+        border: 2px outset gray;
         padding: 10px;
         font-family: 'Lobster';
     }
     h2{
         text-shadow: 2px 2px 4px white;
+        color: black;
+        line-height: 5px;
     }
     .hero-base{
         font-size: 2rem;
         text-shadow: 3px 3px 5px black;
         color: wheat;
         display: flex;
-        justify-content: space-between;
+        justify-content: space-evenly;
     }
     .hero-base > p{
         display: flex;
@@ -158,17 +160,17 @@
         place-items: center;
         grid-template-columns: repeat(5, 50px);
         grid-template-rows: repeat(5, 50px);
-        background-color: rgb(121, 121, 121);
-        border-radius: 5px;
-        border: 3px inset gray;
+        background: linear-gradient(black, darkgrey, black);
+        border-radius: 10px;
+        border: 5px outset gray;
     }
     .cell{
-        border: 5px inset whitesmoke;
-        border-radius: 10px;
+        border: 5px inset gray;
+        border-radius: 2px;
         width: 30px;
         height: 30px;
-        font-size: 2rem;
-        background-color: whitesmoke;
+        font-size: 1.5rem;
+        background-color: lightgray;
         cursor: pointer;
     }
 
@@ -196,7 +198,7 @@
         padding: 5px;
         margin: 5px;
         padding-left: 10px;
-        border: 5px inset rgb(146, 146, 146);
+        border: 3px inset rgb(146, 146, 146);
         background-color: whitesmoke;
         border-radius: 10px;
     }
