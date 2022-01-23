@@ -39,7 +39,7 @@
 
 <main>
 	{#if battle}
-	<Battle level={level} player={hero} on:endBattle={handleBattle} />
+		<Battle level={level} player={hero} on:endBattle={handleBattle} />
 	{/if}
 	
 
