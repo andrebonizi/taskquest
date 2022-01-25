@@ -2,20 +2,21 @@
     import { createEventDispatcher } from 'svelte';
     import Task from '../components/Task.svelte';
     
+    export let player;
+
 	const dispatch = createEventDispatcher();
-    export let name;
-    let newItem = '';
-    let level = 1;
-    const levels = [
-        {'🐀 Rat':1},
-        {'🦂 Scorpion:':2},
-        {'🐍 Snake':3}, 
-        {'🐆 Tiger':4},
-        {'🐊 Crocodille':5},
-        {'👹 Ogre':6},
-        {'🐉 Dragon':7}
+    const enemies = [
+        {1:'🐀 Rat'},
+        {2:'🦂 Scorpion:'},
+        {3:'🐍 Snake'}, 
+        {4:'🐆 Tiger'},
+        {5:'🐊 Crocodille'},
+        {6:'👹 Ogre'},
+        {7:'🐉 Dragon'}
     ];
 	
+    let newItem = '';
+    let level = 1;
     let todoList = [{text: 'First task', status: false}];
 	
 	function addToList() {
@@ -38,13 +39,15 @@
 </script>
 
 <div class="container">
-    <h1>📜{name}'s quests!</h1><br>
+    <h1>📜{player.name}'s quests!</h1><br>
     <div class="quest-config">
         <input bind:value={newItem} class="quest-input" type="text" placeholder="What will you fight for?">
         <p>Enemy:</p>
         <select bind:value={level} class="enemy-select">
-            {#each levels as lvl}
-            <option value={lvl[Object.keys(lvl)]}> {Object.keys(lvl)} </option>
+            {#each enemies as enemy}
+                {#if player.level+2 >= Object.keys(enemy)}
+                    <option value={parseInt(Object.keys(enemy)[0])}> {Object.values(enemy)} </option>
+                {/if}
             {/each}
         </select>
         <div class="add-button" on:click={addToList}>Add ➕</div>
@@ -75,6 +78,7 @@
     p{
         color: black;
         display: inline;
+        text-shadow: 2px 2px 5px white;
     }
     .container {
         width: 900px;

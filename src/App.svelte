@@ -42,15 +42,13 @@
 		<Battle level={level} player={hero} on:endBattle={handleBattle} />
 	{/if}
 	
-
 	<div class="container">
 		<Inventory hero={ hero } />
-		
-			<TaskList 
-				name={name} 
-				on:startBattle={startBattle} 
-				on:playerHit={playerHit}
-			/>
+		<TaskList 
+			player={hero} 
+			on:startBattle={startBattle} 
+			on:playerHit={playerHit}
+		/>
 		<Store />
 	</div>
 </main>
@@ -63,13 +61,6 @@
 		padding: 1em;
 		max-width: 100vw;
 		margin: 0;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
 	}
 
 	.container{

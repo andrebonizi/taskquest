@@ -3,15 +3,16 @@
 	import { bounceOut } from 'svelte/easing';
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
 	
-	const dispatch = createEventDispatcher();
-	
 	export let level = 1;
 	export let player;
+	
+	const dispatch = createEventDispatcher();
 	const maxLife = player.life;
 	
 	let trigger = false;
 	let count = 12;
 	let timer;
+
 	$: enemy = {
 		life: 10 * level,
 		power: 1 * level,
@@ -32,7 +33,7 @@
 		return setTimeout(function() {
 			const actionSpeed = enemy.speed - player.speed >= 1 ? enemy.speed - player.speed : 1;
 			count -= actionSpeed;
-			count <= 0 ? enemyAttack() : '';
+			if (count <= 0) enemyAttack();
 			return enemy.life <= 0 ? clearTimeout(timer) : startTimer();
 		}, 100 )
 	}
@@ -41,7 +42,6 @@
 		node.style.top = (Math.random() * (window.screen.height/2) ) +'px';
 		node.style.left = (Math.random() * (window.screen.width/2) ) +'px';
 	}
-
 
 	function switchTrigger(){
 		trigger = trigger === true? false : true;
@@ -63,18 +63,19 @@
 		count = 12;
 	}
 
-	function gainXp(player) {
-		let curXp = player.xp;
-		let curLvl = player.level;
-
-
-
+	function gainXp() {
+		player.xp += player.level*3;
+		if (player.xp >= 100) {
+			player.level++;
+			player.xp = 0;
+		}
 	}
 
 	function finishBattle() {
 		clearTimeout(timer);
 		if( player.life > 0 ){
 			player.gold += level;
+			gainXp();
 		}else{
 			player.life = player.maxLife;
 			player.gold = 0;
@@ -111,7 +112,7 @@
 						{/key}
 					</div>
 					<div>
-						Enemy:
+						<p>Enemy:</p>
 						{#key enemy.life}
 							<progress in:fly={{x: 5, duration: 200, easing: bounceOut, opacity: 1}} value={enemy.life} max={10 * level} />
 						{/key}

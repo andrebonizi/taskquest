@@ -17,15 +17,16 @@
     <hr>
     <div class="products">
     {#each products as product}
-        {#if (product && product.active)}
+        {#if (product.active)}
             <div class="product">
                 <div>
                     {product.element}
                 </div>
                 <div>
-                    {product.price}
+                    ${product.price}.00
+                    <div class="button">Buy!</div>    
                 </div>
-            </div>    
+            </div>
         {/if}
     {/each}
     </div>
@@ -50,16 +51,28 @@
     .product{
         display: flex;
         margin: 10px;
-        padding-left: 10px;
-        padding-right: 20px;
+        padding: 5px;
         border-radius: 10px;
         background: lightgoldenrodyellow;
         font-family: 'Lobster';
+        justify-content: space-between;
+    }
+    .product > div{
+        display: flex;
         justify-content: space-between;
     }
     .title{
         font-weight: bolder;
         font-size: 2rem;
         font-family: 'Lobster';
+    }
+    .button{
+        width: 30xp;
+        border-radius: 15px;
+        padding-right: 5px;
+        padding-left: 5px;
+        margin-left: 10px;
+        background: linear-gradient(white, grey);
+        cursor: pointer;
     }
 </style>
