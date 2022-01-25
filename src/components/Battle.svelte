@@ -64,7 +64,7 @@
 	}
 
 	function gainXp() {
-		player.xp += player.level*3;
+		player.xp += level*3;
 		if (player.xp >= 100) {
 			player.level++;
 			player.xp = 0;
@@ -112,7 +112,7 @@
 						{/key}
 					</div>
 					<div>
-						<p>Enemy:</p>
+						Enemy:
 						{#key enemy.life}
 							<progress in:fly={{x: 5, duration: 200, easing: bounceOut, opacity: 1}} value={enemy.life} max={10 * level} />
 						{/key}
@@ -121,13 +121,12 @@
 					</div>
 				</div>
 				{#key trigger}
-					<button use:move on:click={ playerAttack } style="position: absolute;">
-						<p class='attack'>🗡 Attack!
+					<button class='attack' use:move on:click={ playerAttack }>
+						🗡 Attack!
 						{#key count}
 							{({12: '🕐', 11: '🕑', 10: '🕒', 9: '🕓', 8: '🕔', 7: '🕕',
 							6: '🕖', 5: '🕗', 4: '🕘', 3: '🕙', 2: '🕚', 1: '🕛'})[count]}
 						{/key}
-						</p>
 					</button>
 				{/key}
 			{/if}
@@ -148,6 +147,9 @@
 }
 .attack{
 	font-size: 1.5rem;
+	border: 2px  solid red;
+	position: absolute;
+	width: 100px;
 }
 button{
 	border-radius: 50px;

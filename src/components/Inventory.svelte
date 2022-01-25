@@ -34,11 +34,11 @@
         {},{},{},{},{},{},
     ]
 
-    function useItem(item, index){
+    function useItem(item, index) {
         item.type === 'consumable' ? consume(item, index) : equip(item, index);
     }
 
-    function consume(item, index){
+    function consume(item, index) {
         alert(item.icon + item.name + ' consumed!')
         const maxLife = hero.level*10;
         hero.life += item.attrib.life? item.attrib.life: 0;
@@ -58,28 +58,36 @@
             }
         }
     }
-
 </script>
 
 <main>
     <div>
         <div class="hero-base">
             {hero.name}
-            <p>
+            <div>
                 <span>
-                    Level {hero.level}♛
+                    Level  - {hero.level}♛<br>
+                    {#key hero.xp}
+                    <progress 
+                        class="xp-bar" 
+                        in:fly={{x: 5, duration: 200, easing: bounceOut, opacity: 1}} 
+                        value={hero.xp} 
+                        max="100" 
+                    />
+                    {hero.xp}
+                    {/key}
                 </span>
                 <span>
                     {hero.gold}💰
                 </span>
-            </p>
+            </div>
         </div>
         <div class="life-bar">
             {#key hero.life} 
-                <span class="heart">♥️</span>
                 <progress in:fly={{x: 5, duration: 200, easing: bounceOut, opacity: 1}} value={hero.life*10} max="100" />
                 {hero.life}        
                 {#if hero.life < 3}😰{:else if hero.life < 6}😬{:else if hero.life < 8}😅{:else}🙂{/if}
+                <span class="heart">♥️</span>
             {/key}
         </div>
         <div class="atributes">
@@ -101,12 +109,11 @@
             </div>
         {/each}
     </div>
-    
 </main>
 
 <style>
     main{
-        background: linear-gradient(rgba(20, 20, 70, 0.493), black);
+        background: linear-gradient(rgba(20, 20, 70, 0.493), gray);
         border-radius: 10px;
         border: 2px outset gray;
         padding: 10px;
@@ -124,7 +131,7 @@
         display: flex;
         justify-content: space-evenly;
     }
-    .hero-base > p{
+    .hero-base > div{
         display: flex;
         justify-content: space-between;
         font-size: 1rem;
@@ -135,7 +142,7 @@
     .heart{
         color: rgb(110, 0, 0);
         font-size: 2rem;
-        text-shadow: 2px 2px 2px black;
+        text-shadow: 2px 2px 2px rgb(129, 123, 123);
     }
     .life-bar {
         display: inline;
@@ -153,6 +160,9 @@
         background: linear-gradient(red, black);
         border-radius: 20px;
     }
+    .xp-bar{
+        width: 50px;
+    }
     .container{
         width: fit-content;
         padding: 5px;
@@ -160,7 +170,7 @@
         place-items: center;
         grid-template-columns: repeat(5, 50px);
         grid-template-rows: repeat(5, 50px);
-        background: linear-gradient(black, darkgrey, black);
+        background: linear-gradient(white, grey);
         border-radius: 10px;
         border: 5px outset gray;
     }
@@ -173,7 +183,6 @@
         background-color: lightgray;
         cursor: pointer;
     }
-
 	.atributes{
 		display: flex;
 		width: 100%;
@@ -187,12 +196,10 @@
         margin: 1px;
         padding: 5px;
     }
-
     .equipments{
         display: flex;
         flex-direction: column;
     }
-
     .equipments > div {
         text-align: left;
         padding: 5px;

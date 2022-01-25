@@ -43,7 +43,7 @@
         display: flex;
         flex-direction: column;
         text-align: left;
-        background: coral;
+        background: linear-gradient(coral, grey);
         border-radius: 5px;
         height: 500px;
         scroll-behavior: auto;
@@ -56,6 +56,7 @@
         background: lightgoldenrodyellow;
         font-family: 'Lobster';
         justify-content: space-between;
+        user-select: none;
     }
     .product > div{
         display: flex;
