@@ -1,0 +1,122 @@
+{
+	"equip": {
+		"weapon": {
+			"wrench": "🔧",
+			"chain": "⛓",
+			"hammer": "🔨",
+			"hammer&wrench": "🛠",
+			"double hammer": "⚒",
+			"pickaxe": "⛏",
+			"knife": "🔪",
+			"sword": "🗡",
+			"double sword": "⚔️",
+			"bow%arrow": "🏹",
+			"revolver": "🔫"
+		},
+		"cloth": {
+			"shirt": "👕",
+			"pant": "👖",
+			"formal shirt": "👔",
+			"dress": "👗",
+			"silk shirt": "👚",
+			"bikini": "👙",
+			"kimono": "👘"
+		},
+		"misc": {
+			"hand": {
+				"handbag": "👜",
+				"mallet": "💼",
+				"coin purse": "👛",
+				"shield": "🛡",
+				"pencil": "✏️",
+				"scissor": "✂️",
+				"umbrella": "☂️",
+				"flashlight": "🔦",
+				"bomb": "💣",
+				"juzu": "📿",
+				"bell": "🔔",
+				"termometer": "🌡"
+			},
+			"face": {
+				"glasses": "👓",
+				"sunglasses": "🕶"
+			},
+			"head": {
+				"crown": "👑",
+				"ribbon hat": "👒",
+				"top hat": "🎩",
+				"graduate hat": "🎓",
+				"helmet": "⛑"
+			},
+			"feet": {
+				"shoes": "👞",
+				"sneakers": "👟",
+				"high heels": "👠",
+				"sandals": "👡",
+				"boots": "👢"
+			},
+			"etc": {
+				"backpack": "🎒",
+				"jewel ring": "💍",
+				"watch": "⌚️"
+			}
+		}
+	},
+	"consumable": {
+		"chemistry": {
+			"soup": "🍵",
+			"cigar": "🚬",
+			"medicine": "💊",
+			"injection": "💉",
+			"coffee": "☕️",
+			"beer": "🍺",
+			"wine": "🍷",
+			"mojito": "🍸",
+			"caipirinha": "🍹",
+			"champagne": "🍾"
+		},
+		"food": {
+			"natural": {
+				"apple": "🍎",
+				"banana": "🍌",
+				"orange": "🍊",
+				"grape": "🍇",
+				"lemon": "🍋",
+				"peach": "🍑",
+				"tomato": "🍅",
+				"corn": "🌽",
+				"eggplant": "🍆",
+				"pepper": "🌶",
+				"mushroom": "🍄",
+				"nut": "🌰"
+			},
+			"artificial": {
+				"honey": "🍯",
+				"bread": "🍞",
+				"meat": "🍗",
+				"steak": "🍖",
+				"cheese": "🧀",
+				"pizza": "🍕"
+			}
+		},
+		"book": {
+			"diary": "📓",
+			"notebook": "📒",
+			"manual": "📔",
+			"science vol.1": "📕",
+			"science vol.2": "📗",
+			"science vol.3": "📘",
+			"science vol.4": "📙",
+			"book collection": "📚"
+		},
+		"tool": {
+			"key": "🔑",
+			"antique key": "🗝",
+			"package": "📦",
+			"lockpick": "📎",
+			"double lockpick": "🖇",
+			"battery": "🔋",
+			"locker": "🔒"
+		}
+	}
+}
