@@ -1,6 +1,8 @@
-<script>
+<script lang='ts'>
 	import { fly } from 'svelte/transition';
 	import { bounceOut } from 'svelte/easing';
+
+    import Item from './Item.svelte';
 
     export let hero;
 
@@ -34,29 +36,52 @@
         {},{},{},{},{},{},
     ]
 
-    function useItem(item, index) {
-        item.type === 'consumable' ? consume(item, index) : equip(item, index);
+
+    function useItem(event) {
+        const { item } = event.detail;
+        if (item.type === 'consumable') consume(item);
+        if (item.type === 'weapon' || item.type === 'armor' || item.type === 'misc') equip(item);
     }
 
-    function consume(item, index) {
-        alert(item.icon + item.name + ' consumed!')
+    function consume(item) {
         const maxLife = hero.level*10;
         hero.life += item.attrib.life? item.attrib.life: 0;
         hero.life = hero.life >= maxLife ?  maxLife : hero.life;
-        items[index] = {}
+        alert(`${item.icon}${item.name} used!`)
     }
 
-    function equip(item, index) {
-        if (['weapon','armor','misc'].includes(item.type) ){
-            let aux = equipments[item.type];
-            equipments[item.type] = item;
-            items[index] = aux;
-            switch(item.type){
-                case 'weapon': hero.power = base.power + item.attrib.power;break;
-                case 'armor': hero.guard = base.guard + item.attrib.guard;break;
-                case 'speed': hero.speed = base.speed + item.attrib.speed;break;
-            }
+    function destroyItem(event) {
+        const { item } = event.detail;
+        items[item.index] = {}
+    }
+
+    function equip(item) {
+        let aux = equipments[item.type];
+        equipments[item.type] = item;
+        items[item.index] = aux;
+        
+        switch(item.type){
+            case 'weapon': hero.power = base.power + item.attrib.power;break;
+            case 'armor': hero.guard = base.guard + item.attrib.guard;break;
+            case 'speed': hero.speed = base.speed + item.attrib.speed;break;
         }
+        alert(`${item.icon}${item.name} equipped!`)
+    }
+
+    function getFaceIcon(life) {
+        if (life <0 || life >10) return;
+        switch (life){
+            case 0: case 1: case 2: return '😰';
+            case 3: case 4: case 5: return '😬';
+            case 6: case 7: case 8: return '😅';
+            case 9: case 10: case 11: return '🙂';
+        }
+    }
+
+    function getEquipDisplay(equip) {
+        if (equip.name === undefined) return 'Empty slot...'
+
+        return equip.icon + ' ' + equip.name;
     }
 </script>
 
@@ -68,13 +93,18 @@
                 <span>
                     Level  - {hero.level}♛<br>
                     {#key hero.xp}
-                    <progress 
-                        class="xp-bar" 
-                        in:fly={{x: 5, duration: 200, easing: bounceOut, opacity: 1}} 
-                        value={hero.xp} 
-                        max="100" 
-                    />
-                    {hero.xp}
+                        <progress 
+                            class="xp-bar" 
+                            in:fly={{
+                                x: 5, 
+                                duration: 200, 
+                                easing: bounceOut, 
+                                opacity: 1
+                            }} 
+                            value={hero.xp} 
+                            max="100" 
+                        />
+                        {hero.xp}
                     {/key}
                 </span>
                 <span>
@@ -86,7 +116,7 @@
             {#key hero.life} 
                 <progress in:fly={{x: 5, duration: 200, easing: bounceOut, opacity: 1}} value={hero.life*10} max="100" />
                 {hero.life}        
-                {#if hero.life < 3}😰{:else if hero.life < 6}😬{:else if hero.life < 8}😅{:else}🙂{/if}
+                {getFaceIcon(hero.life)}
                 <span class="heart">♥️</span>
             {/key}
         </div>
@@ -96,24 +126,24 @@
             <div>♣︎Spd: {hero.speed}</div>
         </div>
         <div class="equipments">
-            <div>{equipments.weapon.name? equipments.weapon.icon+' '+equipments.weapon.name :'No weapon...'}</div>
-            <div>{equipments.armor.name? equipments.armor.icon+' '+equipments.armor.name :'No clothes...'}</div>
-            <div>{equipments.misc.name? equipments.misc.icon+' '+equipments.misc.name :'No misc...'}</div>
+            <div>{getEquipDisplay(equipments.weapon)}</div>
+            <div>{getEquipDisplay(equipments.armor)}</div>
+            <div>{getEquipDisplay(equipments.misc)}</div>
         </div>
 	</div>
     <h2>Inventory</h2>
     <div class="container">
-        {#each items as item, index}
-            <div class="cell" on:click={()=>{useItem(item, index)}} >
-                {item.icon? item.icon: ''}
-            </div>
-        {/each}
+        {#key items}
+            {#each items as item, index}
+                <Item item={item} index={index} on:use={useItem} on:destroy={destroyItem}/>
+            {/each}
+        {/key}
     </div>
 </main>
 
 <style>
     main{
-        background: linear-gradient(rgba(20, 20, 70, 0.493), gray);
+        background: linear-gradient(rgba(20, 20, 70, 0.493), rgb(16, 32, 44));
         border-radius: 10px;
         border: 2px outset gray;
         padding: 10px;
@@ -174,15 +204,6 @@
         border-radius: 10px;
         border: 5px outset gray;
     }
-    .cell{
-        border: 5px inset gray;
-        border-radius: 2px;
-        width: 30px;
-        height: 30px;
-        font-size: 1.5rem;
-        background-color: lightgray;
-        cursor: pointer;
-    }
 	.atributes{
 		display: flex;
 		width: 100%;
@@ -207,7 +228,6 @@
         padding-left: 10px;
         border: 3px inset rgb(146, 146, 146);
         background-color: whitesmoke;
-        border-radius: 10px;
     }
 
 </style>

@@ -44,7 +44,7 @@
 	}
 
 	function switchTrigger(){
-		trigger = trigger === true? false : true;
+		trigger = !trigger;
 	}
 
 	function playerAttack() {
@@ -120,7 +120,7 @@
 						💀
 					</div>
 				</div>
-				{#key trigger}
+				{#if trigger}
 					<button class='attack' use:move on:click={ playerAttack }>
 						🗡 Attack!
 						{#key count}
@@ -128,7 +128,7 @@
 							6: '🕖', 5: '🕗', 4: '🕘', 3: '🕙', 2: '🕚', 1: '🕛'})[count]}
 						{/key}
 					</button>
-				{/key}
+				{/if}
 			{/if}
 		</div>
 	{/if}

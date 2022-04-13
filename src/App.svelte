@@ -1,11 +1,11 @@
-<script>
+<script lang="ts">
 	import TaskList from './components/TaskList.svelte';
 	import Battle from './components/Battle.svelte';
 	import Inventory from './components/Inventory.svelte';
 	import Store from './components/Store.svelte';
 
 
-	export let name;
+	export let name: string;
 
 	let battle;
 	$: level = 1;
