@@ -2,25 +2,26 @@
 	import { fly } from 'svelte/transition';
 	import { bounceOut } from 'svelte/easing';
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
-	
+
 	export let level = 1;
 	export let player;
-	
+
 	const dispatch = createEventDispatcher();
 	const maxLife = player.life;
-	
-	let trigger = false;
+
+	$: trigger = false;
 	let count = 12;
 	let timer;
+	let attackBtn;
 
 	$: enemy = {
 		life: 10 * level,
 		power: 1 * level,
 		speed: 1 * level,
 	};
-	
+
 	$: player = player;
-	
+
 	onMount(() =>{
 		timer = startTimer();
 	})
@@ -30,14 +31,17 @@
 	})
 
 	function startTimer() {
+		trigger = true;
 		return setTimeout(function() {
 			const actionSpeed = enemy.speed - player.speed >= 1 ? enemy.speed - player.speed : 1;
 			count -= actionSpeed;
-			if (count <= 0) enemyAttack();
+			if (count <= 0) {
+				enemyAttack();
+			}
 			return enemy.life <= 0 ? clearTimeout(timer) : startTimer();
 		}, 100 )
 	}
-	
+
 	function move(node) {
 		node.style.top = (Math.random() * (window.screen.height/2) ) +'px';
 		node.style.left = (Math.random() * (window.screen.width/2) ) +'px';
@@ -49,14 +53,14 @@
 
 	function playerAttack() {
 		enemy.life = enemy.life - player.power;
-		resetCount();
 		switchTrigger();
+		resetCount();
 	}
 
 	function enemyAttack() {
 		player.life -= (enemy.power - player.guard);
+		move(attackBtn)
 		resetCount();
-		switchTrigger();
 	}
 
 	function resetCount() {
@@ -87,16 +91,16 @@
 <div class="background">
 	{#if player.life <= 0}
 		You Lost....💀
-		<button on:click={finishBattle}>❌ Finish!</button> 
+		<button on:click={finishBattle}>❌ Finish!</button>
 	{:else}
 		<div class="container">
-			{#if enemy.life <= 0} 
+			{#if enemy.life <= 0}
 				<div class="battle-reward">
 					<h1>You win! 🎉</h1>
 					<h2>Got {level}💵 money!</h2>
 					<button on:click={finishBattle}>
 						❌ Finish!
-					</button> 
+					</button>
 				</div>
 
 			{:else}
@@ -121,7 +125,7 @@
 					</div>
 				</div>
 				{#if trigger}
-					<button class='attack' use:move on:click={ playerAttack }>
+					<button class='attack' use:move on:click={ playerAttack } bind:this={attackBtn}>
 						🗡 Attack!
 						{#key count}
 							{({12: '🕐', 11: '🕑', 10: '🕒', 9: '🕓', 8: '🕔', 7: '🕕',
@@ -167,13 +171,13 @@ button{
 	align-items: center;
 }
 .container{
-    position: relative;
+  position: relative;
 	background: whitesmoke;
-    padding: 20px;
-    border: 1px solid black;
-    border-radius: 50px;
-    height: 50%;
-    width: 50%;
+  padding: 20px;
+  border: 1px solid black;
+  border-radius: 50px;
+  height: 50%;
+  width: 50%;
 	z-index: 2;
 	opacity: 1;
 }
