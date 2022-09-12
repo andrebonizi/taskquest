@@ -1,15 +1,55 @@
 <script lang="ts">
+	import type { Config as FirebaseConfig } from './interfaces/firebase';
+
 	import TaskList from './components/TaskList.svelte';
 	import Battle from './components/Battle.svelte';
 	import Inventory from './components/Inventory.svelte';
 	import Store from './components/Store.svelte';
-
+	import { initializeApp } from 'firebase/app';
+	import { getAnalytics } from 'firebase/analytics';
+	import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 
 	export let name: string;
+	export let firebaseConfig: FirebaseConfig;
 
-	let battle;
-	$: level = 1;
+	const app = initializeApp(firebaseConfig);
+	const auth = getAuth(app);
+	const analytics = getAnalytics(app);
+	const provider = new GoogleAuthProvider();
 
+	onAuthStateChanged(auth, user => {
+		if ( user !== null) {
+			console.log('logged in!')
+		} else {
+			console.log('no user.')
+		}
+	});
+
+
+
+	function login() {
+		signInWithPopup(auth, provider)
+			.then((result) => {
+				// This gives you a Google Access Token. You can use it to access the Google API.
+				const credential = GoogleAuthProvider.credentialFromResult(result);
+				const token = credential.accessToken;
+				// The signed-in user info.
+				const user = result.user;
+				console.log(user)
+				// ...
+			}).catch((error) => {
+				// Handle Errors here.
+				const errorCode = error.code;
+				const errorMessage = error.message;
+				// The email of the user's account used.
+				const email = error.customData.email;
+				// The AuthCredential type that was used.
+				const credential = GoogleAuthProvider.credentialFromError(error);
+				// ...
+			});
+	}
+
+	let battle: boolean;
 	let hero = {
 		life: 10,
 		power: 1,
@@ -20,6 +60,8 @@
 		level: 1,
 		name: name
 	}
+
+	$: level = 1;
 
 	function startBattle(event) {
 		level = event.detail.level;
@@ -39,14 +81,30 @@
 
 <main>
 	{#if battle}
-		<Battle level={level} player={hero} on:endBattle={handleBattle} />
+		<Battle
+			level={level}
+			player={hero}
+			on:endBattle={handleBattle}
+		/>
 	{/if}
-	
+
+	<div class="header">
+		<div>
+			Header
+		</div>
+		<div>
+			<button on:click={login}>
+				Login
+			</button>
+		</div>
+	</div>
 	<div class="container">
-		<Inventory hero={ hero } />
-		<TaskList 
-			player={hero} 
-			on:startBattle={startBattle} 
+		<Inventory
+			hero={hero}
+		/>
+		<TaskList
+			player={hero}
+			on:startBattle={startBattle}
 			on:playerHit={playerHit}
 		/>
 		<Store />
@@ -55,7 +113,7 @@
 
 <style>
 	@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
-	
+
 	main {
 		text-align: center;
 		padding: 1em;
@@ -67,6 +125,12 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
+		justify-content: space-between;
+	}
+
+	.header{
+		display: flex;
+		flex-direction: row;
 		justify-content: space-between;
 	}
 
