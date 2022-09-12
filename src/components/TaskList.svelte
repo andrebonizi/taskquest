@@ -1,31 +1,31 @@
 <script>
     import { createEventDispatcher } from 'svelte';
     import Task from '../components/Task.svelte';
-    
+
     export let player;
 
 	const dispatch = createEventDispatcher();
     const enemies = [
         {1:'🐀 Rat'},
         {2:'🦂 Scorpion:'},
-        {3:'🐍 Snake'}, 
+        {3:'🐍 Snake'},
         {4:'🐆 Tiger'},
         {5:'🐊 Crocodille'},
         {6:'👹 Ogre'},
         {7:'🐉 Dragon'}
     ];
-	
+
     let newItem = '';
     let level = 1;
     let todoList = [{text: 'First task', status: false}];
-	
+
 	function addToList() {
         let task;
         task = {text: newItem, status: false, level: level};
 		todoList = [...todoList, task];
 		newItem = '';
 	}
-	
+
 	function removeFromList(event) {
 		todoList.splice(event.detail.index, 1)
         todoList = todoList;
@@ -39,7 +39,7 @@
 </script>
 
 <div class="container">
-    <h1>📜{player.name}'s quests!</h1><br>
+    <h1>📜 {player.name}'s quests!</h1><br>
     <div class="quest-config">
         <input bind:value={newItem} class="quest-input" type="text" placeholder="What will you fight for?">
         <p>Enemy:</p>
@@ -52,17 +52,17 @@
         </select>
         <div class="add-button" on:click={addToList}>Add ➕</div>
     </div>
-    
+
     <div class="quest-list">
         {#each todoList as item, index}
-            <Task 
-                id={index} 
-                task={item} 
-                on:remove={removeFromList} 
-                on:startBattle={callBattle} 
+            <Task
+                id={index}
+                task={item}
+                on:remove={removeFromList}
+                on:startBattle={callBattle}
                 on:hit={playerHit}
             />
-        {/each} 
+        {/each}
     </div>
 </div>
 
@@ -126,4 +126,4 @@
         border-radius: 30px;
         background: linear-gradient(whitesmoke, rgb(133, 127, 117));
     }
-</style> 
+</style>
