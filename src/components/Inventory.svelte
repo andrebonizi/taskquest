@@ -59,7 +59,7 @@
         let aux = equipments[item.type];
         equipments[item.type] = item;
         items[item.index] = aux;
-        
+
         switch(item.type){
             case 'weapon': hero.power = base.power + item.attrib.power;break;
             case 'armor': hero.guard = base.guard + item.attrib.guard;break;
@@ -91,18 +91,18 @@
             {hero.name}
             <div>
                 <span>
-                    Level  - {hero.level}♛<br>
+                    Level: {hero.level}<br>
                     {#key hero.xp}
-                        <progress 
-                            class="xp-bar" 
+                        <progress
+                            class="xp-bar"
                             in:fly={{
-                                x: 5, 
-                                duration: 200, 
-                                easing: bounceOut, 
+                                x: 5,
+                                duration: 200,
+                                easing: bounceOut,
                                 opacity: 1
-                            }} 
-                            value={hero.xp} 
-                            max="100" 
+                            }}
+                            value={hero.xp}
+                            max="100"
                         />
                         {hero.xp}
                     {/key}
@@ -113,9 +113,9 @@
             </div>
         </div>
         <div class="life-bar">
-            {#key hero.life} 
+            {#key hero.life}
                 <progress in:fly={{x: 5, duration: 200, easing: bounceOut, opacity: 1}} value={hero.life*10} max="100" />
-                {hero.life}        
+                {hero.life}
                 {getFaceIcon(hero.life)}
                 <span class="heart">♥️</span>
             {/key}
