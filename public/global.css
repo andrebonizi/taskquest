@@ -8,7 +8,7 @@ html,
 body {
    position: relative;
    width: 100%;
-   /* height: 100vh; */
+   height: 100vh;
    background-image: url("https://wallpapercrafter.com/th800/143063-sky-village-mountains-windmill-medieval.jpg");
    background-size: cover;
    background-position: center;
