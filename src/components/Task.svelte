@@ -15,7 +15,6 @@
         return checked ? '💥 Fight!' : '🧨 Drop!';
     }
    
-console.log(task, 'TASK')
 </script>
 
 <div class="quest">
@@ -50,6 +49,7 @@ console.log(task, 'TASK')
         justify-content: flex-start;
         text-align: left;
         margin: 5px;
+        padding: 0 15px;
         border-bottom: 1px solid rgb(88, 57, 11);
     }
     .level-icon {
@@ -59,12 +59,13 @@ console.log(task, 'TASK')
         background-color: var(--task-color);
         border: 2px solid rgb(4, 50, 27);
         border-radius: 100%;
-        width: 16px;
-        height: 16px;
+        width: 22px;
+        height: 22px;
     }
     .quest p{
         padding: 0 10px;
         font-weight: 700;
+   
     }
     .quest label{
      display: inline-block;
@@ -72,8 +73,9 @@ console.log(task, 'TASK')
      padding: 0 10px;
     }
     input{
-        cursor: pointer;
+       cursor: pointer;
     }
+  
     button{
         display: inline-flex;
         justify-content: center;
@@ -86,6 +88,12 @@ console.log(task, 'TASK')
         color: sandybrown;
         width: fit-content;
         height: 35px;
+        cursor: pointer;
+        transition: 0.5s ease all
+        
+    }
+    button:hover{
+        scale: 1.1;
     }
 
 </style>

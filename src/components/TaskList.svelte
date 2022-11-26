@@ -20,7 +20,7 @@
     let todoList = [];
 
 	function addToList() {
-        console.log(enemies[level-1])
+   
         let task;
         task = {text: newItem, status: false, enemy: enemies[level-1] };
 		todoList = [...todoList, task];
@@ -40,13 +40,14 @@
 
 </script>
 
-<div class="container">
-    <h1>📜 {player.name}'s quests!</h1><br>
+<div class="container"> 
+    <h1>🪓 Welcome to the guild, {player.name} </h1>
+    <h2>📜 Check out your quests!</h2><br>
     <div class="quest-config">
-        <p>Task:</p>
+        <p>🏹 Task:</p>
         <input bind:value={newItem} class="quest-input" type="text" placeholder="What will you fight for?">
         <br>
-        <p>Enemy:</p>
+        <p>⚔️ Enemy:</p>
         <select bind:value={level} class="enemy-select">
             {#each enemies as enemy}
                 {#if player.level+2 >= enemy.level}
@@ -72,12 +73,20 @@
 </div>
 
 <style>
-    h1 {
-        color: wheat;
+    h1{
+        text-align: center;
+        color: rgb(156, 112, 29);
+        font-size: 2.5rem;
+        text-shadow: 2px 2px 5px black;
+    }
+    h2 {
+        color: rgb(156, 112, 29);
         text-shadow: 2px 2px 5px black;
         font-weight: lighter;
         font-size: 2rem;
-        text-align: left;
+        text-align: center;
+        border-radius: 30px;
+        padding: 15px;
         padding-left: 30px;
     }
     p{
@@ -95,10 +104,7 @@
         font-weight: lighter;
         flex: 1
     }
-    .container h1{
-        background-color: rgb(168, 195, 47);
-        border-radius: 30px;
-    }
+ 
     .quest-config, select{
         display: inline;
     }
@@ -107,7 +113,7 @@
         height: 300px;
         border: 3px inset rgb(173, 87, 17);
         overflow: auto;
-        background-color:rgb(167, 119, 56);
+        background-color:rgb(156, 156, 156);
     }
     .quest-input{
         background: linear-gradient(whitesmoke, rgb(133, 127, 117));
@@ -133,6 +139,11 @@
         box-shadow: 2px 2px 5px black;
         text-shadow: 1px 1px 3px black;
         color: whitesmoke;
+        cursor: pointer;
+        transition: 0.5s ease all
+    }
+    .add-button:hover{
+      scale: 1.1;
     }
     .enemy-select{
         margin-right: 10px;
