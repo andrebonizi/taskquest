@@ -4,6 +4,7 @@
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
 
 	export let level = 1;
+	export let monster = '';
 	export let player;
 
 	const dispatch = createEventDispatcher();
@@ -127,6 +128,9 @@
 						💀
 					</div>
 				</div>
+				<div class="monster">
+					{monster.icon}
+				</div>
 				{#if trigger}
 					<button class='attack' use:move on:click={ playerAttack } bind:this={attackBtn}>
 						🗡 Attack!
@@ -183,5 +187,13 @@ button{
 	width: 50%;
 	z-index: 2;
 	opacity: 1;
+}
+.monster {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%) translateY(-50%);
+
+	font-size: 200px;
 }
 </style>
