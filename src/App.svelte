@@ -17,6 +17,7 @@
 
 	$: loggedUser = null;
 	$: level = 1;
+	$: monster = '';
 	$: hero = {
 		life: 10,
 		power: 1,
@@ -32,6 +33,7 @@
 
 	function startBattle(event) {
 		level = event.detail.level;
+		monster = event.detail.monster;
 		battle = true;
 	}
 
@@ -50,6 +52,7 @@
 	{#if battle}
 		<Battle
 			level={level}
+			monster={monster}
 			player={hero}
 			on:endBattle={handleBattle}
 		/>

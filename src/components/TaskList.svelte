@@ -6,18 +6,18 @@
 
 	const dispatch = createEventDispatcher();
     const enemies = [
-        {1:'🐀 Rat'},
-        {2:'🦂 Scorpion:'},
-        {3:'🐍 Snake'},
-        {4:'🐆 Tiger'},
-        {5:'🐊 Crocodille'},
-        {6:'👹 Ogre'},
-        {7:'🐉 Dragon'}
+        {level: 1, icon:'🐀', name: 'Rat'},
+        {level: 2, icon:'🦂', name: 'Scorpion'},
+        {level: 3, icon:'🐍', name: 'Snake'},
+        {level: 4, icon:'🐆', name: 'Tiger'},
+        {level: 5, icon:'🐊', name: 'Crocodille'},
+        {level: 6, icon:'👹', name: 'Ogre'},
+        {level: 7, icon:'🐉', name: 'Dragon'}
     ];
 
     let newItem = '';
     let level = 1;
-    let todoList = [{text: 'First task', status: false}];
+    let todoList = [];
 
 	function addToList() {
         let task;
@@ -31,7 +31,7 @@
         todoList = todoList;
     }
     function callBattle(event) {
-        dispatch('startBattle',{ level: event.detail.level })
+        dispatch('startBattle',{ level: event.detail.level, monster: enemies[event.detail.level-1]})
     }
     function playerHit() {
         dispatch('playerHit');
@@ -45,8 +45,8 @@
         <p>Enemy:</p>
         <select bind:value={level} class="enemy-select">
             {#each enemies as enemy}
-                {#if player.level+2 >= Object.keys(enemy)}
-                    <option value={parseInt(Object.keys(enemy)[0])}> {Object.values(enemy)} </option>
+                {#if player.level+2 >= enemy.level}
+                    <option value={enemy.level}> {enemy.icon} {enemy.name}</option>
                 {/if}
             {/each}
         </select>
