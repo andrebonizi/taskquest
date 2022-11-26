@@ -2,27 +2,28 @@
     import { createEventDispatcher } from 'svelte';
     
     const dispatch = createEventDispatcher();
-    
+  
     export let id;
     export let task;
-
+   
     function removeFromList(index, status){
         dispatch('remove', { index } );
-        status ? dispatch('startBattle', { level: task.level } ) : dispatch('hit');
+        status ? dispatch('startBattle', { level: task.enemy.level } ) : dispatch('hit');
     }
 
     function fightButton(checked) {
         return checked ? '💥 Fight!' : '🧨 Drop!';
     }
+   
+console.log(task, 'TASK')
 </script>
-
 
 <div class="quest">
     <input id="{id}" bind:checked={task.status} type="checkbox">
     <span>
-        <p>LV 
-            <span class="level-icon">{task.level?task.level:1}</span>
-        💀: 
+        <p style="--task-color: {task.enemy.taskColor}">LV 
+            <span class="level-icon">{task.enemy.level ? task.enemy.level : 1}</span>
+        {task.enemy.icon}: 
         </p>
     </span>
     <label for="{id}" class:checked={task.status}>{task.text}</label>
@@ -55,7 +56,7 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        background-color: rgb(107, 159, 28);
+        background-color: var(--task-color);
         border: 2px solid rgb(4, 50, 27);
         border-radius: 100%;
         width: 16px;

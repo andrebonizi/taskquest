@@ -6,13 +6,13 @@
 
 	const dispatch = createEventDispatcher();
     const enemies = [
-        {level: 1, icon:'🐀', name: 'Rat'},
-        {level: 2, icon:'🦂', name: 'Scorpion'},
-        {level: 3, icon:'🐍', name: 'Snake'},
-        {level: 4, icon:'🐆', name: 'Tiger'},
-        {level: 5, icon:'🐊', name: 'Crocodille'},
-        {level: 6, icon:'👹', name: 'Ogre'},
-        {level: 7, icon:'🐉', name: 'Dragon'}
+        {level: 1, icon:'🐀', name: 'Rat', taskColor: "rgb(148, 231, 25)"},
+        {level: 2, icon:'🦂', name: 'Scorpion', taskColor: "rgb(11, 117, 9)"},
+        {level: 3, icon:'🐍', name: 'Snake', taskColor: "rgb(197, 164, 43)"},
+        {level: 4, icon:'🐆', name: 'Tiger', taskColor: "rgb(125, 51, 31)"},
+        {level: 5, icon:'🐊', name: 'Crocodille', taskColor: "rgb(219, 1, 1)"},
+        {level: 6, icon:'👹', name: 'Ogre', taskColor: "rgb(255, 0, 0)"},
+        {level: 7, icon:'🐉', name: 'Dragon', taskColor: "rgb(63, 2, 113)"}
     ];
 
     let newItem = '';
@@ -20,8 +20,9 @@
     let todoList = [];
 
 	function addToList() {
+        console.log(enemies[level-1])
         let task;
-        task = {text: newItem, status: false, level: level};
+        task = {text: newItem, status: false, enemy: enemies[level-1] };
 		todoList = [...todoList, task];
 		newItem = '';
 	}
@@ -36,6 +37,7 @@
     function playerHit() {
         dispatch('playerHit');
     }
+
 </script>
 
 <div class="container">
@@ -57,6 +59,7 @@
 
     <div class="quest-list">
         {#each todoList as item, index}
+  
             <Task
                 id={index}
                 task={item}
