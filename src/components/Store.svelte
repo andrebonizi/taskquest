@@ -38,6 +38,7 @@
         height: 100%;
         border: 5px dotted lightgray;
         padding: 10px;
+        flex: 1
     }
     .products{
         display: flex;
@@ -56,10 +57,13 @@
         background: lightgoldenrodyellow;
         font-family: 'Lobster';
         justify-content: space-between;
+        align-items: center;
         user-select: none;
     }
     .product > div{
         display: flex;
+        align-items: center;
+        justify-content: center;
         justify-content: space-between;
     }
     .title{
@@ -68,10 +72,10 @@
         font-family: 'Lobster';
     }
     .button{
-        width: 30xp;
+        padding: 10px 5px;
+        width: 30px;
         border-radius: 15px;
-        padding-right: 5px;
-        padding-left: 5px;
+      
         margin-left: 10px;
         background: linear-gradient(white, grey);
         cursor: pointer;

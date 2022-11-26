@@ -41,7 +41,9 @@
 <div class="container">
     <h1>📜 {player.name}'s quests!</h1><br>
     <div class="quest-config">
+        <p>Task:</p>
         <input bind:value={newItem} class="quest-input" type="text" placeholder="What will you fight for?">
+        <br>
         <p>Enemy:</p>
         <select bind:value={level} class="enemy-select">
             {#each enemies as enemy}
@@ -88,6 +90,11 @@
         border: 2px outset rgb(173, 87, 17);
         font-family: 'Lobster';
         font-weight: lighter;
+        flex: 1
+    }
+    .container h1{
+        background-color: rgb(168, 195, 47);
+        border-radius: 30px;
     }
     .quest-config, select{
         display: inline;
@@ -112,16 +119,25 @@
         min-width: 50%;
     }
     .add-button{
-        display: inline-block;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        height: 35px;
+        padding: 0 10px;
         width: fit-content;
         background-color: rgb(122, 89, 58);
         border-radius: 10px;
         box-shadow: 2px 2px 5px black;
-        padding-left: 10px;
         text-shadow: 1px 1px 3px black;
         color: whitesmoke;
     }
     .enemy-select{
+        margin-right: 10px;
+        border-radius: 30px;
+        background: linear-gradient(whitesmoke, rgb(133, 127, 117));
+    }
+    .enemy-select option{
+        padding-right: 5px;
         border-radius: 30px;
         background: linear-gradient(whitesmoke, rgb(133, 127, 117));
     }
