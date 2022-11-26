@@ -10,10 +10,27 @@
 	const dispatch = createEventDispatcher();
 	const maxLife = player.life;
 
-	$: trigger = false;
+	const damage = [
+		{ filter: 'hue-rotate(330deg)', transform: 'translateX(-50%) translateY(-40%) scale(1)' },
+		{ filter: 'hue-rotate(330deg)', transform: 'translateX(-50%) translateY(-60%) scale(1)' }
+	];
+
+	const shake = [
+		{ filter: 'hue-rotate(110deg)', transform: 'translateX(-40%) translateY(-50%) scale(1.2)' },
+		{ filter: 'hue-rotate(110deg)', transform: 'translateX(-60%) translateY(-50%) scale(1)' }
+	];
+
+	const timing = {
+		duration: 100,
+		iterations: 2,
+	}
+	
 	let count = 12;
 	let timer;
 	let attackBtn;
+	let animate;
+
+	$: trigger = false;
 
 	$: enemy = {
 		life: 10 * level,
@@ -56,12 +73,14 @@
 	}
 
 	function playerAttack() {
+		animate.animate(damage, timing)
 		enemy.life = enemy.life - player.power;
 		switchTrigger();
 		resetCount();
 	}
 
 	function enemyAttack() {
+		animate.animate(shake, timing)
 		player.life -= (enemy.power - player.guard);
 		move(attackBtn)
 		resetCount();
@@ -128,7 +147,7 @@
 						💀
 					</div>
 				</div>
-				<div class="monster">
+				<div class="monster" bind:this={animate}>
 					{monster.icon}
 				</div>
 				{#if trigger}
@@ -193,7 +212,7 @@ button{
 	top: 50%;
 	left: 50%;
 	transform: translateX(-50%) translateY(-50%);
-
 	font-size: 200px;
 }
+
 </style>
