@@ -81,7 +81,6 @@
         text-shadow: 2px 2px 5px white;
     }
     .container {
-        width: 900px;
         border-radius: 10px;
         margin: 20px;
         padding: 20px;

@@ -10,10 +10,20 @@ import css from 'rollup-plugin-css-only';
 import { config } from 'dotenv';
 
 const production = !process.env.ROLLUP_WATCH;
-const configToReplace = {};
 
-for (const [key, v] of Object.entries(config().parsed)) {
-  configToReplace[`process.env.${key}`] = `'${v}'`;
+
+function replaceConfig() {
+	try {
+		const configToReplace = {};
+		for (const [key, v] of Object.entries(config().parsed)) {
+		  configToReplace[`process.env.${key}`] = `'${v}'`;
+		}
+	
+		return configToReplace;
+	
+	} catch(e) {
+		throw new Error(`Error replacing config: ${e}`)
+	}
 }
 
 function serve() {
@@ -69,7 +79,7 @@ export default {
 		replace({
       include: ["src/**/*.ts", "src/**/*.svelte"],
       preventAssignment: true,
-      values: configToReplace,
+      values: replaceConfig(),
     }),
 		commonjs(),
 		typescript({

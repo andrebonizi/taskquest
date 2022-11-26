@@ -6,51 +6,18 @@
 	import Inventory from './components/Inventory.svelte';
 	import Store from './components/Store.svelte';
 	import { initializeApp } from 'firebase/app';
-	import { getAnalytics } from 'firebase/analytics';
-	import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-
-	export let name: string;
+	import { login, logout, AUTH_PROVIDER, getFirebaseAuth, getFirstName } from './utils/auth';
+    import { onAuthStateChanged } from 'firebase/auth';
+	
 	export let firebaseConfig: FirebaseConfig;
 
 	const app = initializeApp(firebaseConfig);
-	const auth = getAuth(app);
-	const analytics = getAnalytics(app);
-	const provider = new GoogleAuthProvider();
-
-	onAuthStateChanged(auth, user => {
-		if ( user !== null) {
-			console.log('logged in!')
-		} else {
-			console.log('no user.')
-		}
-	});
-
-
-
-	function login() {
-		signInWithPopup(auth, provider)
-			.then((result) => {
-				// This gives you a Google Access Token. You can use it to access the Google API.
-				const credential = GoogleAuthProvider.credentialFromResult(result);
-				const token = credential.accessToken;
-				// The signed-in user info.
-				const user = result.user;
-				console.log(user)
-				// ...
-			}).catch((error) => {
-				// Handle Errors here.
-				const errorCode = error.code;
-				const errorMessage = error.message;
-				// The email of the user's account used.
-				const email = error.customData.email;
-				// The AuthCredential type that was used.
-				const credential = GoogleAuthProvider.credentialFromError(error);
-				// ...
-			});
-	}
-
+	const auth = getFirebaseAuth(app);
 	let battle: boolean;
-	let hero = {
+
+	$: loggedUser = null;
+	$: level = 1;
+	$: hero = {
 		life: 10,
 		power: 1,
 		guard: 0,
@@ -58,10 +25,10 @@
 		gold: 0,
 		xp: 0,
 		level: 1,
-		name: name
+		name: getFirstName(loggedUser),
 	}
 
-	$: level = 1;
+	onAuthStateChanged(auth, (user) => {loggedUser = user});
 
 	function startBattle(event) {
 		level = event.detail.level;
@@ -90,16 +57,26 @@
 
 	<div class="header">
 		<div>
-			Header
-		</div>
-		<div>
-			<button on:click={login}>
-				Login
-			</button>
+			{#if !loggedUser}
+				<button 
+					on:click={() => {login(auth, AUTH_PROVIDER)}}
+				>
+					Login
+				</button>
+
+			{:else}
+				<p 
+					class="logout-btn"
+					on:click={()=> {logout(auth)}} 
+				>
+					🚪
+				</p>
+			{/if}
 		</div>
 	</div>
 	<div class="container">
 		<Inventory
+			user={loggedUser}
 			hero={hero}
 		/>
 		<TaskList
@@ -115,7 +92,7 @@
 	@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
 	main {
-		text-align: center;
+		text-align: left;
 		padding: 1em;
 		max-width: 100vw;
 		margin: 0;
@@ -134,6 +111,15 @@
 		justify-content: space-between;
 	}
 
+	.logout-btn {
+		cursor: pointer;
+		font-size: 30px;
+		width: min-content;
+		line-height: 15px;
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
 
 	@media (max-width: 640px) {
 		main {

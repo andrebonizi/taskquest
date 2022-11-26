@@ -5,6 +5,7 @@
     import Item from './Item.svelte';
 
     export let hero;
+    export let user;
 
     let base = {
         power: hero.power,
@@ -87,8 +88,13 @@
 
 <main>
     <div>
+        <div style="display: inline-flex;">
+            {#if user}
+                <img class="user-logo" src={user.photoURL} alt={user.displayName}/>
+            {/if}
+            <div class="hero-name">{hero.name}</div>
+        </div>
         <div class="hero-base">
-            {hero.name}
             <div>
                 <span>
                     Level: {hero.level}<br>
@@ -154,10 +160,13 @@
         color: black;
         line-height: 5px;
     }
-    .hero-base{
+    .hero-name {
         font-size: 2rem;
         text-shadow: 3px 3px 5px black;
         color: wheat;
+        width: fit-content;
+    }
+    .hero-base{
         display: flex;
         justify-content: space-evenly;
     }
@@ -230,4 +239,9 @@
         background-color: whitesmoke;
     }
 
+	.user-logo {
+		border-radius: 50%;
+		margin-right: 30px;
+        float: left;
+	}
 </style>
