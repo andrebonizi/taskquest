@@ -41,8 +41,8 @@
 </script>
 
 <div class="container"> 
-    <h1>🪓 Welcome to the guild, {player.name} </h1>
-    <h2>📜 Check out your quests!</h2><br>
+    <h1>Welcome to the guild, {player.name} </h1>
+    <h2>📜 Check out your quests! 🪓 </h2><br>
     <div class="quest-config">
         <p>🏹 Task:</p>
         <input bind:value={newItem} class="quest-input" type="text" placeholder="What will you fight for?">
@@ -60,7 +60,6 @@
 
     <div class="quest-list">
         {#each todoList as item, index}
-  
             <Task
                 id={index}
                 task={item}
@@ -75,9 +74,10 @@
 <style>
     h1{
         text-align: center;
-        color: rgb(156, 112, 29);
+        color: rgb(0, 0, 0);
         font-size: 2.5rem;
-        text-shadow: 2px 2px 5px black;
+     
+	
     }
     h2 {
         color: rgb(156, 112, 29);
@@ -88,6 +88,7 @@
         border-radius: 30px;
         padding: 15px;
         padding-left: 30px;
+      
     }
     p{
         color: black;
@@ -98,11 +99,13 @@
         border-radius: 10px;
         margin: 20px;
         padding: 20px;
-        background: linear-gradient(brown, rgb(173, 87, 17));
+        background: linear-gradient(rgba(165, 42, 42, 0.773), rgba(173, 87, 17, 0.838));
         border: 2px outset rgb(173, 87, 17);
         font-family: 'Lobster';
         font-weight: lighter;
-        flex: 1
+        flex: 1;
+        
+        
     }
  
     .quest-config, select{
@@ -113,7 +116,8 @@
         height: 300px;
         border: 3px inset rgb(173, 87, 17);
         overflow: auto;
-        background-color:rgb(156, 156, 156);
+        background-color:rgba(235, 235, 235, 0.528);
+ 
     }
     .quest-input{
         background: linear-gradient(whitesmoke, rgb(133, 127, 117));
