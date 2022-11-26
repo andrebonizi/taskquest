@@ -43,8 +43,11 @@
 	}
 
 	function move(node) {
-		node.style.top = (Math.random() * (window.screen.height/2) ) +'px';
-		node.style.left = (Math.random() * (window.screen.width/2) ) +'px';
+		if(node){
+			node.style.top = (Math.random() * (window.screen.height/2) ) +'px';
+			node.style.left = (Math.random() * (window.screen.width/2) ) +'px';
+		}
+
 	}
 
 	function switchTrigger(){
@@ -171,13 +174,13 @@ button{
 	align-items: center;
 }
 .container{
-  position: relative;
+	position: relative;
 	background: whitesmoke;
-  padding: 20px;
-  border: 1px solid black;
-  border-radius: 50px;
-  height: 50%;
-  width: 50%;
+	padding: 20px;
+	border: 1px solid black;
+	border-radius: 50px;
+	height: 50%;
+	width: 50%;
 	z-index: 2;
 	opacity: 1;
 }
