@@ -24,11 +24,12 @@
 		power: 1,
 		guard: 0,
 		speed: 1,
-		gold: 5,
+		gold: 51,
 		xp: 0,
 		level: 1,
 		name: getFirstName(loggedUser),
 	}
+
 	$: items = [
         {icon: '🍎', name: 'Apple', type: 'consumable', description: 'Recupera a vida.', attrib:{life:5} },
         {icon: '🍌', name: 'Banana', type: 'consumable', description: 'Recupera a vida.', attrib:{life:5} },
@@ -44,7 +45,7 @@
         {icon: '👘', name: 'Kimono', type: 'armor', description: 'Equipamento.', attrib: {guard:1}},
         {icon: '💼', name: 'Mallet', type: 'misc', description: 'Equipamento.', attrib: {guard:1}},
         {icon: '🎒', name: 'Backpack', type: 'misc', description: 'Equipamento.', attrib: {guard:1}},
-       
+		{},{},{},{},{},{},{},{},{},{},{}
     ]
 
 	onAuthStateChanged(auth, (user) => {loggedUser = user});
@@ -68,9 +69,21 @@
 	function buyItem(event){
 		const newItem = event.detail.product
 		const productPrice = newItem.price
-		let updatedItems = [...items, newItem]
+		const addToInventory = addItemToInvetory(newItem)
+		if(!addToInventory){
+			return alert('Your inventory is Full!')
+		}
 		hero.gold -= productPrice
-		items = updatedItems
+	}
+
+	function addItemToInvetory(newItem){
+		let emptySlot = items.find(item => !item.name)
+		let emptySlotIndex = items.indexOf(emptySlot)
+		if(emptySlotIndex == -1){
+			return (false)
+		}
+		items[emptySlotIndex] = newItem
+		return true
 	}
 
 	function stopMusic(event){
@@ -121,7 +134,6 @@
 			user={loggedUser}
 			hero={hero}
 			items={items}
-		
 		/>
 		<TaskList
 			player={hero}
