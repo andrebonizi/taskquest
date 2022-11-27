@@ -6,6 +6,7 @@
 
     export let hero;
     export let user;
+    export let items
 
     let base = {
         power: hero.power,
@@ -18,24 +19,6 @@
         armor: {},
         misc: {}
     }
-
-    $: items = [
-        {icon: '🍎', name: 'Apple', type: 'consumable', description: 'Recupera a vida.', attrib:{life:5} },
-        {icon: '🍌', name: 'Banana', type: 'consumable', description: 'Recupera a vida.', attrib:{life:5} },
-        {icon: '🔧', name: 'Wrench', type: 'weapon', description: 'Equipamento.', attrib: {power:1}},
-        {icon: '🔨', name: 'Hammer', type: 'weapon', description: 'Equipamento.', attrib: {power:2}},
-        {icon: '🏹', name: 'Bow', type: 'weapon', description: 'Equipamento.', attrib: {power:2}},
-        {icon: '🔪', name: 'Knife', type: 'weapon', description: 'Equipamento.', attrib: {power:3}},
-        {icon: '🗡️', name: 'Sword', type: 'weapon', description: 'Equipamento.', attrib: {power:4}},
-        {icon: '🔫', name: 'Revolver', type: 'weapon', description: 'Equipamento.', attrib: {power:5}},
-        {icon: '👕', name: 'Shirt', type: 'armor', description: 'Equipamento.', attrib: {guard:1}},
-        {icon: '👖', name: 'Jeans', type: 'armor', description: 'Equipamento.', attrib: {guard:1}},
-        {icon: '👔', name: 'Formal Shirt', type: 'armor', description: 'Equipamento.', attrib: {guard:1}},
-        {icon: '👘', name: 'Kimono', type: 'armor', description: 'Equipamento.', attrib: {guard:1}},
-        {icon: '💼', name: 'Mallet', type: 'misc', description: 'Equipamento.', attrib: {guard:1}},
-        {icon: '🎒', name: 'Backpack', type: 'misc', description: 'Equipamento.', attrib: {guard:1}},
-        {},{},{},{},{},{},
-    ]
 
 
     function useItem(event) {
@@ -239,7 +222,7 @@
         place-items: center;
         grid-template-columns: repeat(5, 50px);
         grid-template-rows: repeat(5, 50px);
-        background: linear-gradient(white, rgb(194, 194, 194));
+        background: linear-gradient(white, rgba(236, 236, 236, 0.739) );
         border-radius: 10px;
         border: 5px inset rgb(224, 224, 224)    }
 	.atributes{
@@ -274,7 +257,7 @@
         margin: 5px;
         padding-left: 10px;
         border: 3px inset rgb(146, 146, 146);
-        background-color: whitesmoke;
+        background-color: rgb(245, 245, 245);
     }
 
 	.user-logo {

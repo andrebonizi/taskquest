@@ -24,11 +24,28 @@
 		power: 1,
 		guard: 0,
 		speed: 1,
-		gold: 0,
+		gold: 5,
 		xp: 0,
 		level: 1,
 		name: getFirstName(loggedUser),
 	}
+	$: items = [
+        {icon: '🍎', name: 'Apple', type: 'consumable', description: 'Recupera a vida.', attrib:{life:5} },
+        {icon: '🍌', name: 'Banana', type: 'consumable', description: 'Recupera a vida.', attrib:{life:5} },
+        {icon: '🔧', name: 'Wrench', type: 'weapon', description: 'Equipamento.', attrib: {power:1}},
+        {icon: '🔨', name: 'Hammer', type: 'weapon', description: 'Equipamento.', attrib: {power:2}},
+        {icon: '🏹', name: 'Bow', type: 'weapon', description: 'Equipamento.', attrib: {power:2}},
+        {icon: '🔪', name: 'Knife', type: 'weapon', description: 'Equipamento.', attrib: {power:3}},
+        {icon: '🗡️', name: 'Sword', type: 'weapon', description: 'Equipamento.', attrib: {power:4}},
+        {icon: '🔫', name: 'Revolver', type: 'weapon', description: 'Equipamento.', attrib: {power:5}},
+        {icon: '👕', name: 'Shirt', type: 'armor', description: 'Equipamento.', attrib: {guard:1}},
+        {icon: '👖', name: 'Jeans', type: 'armor', description: 'Equipamento.', attrib: {guard:1}},
+        {icon: '👔', name: 'Formal Shirt', type: 'armor', description: 'Equipamento.', attrib: {guard:1}},
+        {icon: '👘', name: 'Kimono', type: 'armor', description: 'Equipamento.', attrib: {guard:1}},
+        {icon: '💼', name: 'Mallet', type: 'misc', description: 'Equipamento.', attrib: {guard:1}},
+        {icon: '🎒', name: 'Backpack', type: 'misc', description: 'Equipamento.', attrib: {guard:1}},
+       
+    ]
 
 	onAuthStateChanged(auth, (user) => {loggedUser = user});
 
@@ -47,6 +64,15 @@
 		alert(`Don't give up! You lost 1 life!`)
 		hero.life-=1;
 	}
+
+	function buyItem(event){
+		const newItem = event.detail.product
+		const productPrice = newItem.price
+		let updatedItems = [...items, newItem]
+		hero.gold -= productPrice
+		items = updatedItems
+	}
+
 	function stopMusic(event){
 		event.preventDefault();
 		const audioEl = document.querySelector('#bg-music') as HTMLAudioElement
@@ -58,7 +84,6 @@
 			audioEl.src = '/music/gangsta_medieval.mp3'
 			selected = true
 		}
-
 	}
 </script>
 
@@ -95,13 +120,16 @@
 		<Inventory
 			user={loggedUser}
 			hero={hero}
+			items={items}
+		
 		/>
 		<TaskList
 			player={hero}
 			on:startBattle={startBattle}
 			on:playerHit={playerHit}
 		/>
-		<Store />
+		<Store gold={hero.gold} on:buyItem={buyItem}/>
+	
 		<!-- svelte-ignore a11y-media-has-caption -->
 		<audio id="bg-music" src="/music/gangsta_medieval.mp3" autoplay loop controls hidden></audio>	
 		<button class="{selected ? 'selected' : ''}" on:click={(ev)=> {stopMusic(ev)}}  id="bg-music-control">🎵</button>

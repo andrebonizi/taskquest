@@ -1,13 +1,26 @@
 <script>
+    import { createEventDispatcher } from 'svelte';
+    export let gold
+    const dispatch = createEventDispatcher();
+
     let products = [
-        { active: true, element: 'Apple', price: 1, level: 1, icon: '🍎' },
-        { active: true, element: 'Banana', price: 1, level: 1, icon: '🍌' },
-        { active: true, element: 'Wrench', price: 1, level: 1, icon: '🔧' },
-        { active: true, element: 'Hammer', price: 1, level: 1, icon: '🔨' },
-        { active: true, element: 'Knife', price: 1, level: 1, icon: '🔪' },
-        { active: true, element: 'Shirt', price: 1, level: 1, icon: '👕' },
-        { active: true, element: 'Mallet', price:1, level: 1, icon: '👘' },
+        {active: true, icon: '🍎', name: 'Apple', type: 'consumable', description: 'Recupera a vida.', attrib:{life:5}, price: 1, level: 1 },
+        {active: true, icon: '🍌', name: 'Banana', type: 'consumable', description: 'Recupera a vida.', attrib:{life:5},  price: 1, level: 1},
+        {active: true, icon: '🔧', name: 'Wrench', type: 'weapon', description: 'Equipamento.', attrib: {power:1},  price: 1, level: 1},
+        {active: true, icon: '🔨', name: 'Hammer', type: 'weapon', description: 'Equipamento.', attrib: {power:2},  price: 1, level: 1},
     ];
+
+    function handleBuyItem(product){
+        delete product.active
+        if(gold >= product.price) {
+            dispatch('buyItem', {
+            product
+        })
+        } else{
+            return alert('Not enough gold')
+        }
+    }
+
 </script>
 
 <div class="container">
@@ -19,11 +32,11 @@
         {#if (product.active)}
             <div class="product">
                 <div>
-                    {product.icon} {product.element} 
+                    {product.icon} {product.name} 
                 </div>
                 <div>
                     ${product.price}.00
-                    <div class="button">Buy!</div>    
+                    <div class="button" on:click={() => handleBuyItem(product)}>Buy!</div>    
                 </div>
             </div>
         {/if}
