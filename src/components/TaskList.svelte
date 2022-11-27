@@ -104,8 +104,6 @@
         font-family: 'Lobster';
         font-weight: lighter;
         flex: 1;
-        
-        
     }
  
     .quest-config, select{
@@ -117,7 +115,6 @@
         border: 3px inset rgb(173, 87, 17);
         overflow: auto;
         background-color:rgba(235, 235, 235, 0.528);
- 
     }
     .quest-input{
         background: linear-gradient(whitesmoke, rgb(133, 127, 117));

@@ -12,13 +12,7 @@
 
     function handleBuyItem(product){
         delete product.active
-        if(gold >= product.price) {
-            dispatch('buyItem', {
-            product
-        })
-        } else{
-            return alert('Not enough gold')
-        }
+        return gold >= product.price ?  dispatch('buyItem', {product}) : alert('Not enough gold')
     }
 
 </script>

@@ -68,12 +68,11 @@
 
 	function buyItem(event){
 		const newItem = event.detail.product
-		const productPrice = newItem.price
 		const addToInventory = addItemToInvetory(newItem)
 		if(!addToInventory){
 			return alert('Your inventory is Full!')
 		}
-		hero.gold -= productPrice
+		hero.gold -= newItem.price
 	}
 
 	function addItemToInvetory(newItem){
