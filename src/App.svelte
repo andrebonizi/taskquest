@@ -24,7 +24,7 @@
 		power: 1,
 		guard: 0,
 		speed: 1,
-		gold: 51,
+		gold: 1,
 		xp: 0,
 		level: 1,
 		name: getFirstName(loggedUser),
