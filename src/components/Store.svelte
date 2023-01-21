@@ -1,30 +1,36 @@
 <script>
+    import { createEventDispatcher } from 'svelte';
+    export let gold
+    const dispatch = createEventDispatcher();
+
     let products = [
-        { active: true, element: 'Apple', price: 1, level: 1 },
-        { active: true, element: 'Banana', price: 1, level: 1 },
-        { active: true, element: 'Wrench', price: 1, level: 1 },
-        { active: true, element: 'Hammer', price: 1, level: 1 },
-        { active: true, element: 'Knife', price: 1, level: 1 },
-        { active: true, element: 'Shirt', price: 1, level: 1 },
-        { active: true, element: 'Mallet', price:1, level: 1 },
+        {active: true, icon: '🍎', name: 'Apple', type: 'consumable', description: 'Recupera a vida.', attrib:{life:5}, price: 1, level: 1 },
+        {active: true, icon: '🍌', name: 'Banana', type: 'consumable', description: 'Recupera a vida.', attrib:{life:5},  price: 1, level: 1},
+        {active: true, icon: '🔧', name: 'Wrench', type: 'weapon', description: 'Equipamento.', attrib: {power:1},  price: 1, level: 1},
+        {active: true, icon: '🔨', name: 'Hammer', type: 'weapon', description: 'Equipamento.', attrib: {power:2},  price: 1, level: 1},
     ];
+
+    function handleBuyItem(product){
+        delete product.active
+        return gold >= product.price ?  dispatch('buyItem', {product}) : alert('Not enough gold')
+    }
+
 </script>
 
 <div class="container">
     <div class="title">
-        Market
+        Market 💰
     </div>
-    <hr>
     <div class="products">
     {#each products as product}
         {#if (product.active)}
             <div class="product">
                 <div>
-                    {product.element}
+                    {product.icon} {product.name} 
                 </div>
                 <div>
                     ${product.price}.00
-                    <div class="button">Buy!</div>    
+                    <div class="button" on:click={() => handleBuyItem(product)}>Buy!</div>    
                 </div>
             </div>
         {/if}
@@ -38,13 +44,13 @@
         height: 100%;
         border: 5px dotted lightgray;
         padding: 10px;
-        flex: 1
+        flex: 1;
+        background-color: rgba(105, 105, 105, 0.646); 
     }
     .products{
         display: flex;
         flex-direction: column;
         text-align: left;
-        background: linear-gradient(coral, grey);
         border-radius: 5px;
         height: 500px;
         scroll-behavior: auto;
@@ -73,9 +79,7 @@
     }
     .button{
         padding: 10px 5px;
-        width: 30px;
         border-radius: 15px;
-      
         margin-left: 10px;
         background: linear-gradient(white, grey);
         cursor: pointer;

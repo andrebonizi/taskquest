@@ -41,12 +41,15 @@
 
 <style>
   .cell{
-    border: 5px inset gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 5px inset rgb(167, 167, 167);
     border-radius: 2px;
-    width: 30px;
-    height: 30px;
-    font-size: 1.5rem;
-    background-color: lightgray;
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+    background-color: rgb(247, 247, 247);
     cursor: pointer;
   }
 </style>

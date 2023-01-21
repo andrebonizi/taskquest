@@ -14,6 +14,7 @@
 	const app = initializeApp(firebaseConfig);
 	const auth = getFirebaseAuth(app);
 	let battle: boolean;
+	let selected: boolean = true
 
 	$: loggedUser = null;
 	$: level = 1;
@@ -23,11 +24,29 @@
 		power: 1,
 		guard: 0,
 		speed: 1,
-		gold: 0,
+		gold: 1,
 		xp: 0,
 		level: 1,
 		name: getFirstName(loggedUser),
 	}
+
+	$: items = [
+        {icon: '🍎', name: 'Apple', type: 'consumable', description: 'Recupera a vida.', attrib:{life:5} },
+        {icon: '🍌', name: 'Banana', type: 'consumable', description: 'Recupera a vida.', attrib:{life:5} },
+        {icon: '🔧', name: 'Wrench', type: 'weapon', description: 'Equipamento.', attrib: {power:1}},
+        {icon: '🔨', name: 'Hammer', type: 'weapon', description: 'Equipamento.', attrib: {power:2}},
+        {icon: '🏹', name: 'Bow', type: 'weapon', description: 'Equipamento.', attrib: {power:2}},
+        {icon: '🔪', name: 'Knife', type: 'weapon', description: 'Equipamento.', attrib: {power:3}},
+        {icon: '🗡️', name: 'Sword', type: 'weapon', description: 'Equipamento.', attrib: {power:4}},
+        {icon: '🔫', name: 'Revolver', type: 'weapon', description: 'Equipamento.', attrib: {power:5}},
+        {icon: '👕', name: 'Shirt', type: 'armor', description: 'Equipamento.', attrib: {guard:1}},
+        {icon: '👖', name: 'Jeans', type: 'armor', description: 'Equipamento.', attrib: {guard:1}},
+        {icon: '👔', name: 'Formal Shirt', type: 'armor', description: 'Equipamento.', attrib: {guard:1}},
+        {icon: '👘', name: 'Kimono', type: 'armor', description: 'Equipamento.', attrib: {guard:1}},
+        {icon: '💼', name: 'Mallet', type: 'misc', description: 'Equipamento.', attrib: {guard:1}},
+        {icon: '🎒', name: 'Backpack', type: 'misc', description: 'Equipamento.', attrib: {guard:1}},
+		{},{},{},{},{},{},{},{},{},{},{}
+    ]
 
 	onAuthStateChanged(auth, (user) => {loggedUser = user});
 
@@ -45,6 +64,38 @@
 	function playerHit() {
 		alert(`Don't give up! You lost 1 life!`)
 		hero.life-=1;
+	}
+
+	function buyItem(event){
+		const newItem = event.detail.product
+		const addToInventory = addItemToInvetory(newItem)
+		if(!addToInventory){
+			return alert('Your inventory is Full!')
+		}
+		hero.gold -= newItem.price
+	}
+
+	function addItemToInvetory(newItem){
+		let emptySlot = items.find(item => !item.name)
+		let emptySlotIndex = items.indexOf(emptySlot)
+		if(emptySlotIndex == -1){
+			return (false)
+		}
+		items[emptySlotIndex] = newItem
+		return true
+	}
+
+	function stopMusic(event){
+		event.preventDefault();
+		const audioEl = document.querySelector('#bg-music') as HTMLAudioElement
+		
+		if(audioEl.src.includes('music')){
+			selected = false
+			audioEl.src = ''
+		} else {
+			audioEl.src = '/music/gangsta_medieval.mp3'
+			selected = true
+		}
 	}
 </script>
 
@@ -81,13 +132,19 @@
 		<Inventory
 			user={loggedUser}
 			hero={hero}
+			items={items}
 		/>
 		<TaskList
 			player={hero}
 			on:startBattle={startBattle}
 			on:playerHit={playerHit}
 		/>
-		<Store />
+		<Store gold={hero.gold} on:buyItem={buyItem}/>
+	
+		<!-- svelte-ignore a11y-media-has-caption -->
+		<audio id="bg-music" src="/music/gangsta_medieval.mp3" autoplay loop controls hidden></audio>	
+		<button class="{selected ? 'selected' : ''}" on:click={(ev)=> {stopMusic(ev)}}  id="bg-music-control">🎵</button>
+
 	</div>
 </main>
 
@@ -99,6 +156,8 @@
 		padding: 1em;
 		max-width: 100vw;
 		margin: 0;
+		max-height: 100%;
+
 	}
 
 	.container{
@@ -106,6 +165,8 @@
 		flex-direction: row;
 		align-items: center;
 		justify-content: space-between;
+		width: 100%;
+		max-height: 100%;
 	}
 
 	.header{
@@ -119,12 +180,29 @@
 		cursor: pointer;
 		font-size: 30px;
 		width: min-content;
-		line-height: 15px;
 		position: absolute;
 		top: 0;
 		right: 0;
 	}
+	#bg-music-control {
+		position: absolute;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 50%;
+		padding: 15px;
+		bottom: 10px;
+		right: 10px;
+		width: 10px;
+		height: 10px;
+		cursor: pointer;
+		box-shadow: 3px 3px 3px rgb(83, 83, 83);
+		background: linear-gradient(white, gray);
+	}
 
+	.selected{
+		background: linear-gradient(white, green) !important;
+	}
 	@media (max-width: 640px) {
 		main {
 			max-width: none;
