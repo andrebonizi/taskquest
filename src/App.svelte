@@ -6,15 +6,19 @@
 	import Inventory from './components/Inventory.svelte';
 	import Store from './components/Store.svelte';
 	import { initializeApp } from 'firebase/app';
-	import { login, logout, AUTH_PROVIDER, getFirebaseAuth, getFirstName } from './utils/auth';
+	import { login, logout, AUTH_PROVIDER, getFirebaseAuth } from './utils/auth';
     import { onAuthStateChanged } from 'firebase/auth';
+    import MusicButton from './components/MusicButton.svelte';
+    import { getUser, getFirstName } from './data/user';
+    import { getFirestore } from 'firebase/firestore';
 	
 	export let firebaseConfig: FirebaseConfig;
 
 	const app = initializeApp(firebaseConfig);
 	const auth = getFirebaseAuth(app);
+	const db = getFirestore(app);
+	
 	let battle: boolean;
-	let selected: boolean = true
 
 	$: loggedUser = null;
 	$: level = 1;
@@ -48,7 +52,7 @@
 		{},{},{},{},{},{},{},{},{},{},{}
     ]
 
-	onAuthStateChanged(auth, (user) => {loggedUser = user});
+	onAuthStateChanged(auth, (user) => {loggedUser = getUser(db, user)});
 
 	function startBattle(event) {
 		level = event.detail.level;
@@ -83,19 +87,6 @@
 		}
 		items[emptySlotIndex] = newItem
 		return true
-	}
-
-	function stopMusic(event){
-		event.preventDefault();
-		const audioEl = document.querySelector('#bg-music') as HTMLAudioElement
-		
-		if(audioEl.src.includes('music')){
-			selected = false
-			audioEl.src = ''
-		} else {
-			audioEl.src = '/music/gangsta_medieval.mp3'
-			selected = true
-		}
 	}
 </script>
 
@@ -140,11 +131,7 @@
 			on:playerHit={playerHit}
 		/>
 		<Store gold={hero.gold} on:buyItem={buyItem}/>
-	
-		<!-- svelte-ignore a11y-media-has-caption -->
-		<audio id="bg-music" src="/music/gangsta_medieval.mp3" autoplay loop controls hidden></audio>	
-		<button class="{selected ? 'selected' : ''}" on:click={(ev)=> {stopMusic(ev)}}  id="bg-music-control">🎵</button>
-
+		<MusicButton />
 	</div>
 </main>
 
@@ -184,25 +171,7 @@
 		top: 0;
 		right: 0;
 	}
-	#bg-music-control {
-		position: absolute;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		border-radius: 50%;
-		padding: 15px;
-		bottom: 10px;
-		right: 10px;
-		width: 10px;
-		height: 10px;
-		cursor: pointer;
-		box-shadow: 3px 3px 3px rgb(83, 83, 83);
-		background: linear-gradient(white, gray);
-	}
 
-	.selected{
-		background: linear-gradient(white, green) !important;
-	}
 	@media (max-width: 640px) {
 		main {
 			max-width: none;
