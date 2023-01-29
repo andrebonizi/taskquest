@@ -32,9 +32,3 @@ export function logout(auth) {
     console.log('logging out...');
     signOut(auth);
 }
-
-export function getFirstName(user): string {
-    if (!user) return '';
-
-    return user.displayName.split(' ')[0];
-}
