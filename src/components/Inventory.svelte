@@ -139,7 +139,7 @@
             <div>{getEquipDisplay(equipments.misc)}</div>
         </div>
 	</div>
-    <h2>Inventory 🧳</h2>
+    <h2>🧳 Inventory </h2>
     <div class="container">
         {#key items}
             {#each items as item, index}
@@ -158,22 +158,26 @@
         font-family: 'Lobster';
        
     }
+
     h2{
-        text-shadow: 2px 2px 4px white;
-        color: black;
+        text-shadow: 5px 5px 5px black;
+        color: white;
         line-height: 5px;
         margin-top: 10px;
     }
+
     .hero-name {
         font-size: 2rem;
         text-shadow: 3px 3px 5px black;
         color: wheat;
         width: fit-content;
     }
+
     .hero-base{
         display: flex;
         justify-content: space-evenly;
     }
+
     .hero-base > div{
         display: flex;
         justify-content: space-between;
@@ -189,6 +193,7 @@
         font-size: 2rem;
         text-shadow: 2px 2px 2px rgb(129, 123, 123);
     }
+
     .life-bar {
         font-size: 1rem;
         color: black;
@@ -200,22 +205,27 @@
         align-items: center;
         justify-content: space-between;
     }
+
     .life-bar > progress{
         border-radius: 20px;
         background-color: green;
         border: 2px solid green;
     }
+
     progress::-webkit-progress-bar {
         border-radius: 20px;
     }
+
     progress::-webkit-progress-value {
         background: linear-gradient(red, black);
         border-radius: 20px;
     }
+
     .xp-bar{
         width: 50px;
     }
-    .container{
+
+    .container {
         width: fit-content;
         padding: 5px;
         display: grid;
@@ -224,7 +234,9 @@
         grid-template-rows: repeat(5, 50px);
         background: linear-gradient(white, rgba(236, 236, 236, 0.739) );
         border-radius: 10px;
-        border: 5px inset rgb(224, 224, 224)    }
+        border: 5px inset rgb(224, 224, 224)
+    }
+
 	.atributes{
 		display: flex;
         height: 50px;
@@ -239,15 +251,18 @@
     .atributes div > span {
         color: black;
     }
+
     .atributes > div{
         font-size: 1.2rem;
         margin: 1px;
         padding: 5px;
     }
+
     .equipments{
         display: flex;
         flex-direction: column;
     }
+
     .equipments > div {
         display: flex;
         justify-items: center;
@@ -277,6 +292,7 @@
         border-radius: 50%;
         overflow: hidden;
     }
+    
 	.rainbow::before {
 		content: '';
 		position: absolute;
