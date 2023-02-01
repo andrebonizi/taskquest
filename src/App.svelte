@@ -9,8 +9,9 @@
 	import { login, logout, AUTH_PROVIDER, getFirebaseAuth } from './utils/auth';
     import { onAuthStateChanged } from 'firebase/auth';
     import MusicButton from './components/MusicButton.svelte';
-    import { getUser, getFirstName } from './data/user';
+    import { getFirstName, player, storeUser } from './data/user';
     import { getFirestore } from 'firebase/firestore';
+	import { initialItems } from './data/items';
 	
 	export let firebaseConfig: FirebaseConfig;
 
@@ -23,36 +24,17 @@
 	$: loggedUser = null;
 	$: level = 1;
 	$: monster = '';
-	$: hero = {
-		life: 10,
-		power: 1,
-		guard: 0,
-		speed: 1,
-		gold: 1,
-		xp: 0,
-		level: 1,
-		name: getFirstName(loggedUser),
+	$: items = initialItems;
+	$: hero = player;
+
+	onAuthStateChanged(auth, setUer);
+
+	function setUer(user) {
+		console.log('User: ', user)
+		loggedUser = user;
+		hero.name = getFirstName(loggedUser);
+		storeUser(db, user);
 	}
-
-	$: items = [
-        {icon: '🍎', name: 'Apple', type: 'consumable', description: 'Recupera a vida.', attrib:{life:5} },
-        {icon: '🍌', name: 'Banana', type: 'consumable', description: 'Recupera a vida.', attrib:{life:5} },
-        {icon: '🔧', name: 'Wrench', type: 'weapon', description: 'Equipamento.', attrib: {power:1}},
-        {icon: '🔨', name: 'Hammer', type: 'weapon', description: 'Equipamento.', attrib: {power:2}},
-        {icon: '🏹', name: 'Bow', type: 'weapon', description: 'Equipamento.', attrib: {power:2}},
-        {icon: '🔪', name: 'Knife', type: 'weapon', description: 'Equipamento.', attrib: {power:3}},
-        {icon: '🗡️', name: 'Sword', type: 'weapon', description: 'Equipamento.', attrib: {power:4}},
-        {icon: '🔫', name: 'Revolver', type: 'weapon', description: 'Equipamento.', attrib: {power:5}},
-        {icon: '👕', name: 'Shirt', type: 'armor', description: 'Equipamento.', attrib: {guard:1}},
-        {icon: '👖', name: 'Jeans', type: 'armor', description: 'Equipamento.', attrib: {guard:1}},
-        {icon: '👔', name: 'Formal Shirt', type: 'armor', description: 'Equipamento.', attrib: {guard:1}},
-        {icon: '👘', name: 'Kimono', type: 'armor', description: 'Equipamento.', attrib: {guard:1}},
-        {icon: '💼', name: 'Mallet', type: 'misc', description: 'Equipamento.', attrib: {guard:1}},
-        {icon: '🎒', name: 'Backpack', type: 'misc', description: 'Equipamento.', attrib: {guard:1}},
-		{},{},{},{},{},{},{},{},{},{},{}
-    ]
-
-	onAuthStateChanged(auth, (user) => {loggedUser = getUser(db, user)});
 
 	function startBattle(event) {
 		level = event.detail.level;
@@ -66,7 +48,7 @@
 	}
 
 	function playerHit() {
-		alert(`Don't give up! You lost 1 life!`)
+		alert(`You lost 1 life!`)
 		hero.life-=1;
 	}
 
