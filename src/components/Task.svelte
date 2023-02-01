@@ -18,14 +18,14 @@
 </script>
 
 <div class="quest">
-    <input id="{id}" bind:checked={task.status} type="checkbox">
+    <input id={id} bind:checked={task.status} type="checkbox">
     <span>
         <p style="--task-color: {task.enemy.taskColor}">LV 
             <span class="level-icon">{task.enemy.level ? task.enemy.level : 1}</span>
         {task.enemy.icon}: 
         </p>
     </span>
-    <label for="{id}" class:checked={task.status}>{task.text}</label>
+    <label for={id} class:checked={task.status}>{task.text}</label>
     <span class="fight" on:click={() => removeFromList(id, task.status)}>
         <button>{fightButton(task.status)}</button>
     </span>
