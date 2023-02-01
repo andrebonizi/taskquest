@@ -6,7 +6,9 @@
 
     export let hero;
     export let user;
-    export let items
+    export let items;
+
+    let inventoryCollapsed: boolean = false;
 
     let base = {
         power: hero.power,
@@ -67,6 +69,11 @@
 
         return equip.icon + ' ' + equip.name;
     }
+
+    function inventoryCollapse() {
+        this.nextSibling.nextSibling.style.display = inventoryCollapsed ? '' : 'none';
+        inventoryCollapsed = !inventoryCollapsed;
+    }
 </script>
 
 <main>
@@ -79,31 +86,32 @@
                
             {/if}
             <div class="hero-name">{hero.name}</div>
-        </div>
-        <div class="hero-base">
-            <div>
-                <span>
-                    Level: {hero.level}<br>
-                    {#key hero.xp}
-                        <progress
-                            class="xp-bar"
-                            in:fly={{
-                                x: 5,
-                                duration: 200,
-                                easing: bounceOut,
-                                opacity: 1
-                            }}
-                            value={hero.xp}
-                            max="100"
-                        />
-                        {hero.xp}
-                    {/key}
-                </span>
-                <span>
-                    {hero.gold} 💰
-                </span>
+            <div class="hero-base">
+                <div>
+                    <span>
+                        Level: {hero.level}<br>
+                        {#key hero.xp}
+                            <progress
+                                class="xp-bar"
+                                in:fly={{
+                                    x: 5,
+                                    duration: 200,
+                                    easing: bounceOut,
+                                    opacity: 1
+                                }}
+                                value={hero.xp}
+                                max="100"
+                            />
+                            {hero.xp}
+                        {/key}
+                    </span>
+                    <span>
+                        {hero.gold} 💰
+                    </span>
+                </div>
             </div>
         </div>
+
         <div class="life-bar">
             {#key hero.life}
                 <span class="heart">♥️</span>
@@ -133,19 +141,22 @@
                 Spd: <span>{hero.speed}</span>
             </div>
         </div>
+	</div>
+    <br>
+    <h2 on:click={inventoryCollapse}>🧳 Inventory </h2>
+    <div class="inventory">
         <div class="equipments">
             <div>{getEquipDisplay(equipments.weapon)}</div>
             <div>{getEquipDisplay(equipments.armor)}</div>
             <div>{getEquipDisplay(equipments.misc)}</div>
         </div>
-	</div>
-    <h2>🧳 Inventory </h2>
-    <div class="container">
-        {#key items}
-            {#each items as item, index}
-                <Item item={item} index={index} on:use={useItem} on:destroy={destroyItem}/>
-            {/each}
-        {/key}
+        <div class="container">
+            {#key items}
+                {#each items as item, index}
+                    <Item item={item} index={index} on:use={useItem} on:destroy={destroyItem}/>
+                {/each}
+            {/key}
+        </div>
     </div>
 </main>
 
@@ -156,14 +167,17 @@
         border: 2px outset gray;
         padding: 10px;
         font-family: 'Lobster';
-       
+        padding-bottom: 30px;
     }
 
     h2{
-        text-shadow: 5px 5px 5px black;
+        text-shadow: 2px 5px 2px black;
         color: white;
         line-height: 5px;
-        margin-top: 10px;
+        margin-top: 20px;
+        padding-left: 10px;
+        cursor: pointer;
+        z-index: 5;
     }
 
     .hero-name {
@@ -225,6 +239,19 @@
         width: 50px;
     }
 
+    .inventory {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-items: center;
+        transition: 1ms;
+        background: gray;
+        background-size: 50%;
+        border-radius: 10px;
+        border: 5px outset gray;
+        width: min-content;
+    }
+
     .container {
         width: fit-content;
         padding: 5px;
@@ -232,9 +259,6 @@
         place-items: center;
         grid-template-columns: repeat(5, 50px);
         grid-template-rows: repeat(5, 50px);
-        background: linear-gradient(white, rgba(236, 236, 236, 0.739) );
-        border-radius: 10px;
-        border: 5px inset rgb(224, 224, 224)
     }
 
 	.atributes{
@@ -258,22 +282,7 @@
         padding: 5px;
     }
 
-    .equipments{
-        display: flex;
-        flex-direction: column;
-    }
 
-    .equipments > div {
-        display: flex;
-        justify-items: center;
-        align-items: center;
-        text-align: left;
-        padding: 5px;
-        margin: 5px;
-        padding-left: 10px;
-        border: 3px inset rgb(146, 146, 146);
-        background-color: rgb(245, 245, 245);
-    }
 
 	.user-logo {
 		border-radius: 50%;
@@ -324,6 +333,26 @@
 		animation: opacityChange 3s infinite alternate;
 
 	}
+
+    .equipments{
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        border-radius: 10px 10px 0px 0px;
+        width: 260px;
+    }
+
+    .equipments > div {
+        display: flex;
+        justify-items: center;
+        align-items: center;
+        text-align: left;
+        padding: 5px;
+        margin: 5px;
+        padding-left: 10px;
+        border: 3px inset rgb(146, 146, 146);
+        background-color: rgb(245, 245, 245);
+    }
 
     @keyframes opacityChange {
         0% {
