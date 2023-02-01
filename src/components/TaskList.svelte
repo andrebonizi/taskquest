@@ -31,9 +31,11 @@
 		todoList.splice(event.detail.index, 1)
         todoList = todoList;
     }
+    
     function callBattle(event) {
         dispatch('startBattle',{ level: event.detail.level, monster: enemies[event.detail.level-1]})
     }
+    
     function playerHit() {
         dispatch('playerHit');
     }
