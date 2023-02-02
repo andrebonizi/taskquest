@@ -10,6 +10,7 @@
 		border-radius: 50%;
         width: 10%;
         min-width: 47px;
+        height: fit-content;
 	}
 
     .hero-name {

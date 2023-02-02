@@ -43,8 +43,7 @@
 </script>
 
 <div class="container"> 
-    <h1>Welcome to the guild, {player.name} </h1>
-    <h2>📜 Check out your quests! 🪓 </h2><br>
+    <h2>📜 Quests & Tasks! </h2><br>
     <div class="quest-config">
         <p>🏹 Task:</p>
         <input bind:value={newItem} class="quest-input" type="text" placeholder="What will you fight for?">
@@ -74,24 +73,6 @@
 </div>
 
 <style>
-    h1 {
-        text-align: center;
-        color: rgb(0, 0, 0);
-        font-size: 2.5rem;
-    }
-
-    h2 {
-        color: rgb(156, 112, 29);
-        text-shadow: 2px 2px 5px black;
-        font-weight: lighter;
-        font-size: 2rem;
-        text-align: center;
-        border-radius: 30px;
-        padding: 15px;
-        padding-left: 30px;
-      
-    }
-
     p {
         color: black;
         display: inline;
@@ -167,5 +148,5 @@
         border-radius: 30px;
         background: linear-gradient(whitesmoke, rgb(133, 127, 117));
     }
-    
+
 </style>

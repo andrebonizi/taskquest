@@ -4,12 +4,13 @@
 
     import Item from './Item.svelte';
     import User from './User.svelte';
+    import Attributes from './Attributes.svelte';
 
     export let hero;
     export let user;
     export let items;
 
-    let inventoryCollapsed: boolean = false;
+    let inventoryCollapsed: boolean = true;
 
     let base = {
         power: hero.power,
@@ -72,7 +73,7 @@
     }
 
     function inventoryCollapse() {
-        this.nextSibling.nextSibling.style.display = inventoryCollapsed ? '' : 'none';
+        this.nextSibling.nextSibling.style.display = inventoryCollapsed ? 'flex' : 'none';
         inventoryCollapsed = !inventoryCollapsed;
     }
 </script>
@@ -86,11 +87,7 @@
                 <div>
                     <span>
                         {#key hero.xp}
-                            <progress class="xp-bar"
-                                in:fly={{ x: 5, duration: 200, easing: bounceOut, opacity: 1 }}
-                                value={hero.xp}
-                                max="100"
-                            />
+                            <progress class="xp-bar" in:fly={{ x: 5, duration: 200, easing: bounceOut, opacity: 1 }} value={hero.xp} max="100" />
                             {hero.xp}
                         {/key}
                     </span>
@@ -110,26 +107,7 @@
             
             {/key}
         </div>
-        <div class="atributes">
-            <div>
-                <span style="color: rgb(1, 300, 0)">
-                    ♠︎
-                </span>
-                Atk: <span>{hero.power}</span>
-            </div>
-            <div>
-                <span style="color: rgb(0, 56, 88)">
-                    ♦︎
-                </span>
-                Def: <span>{hero.guard}</span>
-            </div>
-            <div>
-                <span style="color: rgb(67, 0, 80)">
-                    ♣︎
-                </span>
-                Spd: <span>{hero.speed}</span>
-            </div>
-        </div>
+        <Attributes hero={hero}/>
 	</div>
     <br>
     <h2 on:click={inventoryCollapse}>🧳 Inventory </h2>
@@ -168,6 +146,19 @@
         padding-left: 10px;
         cursor: pointer;
         z-index: 5;
+    }
+
+    .inventory {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-items: center;
+        transition: 1ms;
+        background: gray;
+        background-size: 50%;
+        border-radius: 10px;
+        border: 5px outset gray;
+        width: min-content;
     }
 
     .hero-base {
@@ -222,19 +213,6 @@
         width: 50px;
     }
 
-    .inventory {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-items: center;
-        transition: 1ms;
-        background: gray;
-        background-size: 50%;
-        border-radius: 10px;
-        border: 5px outset gray;
-        width: min-content;
-    }
-
     .container {
         width: fit-content;
         padding: 5px;
@@ -242,26 +220,6 @@
         place-items: center;
         grid-template-columns: repeat(5, 50px);
         grid-template-rows: repeat(5, 50px);
-    }
-
-	.atributes {
-		display: flex;
-        height: 50px;
-        border-radius: 10px;
-		justify-content: space-around;
-        align-items: center;
-        color: black;
-        background-color: rgba(255, 255, 255, 0.421);
-	}
-   
-    .atributes div > span {
-        color: black;
-    }
-
-    .atributes > div{
-        font-size: 1.2rem;
-        margin: 1px;
-        padding: 5px;
     }
 
     .equipments {

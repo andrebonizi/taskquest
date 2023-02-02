@@ -76,3 +76,13 @@ button:not(:disabled):active {
 button:focus {
    border-color: #666;
 }
+
+h2 {
+   text-shadow: 2px 5px 2px black;
+   color: white;
+   line-height: 5px;
+   margin-top: 20px;
+   padding-left: 10px;
+   cursor: pointer;
+   z-index: 5;
+}
