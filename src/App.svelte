@@ -163,4 +163,11 @@
 		top: 0;
 		right: 0;
 	}
+
+	@media screen and (max-width: 800px) {
+		.menu {
+			flex-direction: column;
+			gap: 20px;
+		}
+	}
 </style>

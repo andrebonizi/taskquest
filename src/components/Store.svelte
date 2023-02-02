@@ -40,7 +40,7 @@
 
 <style>
     .container{
-        width: 550px;
+        width: 100%;
         height: 100%;
         border: 5px dotted lightgray;
         padding: 10px;

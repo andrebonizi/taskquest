@@ -12,6 +12,8 @@
     .atributes {
         display: flex;
         flex-direction: row;
+        justify-content: space-around;
+        width: 100%;
     }
 
     .atributes div > span {

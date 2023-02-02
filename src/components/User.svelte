@@ -24,12 +24,11 @@
             {user.displayName}<br>
             <div class="life-bar">
                 {#key hero.life}
-                {getFaceIcon(hero.life)}
-                <progress in:fly={{x: 5, duration: 200, easing: bounceOut, opacity: 1}} value={hero.life*10} max="100" />
-                {hero.life}
+                    {getFaceIcon(hero.life)}
+                    <progress in:fly={{x: 5, duration: 200, easing: bounceOut, opacity: 1}} value={hero.life*10} max="100" />
+                    {hero.life}
                 {/key}
             </div>
-
         </div>
     </div>
     <Status hero={hero}/>
@@ -96,4 +95,9 @@
         border-radius: 20px;
     }
 
+    @media screen and (min-width: 800px) {
+        .container {
+            flex-direction: row;
+        }
+    }
 </style>

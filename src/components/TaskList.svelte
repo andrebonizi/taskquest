@@ -63,19 +63,19 @@
                 {/each}
             </select>
             <div class="add-button" on:click={addToList}>Add ➕</div>
+            <div class="quest-list">
+                {#each todoList as item, index}
+                    <Task
+                        id={index}
+                        task={item}
+                        on:remove={removeFromList}
+                        on:startBattle={callBattle}
+                        on:hit={playerHit}
+                    />
+                {/each}
+            </div>
         </div>
 
-        <div class="quest-list">
-            {#each todoList as item, index}
-                <Task
-                    id={index}
-                    task={item}
-                    on:remove={removeFromList}
-                    on:startBattle={callBattle}
-                    on:hit={playerHit}
-                />
-            {/each}
-        </div>
     </div>
 </main>
 
@@ -89,6 +89,7 @@
     .container {
         border-radius: 10px;
         margin: 0;
+        margin-right: 20px;
         padding: 20px;
         border: 2px outset rgb(173, 87, 17);
         font-family: 'Lobster';
@@ -98,7 +99,8 @@
     }
  
     .quest-config, select{
-        display: inline;
+        display: flex;
+        flex-direction: column;
     }
 
     .quest-list {
