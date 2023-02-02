@@ -1,14 +1,62 @@
 <script>
+    import Status from "./Status.svelte";
+    import { fly } from 'svelte/transition';
+    import { bounceOut } from "svelte/easing";
+
+    export let hero;
     export let user;
+
+    function getFaceIcon(life) {
+        if (life <0 || life >10) return;
+        switch (life){
+            case 0: case 1: case 2: return '😰';
+            case 3: case 4: case 5: return '😬';
+            case 6: case 7: case 8: return '😅';
+            case 9: case 10: case 11: return '🙂';
+        }
+    }
 </script>
 
-<img class="user-logo"  src={user.photoURL} alt={user.displayName}/>
-<div class="hero-name">{user.displayName}</div>
+<main class="container">
+    <div class="basic">
+        <img class="user-logo"  src={user.photoURL} alt={user.displayName}/>
+        <div class="hero-name">
+            {user.displayName}<br>
+            <div class="life-bar">
+                {#key hero.life}
+                {getFaceIcon(hero.life)}
+                <progress in:fly={{x: 5, duration: 200, easing: bounceOut, opacity: 1}} value={hero.life*10} max="100" />
+                {hero.life}
+                {/key}
+            </div>
+
+        </div>
+    </div>
+    <Status hero={hero}/>
+</main>
 
 <style>
+    .basic {
+        display: flex;
+        flex-direction: row;
+        gap: 50px;
+    }
+
+    .container {
+        background: linear-gradient(rgba(63, 63, 63, 0.69), rgb(16, 32, 44));
+        border-radius: 10px;
+        border: 2px outset gray;
+        padding: 10px;
+        font-family: 'Lobster';
+        padding-bottom: 30px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
     .user-logo {
 		border-radius: 50%;
-        width: 10%;
+        width: 20%;
         min-width: 47px;
         height: fit-content;
 	}
@@ -17,6 +65,35 @@
         font-size: 2rem;
         text-shadow: 3px 3px 5px black;
         color: wheat;
-        width: fit-content;
+        width: 100%;
+        height: fit-content;
     }
+
+    .life-bar {
+        font-size: 1rem;
+        color: black;
+        text-shadow: 2px 2px 5px gray;
+        width: fit-content;
+        gap: 10px;
+        display: flex;
+        flex-direction: row;
+        padding: 0;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .life-bar > progress {
+        border-radius: 20px;
+        background-color: green;
+    }
+
+    progress::-webkit-progress-bar {
+        border-radius: 20px;
+    }
+
+    progress::-webkit-progress-value {
+        background: linear-gradient(red, black);
+        border-radius: 20px;
+    }
+
 </style>

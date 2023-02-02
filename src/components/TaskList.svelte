@@ -18,6 +18,7 @@
     let newItem = '';
     let level = 1;
     let todoList = [];
+    let listCollapsed = true;
 
 	function addToList() {
    
@@ -40,37 +41,43 @@
         dispatch('playerHit');
     }
 
+    function listCollapse() {
+        this.nextSibling.nextSibling.style.display = listCollapsed ? 'flex' : 'none';
+        listCollapsed = !listCollapsed;
+    }
 </script>
 
-<div class="container"> 
-    <h2>📜 Quests & Tasks! </h2><br>
-    <div class="quest-config">
-        <p>🏹 Task:</p>
-        <input bind:value={newItem} class="quest-input" type="text" placeholder="What will you fight for?">
-        <br>
-        <p>⚔️ Enemy:</p>
-        <select bind:value={level} class="enemy-select">
-            {#each enemies as enemy}
-                {#if player.level+2 >= enemy.level}
-                    <option value={enemy.level}> {enemy.icon} {enemy.name}</option>
-                {/if}
-            {/each}
-        </select>
-        <div class="add-button" on:click={addToList}>Add ➕</div>
-    </div>
+<main>
+    <h2 on:click={listCollapse}>📜 Quests & Tasks! </h2>
+    <div class="container"> 
+        <div class="quest-config">
+            <p>🏹 Task:</p>
+            <input bind:value={newItem} class="quest-input" type="text" placeholder="What will you fight for?">
+            <br>
+            <p>⚔️ Enemy:</p>
+            <select bind:value={level} class="enemy-select">
+                {#each enemies as enemy}
+                    {#if player.level+2 >= enemy.level}
+                        <option value={enemy.level}> {enemy.icon} {enemy.name}</option>
+                    {/if}
+                {/each}
+            </select>
+            <div class="add-button" on:click={addToList}>Add ➕</div>
+        </div>
 
-    <div class="quest-list">
-        {#each todoList as item, index}
-            <Task
-                id={index}
-                task={item}
-                on:remove={removeFromList}
-                on:startBattle={callBattle}
-                on:hit={playerHit}
-            />
-        {/each}
+        <div class="quest-list">
+            {#each todoList as item, index}
+                <Task
+                    id={index}
+                    task={item}
+                    on:remove={removeFromList}
+                    on:startBattle={callBattle}
+                    on:hit={playerHit}
+                />
+            {/each}
+        </div>
     </div>
-</div>
+</main>
 
 <style>
     p {
@@ -83,11 +90,11 @@
         border-radius: 10px;
         margin: 0;
         padding: 20px;
-        background: linear-gradient(rgba(165, 42, 42, 0.773), rgba(173, 87, 17, 0.838));
         border: 2px outset rgb(173, 87, 17);
         font-family: 'Lobster';
         font-weight: lighter;
-        flex: 1;
+        background: gray;
+        display: none;
     }
  
     .quest-config, select{

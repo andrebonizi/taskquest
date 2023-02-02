@@ -3,6 +3,7 @@
 
 	import TaskList from './components/TaskList.svelte';
 	import Battle from './components/Battle.svelte';
+	import User from './components/User.svelte';
 	import Inventory from './components/Inventory.svelte';
 	import Store from './components/Store.svelte';
 	import { initializeApp } from 'firebase/app';
@@ -102,16 +103,15 @@
 		</div>
 	</div>
 	<div class="container">
-		<Inventory
-			user={loggedUser}
-			hero={hero}
-			items={items}
-		/>
-		<TaskList
-			player={hero}
-			on:startBattle={startBattle}
-			on:playerHit={playerHit}
-		/>
+		{#if loggedUser} <User user={loggedUser} hero={hero}/> {/if}
+		<div class="menu">
+			<Inventory hero={hero} items={items} />
+			<TaskList
+				player={hero}
+				on:startBattle={startBattle}
+				on:playerHit={playerHit}
+			/>
+		</div>
 		<Store gold={hero.gold} on:buyItem={buyItem}/>
 		<MusicButton />
 	</div>
@@ -127,6 +127,17 @@
 		margin: 0;
 		max-height: 100%;
 		width: 100%;
+	}
+
+	.menu {
+		background: linear-gradient(rgba(165, 42, 42, 0.773), rgba(173, 87, 17, 0.838));
+        border-radius: 10px;
+        border: 2px outset gray;
+        font-family: 'Lobster';
+        width: 100%;
+        padding-left: 20px;
+        padding-bottom: 20px;
+		display: flex;
 	}
 
 	.container{

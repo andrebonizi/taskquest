@@ -1,14 +1,20 @@
 import { collection, doc, getDoc, setDoc } from "firebase/firestore";
 
 export const player = {
+    name: '',
     life: 10,
     power: 1,
     guard: 0,
     speed: 1,
-    gold: 1,
+    gold: 0,
     xp: 0,
     level: 1,
-    name: '',
+    inventory: [],
+    equip: {
+        weapon: 0,
+        armor: 0,
+        misc: 0,
+    },
 }
 
 export async function getUser(db, user) {
