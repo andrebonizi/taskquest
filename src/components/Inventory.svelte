@@ -3,6 +3,7 @@
 	import { bounceOut } from 'svelte/easing';
 
     import Item from './Item.svelte';
+    import User from './User.svelte';
 
     export let hero;
     export let user;
@@ -79,26 +80,14 @@
 <main>
     <div>
         <div style="display: flex; gap: 20px"  >
-            {#if user}
-            <div class="rainbow">
-                <img class="user-logo"  src={user.photoURL} alt={user.displayName}/>
-            </div>
-               
-            {/if}
-            <div class="hero-name">{hero.name}</div>
+            {#if user} <User user={user} /> {/if}
             <div class="hero-base">
+                Level: {hero.level}<br>
                 <div>
                     <span>
-                        Level: {hero.level}<br>
                         {#key hero.xp}
-                            <progress
-                                class="xp-bar"
-                                in:fly={{
-                                    x: 5,
-                                    duration: 200,
-                                    easing: bounceOut,
-                                    opacity: 1
-                                }}
+                            <progress class="xp-bar"
+                                in:fly={{ x: 5, duration: 200, easing: bounceOut, opacity: 1 }}
                                 value={hero.xp}
                                 max="100"
                             />
@@ -161,16 +150,17 @@
 </main>
 
 <style>
-    main{
+    main {
         background: linear-gradient(rgba(63, 63, 63, 0.69), rgb(16, 32, 44));
         border-radius: 10px;
         border: 2px outset gray;
         padding: 10px;
         font-family: 'Lobster';
         padding-bottom: 30px;
+        width: 100%;
     }
 
-    h2{
+    h2 {
         text-shadow: 2px 5px 2px black;
         color: white;
         line-height: 5px;
@@ -180,19 +170,12 @@
         z-index: 5;
     }
 
-    .hero-name {
-        font-size: 2rem;
-        text-shadow: 3px 3px 5px black;
-        color: wheat;
-        width: fit-content;
-    }
-
-    .hero-base{
+    .hero-base {
         display: flex;
         justify-content: space-evenly;
     }
 
-    .hero-base > div{
+    .hero-base > div {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -202,7 +185,7 @@
         width: 50%;
     }
   
-    .heart{
+    .heart {
         color: rgb(110, 0, 0);
         font-size: 2rem;
         text-shadow: 2px 2px 2px rgb(129, 123, 123);
@@ -220,7 +203,7 @@
         justify-content: space-between;
     }
 
-    .life-bar > progress{
+    .life-bar > progress {
         border-radius: 20px;
         background-color: green;
         border: 2px solid green;
@@ -235,7 +218,7 @@
         border-radius: 20px;
     }
 
-    .xp-bar{
+    .xp-bar {
         width: 50px;
     }
 
@@ -261,7 +244,7 @@
         grid-template-rows: repeat(5, 50px);
     }
 
-	.atributes{
+	.atributes {
 		display: flex;
         height: 50px;
         border-radius: 10px;
@@ -269,7 +252,6 @@
         align-items: center;
         color: black;
         background-color: rgba(255, 255, 255, 0.421);
-        
 	}
    
     .atributes div > span {
@@ -282,59 +264,7 @@
         padding: 5px;
     }
 
-
-
-	.user-logo {
-		border-radius: 50%;
-        width: 90%;
-	}
-
-    .rainbow {
-        width: 100px;
-        height: 100px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-        z-index: 0;
-        display: flex;
-        border-radius: 50%;
-        overflow: hidden;
-    }
-    
-	.rainbow::before {
-		content: '';
-		position: absolute;
-		z-index: -2;
-		left: -50%;
-		top: -50%;
-		width: 200%;
-		height: 200%;
-        background-color: black;
-		background-repeat: no-repeat;
-        background-size: 50% 50%, 50% 50%;
-		background-position: 0 0, 100% 0, 100% 100%, 0 100%;
-		background-image: linear-gradient(red, black),  linear-gradient(red, black), linear-gradient(black, red), linear-gradient(black, red);
-		animation: rotate 4s linear infinite;
-	}
-
-	.rainbow::after {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-		content: '';
-		position: absolute;
-		z-index: -1;
-        top: 0;
-		width: 100%;
-		height:  100%;
-        background-color: black;
-		border-radius: 50%;
-		animation: opacityChange 3s infinite alternate;
-
-	}
-
-    .equipments{
+    .equipments {
         display: flex;
         flex-direction: column;
         padding: 20px;
@@ -358,14 +288,15 @@
         0% {
             opacity:0.5;
         }
+
         100% {
             opacity:0;
         }
     }
 
     @keyframes rotate {
-	100% {
-		transform: rotate(1turn);
-	}
+        100% {
+            transform: rotate(1turn);
+        }
 }
 </style>

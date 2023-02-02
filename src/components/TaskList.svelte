@@ -35,7 +35,7 @@
     function callBattle(event) {
         dispatch('startBattle',{ level: event.detail.level, monster: enemies[event.detail.level-1]})
     }
-    
+
     function playerHit() {
         dispatch('playerHit');
     }
@@ -74,13 +74,12 @@
 </div>
 
 <style>
-    h1{
+    h1 {
         text-align: center;
         color: rgb(0, 0, 0);
         font-size: 2.5rem;
-     
-	
     }
+
     h2 {
         color: rgb(156, 112, 29);
         text-shadow: 2px 2px 5px black;
@@ -92,14 +91,16 @@
         padding-left: 30px;
       
     }
-    p{
+
+    p {
         color: black;
         display: inline;
         text-shadow: 2px 2px 5px white;
     }
+
     .container {
         border-radius: 10px;
-        margin: 20px;
+        margin: 0;
         padding: 20px;
         background: linear-gradient(rgba(165, 42, 42, 0.773), rgba(173, 87, 17, 0.838));
         border: 2px outset rgb(173, 87, 17);
@@ -111,6 +112,7 @@
     .quest-config, select{
         display: inline;
     }
+
     .quest-list {
         width: 99%;
         height: 300px;
@@ -118,19 +120,23 @@
         overflow: auto;
         background-color:rgba(235, 235, 235, 0.528);
     }
-    .quest-input{
+
+    .quest-input {
         background: linear-gradient(whitesmoke, rgb(133, 127, 117));
         color: rgb(0, 0, 0);
         border-radius: 30px;
         padding-left: 20px;
     }
-    .quest-input::placeholder{
+
+    .quest-input::placeholder {
         color: rgb(43, 38, 38);
     }
-    input{
+
+    input {
         min-width: 50%;
     }
-    .add-button{
+
+    .add-button {
         display: inline-flex;
         justify-content: center;
         align-items: center;
@@ -145,17 +151,21 @@
         cursor: pointer;
         transition: 0.5s ease all
     }
-    .add-button:hover{
+
+    .add-button:hover {
       scale: 1.1;
     }
-    .enemy-select{
+
+    .enemy-select {
         margin-right: 10px;
         border-radius: 30px;
         background: linear-gradient(whitesmoke, rgb(133, 127, 117));
     }
-    .enemy-select option{
+
+    .enemy-select option {
         padding-right: 5px;
         border-radius: 30px;
         background: linear-gradient(whitesmoke, rgb(133, 127, 117));
     }
+    
 </style>

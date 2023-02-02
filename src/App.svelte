@@ -122,18 +122,17 @@
 
 	main {
 		text-align: left;
-		padding: 1em;
+		padding: 0;
 		max-width: 100vw;
 		margin: 0;
 		max-height: 100%;
-
+		width: 100%;
 	}
 
 	.container{
 		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: space-between;
+		flex-direction: column;
+		align-items: flex-start;
 		width: 100%;
 		max-height: 100%;
 	}
@@ -152,15 +151,5 @@
 		position: absolute;
 		top: 0;
 		right: 0;
-	}
-
-	@media (max-width: 640px) {
-		main {
-			max-width: none;
-		}
-		.container{
-			flex-direction: column;
-			justify-content: flex-start;
-		}
 	}
 </style>
