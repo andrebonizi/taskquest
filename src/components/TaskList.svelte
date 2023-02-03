@@ -1,19 +1,11 @@
 <script>
-    import { createEventDispatcher } from 'svelte';
     import Task from '../components/Task.svelte';
+    import { createEventDispatcher } from 'svelte';
+    import { enemies } from '../data/enemies';
 
     export let player;
 
 	const dispatch = createEventDispatcher();
-    const enemies = [
-        {level: 1, icon:'🐀', name: 'Rat', taskColor: "rgb(148, 231, 25)"},
-        {level: 2, icon:'🦂', name: 'Scorpion', taskColor: "rgb(11, 117, 9)"},
-        {level: 3, icon:'🐍', name: 'Snake', taskColor: "rgb(197, 164, 43)"},
-        {level: 4, icon:'🐆', name: 'Tiger', taskColor: "rgb(125, 51, 31)"},
-        {level: 5, icon:'🐊', name: 'Crocodille', taskColor: "rgb(219, 1, 1)"},
-        {level: 6, icon:'👹', name: 'Ogre', taskColor: "rgb(255, 0, 0)"},
-        {level: 7, icon:'🐉', name: 'Dragon', taskColor: "rgb(63, 2, 113)"}
-    ];
 
     let newItem = '';
     let level = 1;
@@ -21,20 +13,24 @@
     let listCollapsed = true;
 
 	function addToList() {
-   
-        let task;
-        task = {text: newItem, status: false, enemy: enemies[level-1] };
-		todoList = [...todoList, task];
+		todoList = [...todoList, {
+                text: newItem,
+                status: false,
+                enemy: enemies[level-1],
+            }];
 		newItem = '';
 	}
 
 	function removeFromList(event) {
-		todoList.splice(event.detail.index, 1)
+		todoList.splice(event.detail.index, 1);
         todoList = todoList;
     }
     
     function callBattle(event) {
-        dispatch('startBattle',{ level: event.detail.level, monster: enemies[event.detail.level-1]})
+        dispatch('startBattle', {
+            level: event.detail.level,
+            monster: enemies[event.detail.level-1],
+        });
     }
 
     function playerHit() {
@@ -48,7 +44,7 @@
 </script>
 
 <main>
-    <h2 on:click={listCollapse}>📜 Quests & Tasks! </h2>
+    <h2 on:click={listCollapse}> 📜 Quests & Tasks! </h2>
     <div class="container"> 
         <div class="quest-config">
             <p>🏹 Task:</p>
