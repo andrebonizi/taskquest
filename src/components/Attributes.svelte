@@ -11,8 +11,8 @@
 <style>
     .atributes {
         display: flex;
-        flex-direction: row;
-        justify-content: space-around;
+        flex-direction: column;
+        justify-content: space-evenly;
         width: 100%;
     }
 

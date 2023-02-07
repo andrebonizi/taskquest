@@ -5,6 +5,7 @@
 	import Battle from './components/Battle.svelte';
 	import User from './components/User.svelte';
 	import Inventory from './components/Inventory.svelte';
+	import Status from './components/Status.svelte';
 	import Store from './components/Store.svelte';
 	import { initializeApp } from 'firebase/app';
 	import { login, logout, AUTH_PROVIDER, getFirebaseAuth } from './utils/auth';
@@ -71,6 +72,12 @@
 		items[emptySlotIndex] = newItem
 		return true
 	}
+
+	function collapse(event) {
+		const { div } = event.detail;
+		div.style.display = div.style.display !== 'flex' 
+			? 'flex' : 'none';
+    }
 </script>
 
 <main>
@@ -105,14 +112,11 @@
 	<div class="container">
 		{#if loggedUser} <User user={loggedUser} hero={hero}/> {/if}
 		<div class="menu">
-			<Inventory hero={hero} items={items} />
-			<TaskList
-				player={hero}
-				on:startBattle={startBattle}
-				on:playerHit={playerHit}
-			/>
+			<Status hero={hero} on:change={collapse}/>
+			<Inventory hero={hero} items={items} on:change={collapse}/>
+			<TaskList player={hero} on:startBattle={startBattle} on:playerHit={playerHit}  on:change={collapse}/>
+			<Store gold={hero.gold} on:buyItem={buyItem} on:change={collapse}/>
 		</div>
-		<Store gold={hero.gold} on:buyItem={buyItem}/>
 		<MusicButton />
 	</div>
 </main>
@@ -125,8 +129,9 @@
 		padding: 0;
 		max-width: 100vw;
 		margin: 0;
-		max-height: 100%;
+		height: 100%;
 		width: 100%;
+
 	}
 
 	.menu {
@@ -135,9 +140,12 @@
         border: 2px outset gray;
         font-family: 'Lobster';
         width: 100%;
-        padding-left: 20px;
         padding-bottom: 20px;
 		display: flex;
+		align-items: center;
+		flex-direction: column;
+		gap: 20px;
+		height: fit-content;
 	}
 
 	.container{
@@ -164,10 +172,12 @@
 		right: 0;
 	}
 
-	@media screen and (max-width: 800px) {
+
+	@media screen and (min-width: 800px) {
 		.menu {
-			flex-direction: column;
-			gap: 20px;
+			flex-direction: row;
+			align-items: flex-start;
+			justify-content: space-around;
 		}
 	}
 </style>

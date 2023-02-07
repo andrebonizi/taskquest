@@ -1,6 +1,9 @@
-<script>
-    import { createEventDispatcher } from 'svelte';
-    export let gold
+<script lang="ts">
+    import { createEventDispatcher, onMount } from 'svelte';
+    import { isMobile } from '../utils/device';
+    
+    export let gold;
+
     const dispatch = createEventDispatcher();
 
     let products = [
@@ -10,51 +13,68 @@
         {active: true, icon: '🔨', name: 'Hammer', type: 'weapon', description: 'Equipamento.', attrib: {power:2},  price: 1, level: 1},
     ];
 
+    let container;
+    
+    onMount(() => {
+        isMobile()? container.style.display = 'none' : 'flex';
+    })
+
     function handleBuyItem(product){
         delete product.active
         return gold >= product.price ?  dispatch('buyItem', {product}) : alert('Not enough gold')
     }
 
+    function change() {
+        dispatch('change', {
+            div: this.nextSibling.nextSibling
+        })
+    }
 </script>
 
-<div class="container">
-    <div class="title">
-        Market 💰
+<main>
+    <h2 on:click={change}>💰 Market</h2>
+    <div class="container" bind:this={container}>
+        <div class="products">
+            {#each products as product}
+                {#if (product.active)}
+                    <div class="product">
+                        <div>
+                            {product.icon} {product.name} 
+                        </div>
+                        <div>
+                            ${product.price}.00
+                            <div class="button" on:click={() => handleBuyItem(product)}>Buy!</div>    
+                        </div>
+                    </div>
+                {/if}
+            {/each}
+        </div>
     </div>
-    <div class="products">
-    {#each products as product}
-        {#if (product.active)}
-            <div class="product">
-                <div>
-                    {product.icon} {product.name} 
-                </div>
-                <div>
-                    ${product.price}.00
-                    <div class="button" on:click={() => handleBuyItem(product)}>Buy!</div>    
-                </div>
-            </div>
-        {/if}
-    {/each}
-    </div>
-</div>
+</main>
 
 <style>
+    main {
+        width: 270px;
+    }
+
     .container{
-        width: 100%;
-        height: 100%;
+        display: flex;
+        height: fit-content;
         border: 5px dotted lightgray;
         padding: 10px;
-        flex: 1;
         background-color: rgba(105, 105, 105, 0.646); 
     }
+
     .products{
         display: flex;
         flex-direction: column;
         text-align: left;
         border-radius: 5px;
-        height: 500px;
+        height: fit-content;
         scroll-behavior: auto;
+        width: 220px;
     }
+
     .product{
         display: flex;
         margin: 10px;
@@ -66,17 +86,14 @@
         align-items: center;
         user-select: none;
     }
+
     .product > div{
         display: flex;
         align-items: center;
         justify-content: center;
         justify-content: space-between;
     }
-    .title{
-        font-weight: bolder;
-        font-size: 2rem;
-        font-family: 'Lobster';
-    }
+
     .button{
         padding: 10px 5px;
         border-radius: 15px;

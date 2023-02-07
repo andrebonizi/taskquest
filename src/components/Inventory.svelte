@@ -1,10 +1,12 @@
 <script lang='ts'>
     import Item from './Item.svelte';
+    import { createEventDispatcher, onMount } from 'svelte';
+    import { isMobile } from '../utils/device';
 
     export let hero;
     export let items;
-
-    let inventoryCollapsed: boolean = true;
+    
+    const dispatch = createEventDispatcher();
 
     let base = {
         power: hero.power,
@@ -17,6 +19,12 @@
         armor: {},
         misc: {}
     }
+    
+    let container;
+    
+    onMount(() => {
+        isMobile()? container.style.display = 'none' : 'flex';
+    })
 
     function useItem(event) {
         const { item } = event.detail;
@@ -55,15 +63,16 @@
         return equip.icon + ' ' + equip.name;
     }
 
-    function inventoryCollapse() {
-        this.nextSibling.nextSibling.style.display = inventoryCollapsed ? 'flex' : 'none';
-        inventoryCollapsed = !inventoryCollapsed;
+    function change() {
+        dispatch('change', {
+            div: this.nextSibling.nextSibling
+        })
     }
 </script>
 
 <main>
-    <h2 on:click={inventoryCollapse}>🧳 Inventory </h2>
-    <div class="inventory">
+    <h2 on:click={change}>🧳 Inventory </h2>
+    <div class="inventory" bind:this={container}>
         <div class="equipments">
             <div>{getEquipDisplay(equipments.weapon)}</div>
             <div>{getEquipDisplay(equipments.armor)}</div>
@@ -80,8 +89,12 @@
 </main>
 
 <style>
+    main {
+        width: 270px;
+    }
+
     .inventory {
-        display: none;
+        display: flex;
         flex-direction: column;
         align-items: center;
         justify-items: center;
@@ -122,19 +135,13 @@
         background-color: rgb(245, 245, 245);
     }
 
-    @keyframes opacityChange {
+    @keyframes collapseHeight {
         0% {
-            opacity:0.5;
+            height:0;
         }
 
         100% {
-            opacity:0;
+            height: fit-content;
         }
     }
-
-    @keyframes rotate {
-        100% {
-            transform: rotate(1turn);
-        }
-}
 </style>

@@ -8,11 +8,11 @@
    
     function removeFromList(index, status){
         dispatch('remove', { index } );
-        status ? dispatch('startBattle', { level: task.enemy.level } ) : dispatch('hit');
+        status ? dispatch('startBattle', { level: task.enemy.level } ) : dispatch('explode');
     }
 
     function fightButton(checked) {
-        return checked ? '💥 Fight!' : '🧨 Drop!';
+        return checked ? '💥 Fight!' : '☠️ Quit!';
     }
    
 </script>

@@ -9,8 +9,8 @@
 
     let newItem = '';
     let level = 1;
-    let todoList = [];
-    let listCollapsed = true;
+    
+    $: todoList = [];
 
 	function addToList() {
 		todoList = [...todoList, {
@@ -37,121 +37,121 @@
         dispatch('playerHit');
     }
 
-    function listCollapse() {
-        this.nextSibling.nextSibling.style.display = listCollapsed ? 'flex' : 'none';
-        listCollapsed = !listCollapsed;
+    function change() {
+        dispatch('change', {
+            div: this.nextSibling.nextSibling
+        })
     }
 </script>
 
 <main>
-    <h2 on:click={listCollapse}> 📜 Quests & Tasks! </h2>
+    <h2 class="collapse" on:click={change}> 📜 Quests & Tasks! </h2>
     <div class="container"> 
         <div class="quest-config">
-            <p>🏹 Task:</p>
+
+            <p>Task:</p>
             <input bind:value={newItem} class="quest-input" type="text" placeholder="What will you fight for?">
-            <br>
-            <p>⚔️ Enemy:</p>
-            <select bind:value={level} class="enemy-select">
-                {#each enemies as enemy}
-                    {#if player.level+2 >= enemy.level}
-                        <option value={enemy.level}> {enemy.icon} {enemy.name}</option>
-                    {/if}
-                {/each}
-            </select>
-            <div class="add-button" on:click={addToList}>Add ➕</div>
-            <div class="quest-list">
-                {#each todoList as item, index}
-                    <Task
-                        id={index}
-                        task={item}
-                        on:remove={removeFromList}
-                        on:startBattle={callBattle}
-                        on:hit={playerHit}
-                    />
-                {/each}
+
+            <p>Enemy:</p>
+            <div class="enemy">
+                <select bind:value={level}>
+                    {#each enemies as enemy}
+                        {#if player.level+2 >= enemy.level}
+                            <option value={enemy.level}> {enemy.icon} {enemy.name}</option>
+                        {/if}
+                    {/each}
+                </select>
+                <div class="add-button" on:click={addToList}>➕</div>
             </div>
+
+        </div>
+        <div class="quest-list">
+            {#each todoList as item, index}
+                <Task
+                    id={index}
+                    task={item}
+                    on:remove={removeFromList}
+                    on:startBattle={callBattle}
+                    on:hit={playerHit}
+                />
+            {/each}
         </div>
 
     </div>
 </main>
 
 <style>
+    main {
+        width: 270px;
+    }
+
     p {
+        width: fit-content;
         color: black;
-        display: inline;
-        text-shadow: 2px 2px 5px white;
     }
 
     .container {
         border-radius: 10px;
-        margin: 0;
-        margin-right: 20px;
         padding: 20px;
         border: 2px outset rgb(173, 87, 17);
         font-family: 'Lobster';
         font-weight: lighter;
         background: gray;
-        display: none;
+        display: flex;
+        flex-direction: column;
     }
  
-    .quest-config, select{
+    .quest-config {
         display: flex;
         flex-direction: column;
     }
 
     .quest-list {
-        width: 99%;
-        height: 300px;
+        height: 220px;
         border: 3px inset rgb(173, 87, 17);
         overflow: auto;
         background-color:rgba(235, 235, 235, 0.528);
+        width: 100%;
     }
 
     .quest-input {
-        background: linear-gradient(whitesmoke, rgb(133, 127, 117));
+        background: lightgoldenrodyellow;
         color: rgb(0, 0, 0);
-        border-radius: 30px;
+        border-radius: 5px;
         padding-left: 20px;
+        min-width: 50%;
     }
 
     .quest-input::placeholder {
         color: rgb(43, 38, 38);
     }
 
-    input {
-        min-width: 50%;
+    .enemy {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    select {
+        border-radius: 5px;
+        height: 35px;
+        background: lightgoldenrodyellow;
     }
 
     .add-button {
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        height: 35px;
-        padding: 0 10px;
+        display: flex;
         width: fit-content;
-        background-color: rgb(122, 89, 58);
+        background-color: darkcyan;
         border-radius: 10px;
         box-shadow: 2px 2px 5px black;
-        text-shadow: 1px 1px 3px black;
-        color: whitesmoke;
         cursor: pointer;
-        transition: 0.5s ease all
+        padding: 5px;
+        margin-top: -30px;
+        font-size: 1.5rem;
     }
 
     .add-button:hover {
       scale: 1.1;
     }
-
-    .enemy-select {
-        margin-right: 10px;
-        border-radius: 30px;
-        background: linear-gradient(whitesmoke, rgb(133, 127, 117));
-    }
-
-    .enemy-select option {
-        padding-right: 5px;
-        border-radius: 30px;
-        background: linear-gradient(whitesmoke, rgb(133, 127, 117));
-    }
-
 </style>

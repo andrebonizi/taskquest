@@ -1,5 +1,4 @@
 <script>
-    import Status from "./Status.svelte";
     import { fly } from 'svelte/transition';
     import { bounceOut } from "svelte/easing";
 
@@ -21,7 +20,7 @@
     <div class="basic">
         <img class="user-logo"  src={user.photoURL} alt={user.displayName}/>
         <div class="hero-name">
-            {user.displayName}<br>
+            {user.displayName.split(' ')[0]}<br>
             <div class="life-bar">
                 {#key hero.life}
                     {getFaceIcon(hero.life)}
@@ -31,14 +30,14 @@
             </div>
         </div>
     </div>
-    <Status hero={hero}/>
 </main>
 
 <style>
     .basic {
         display: flex;
         flex-direction: row;
-        gap: 50px;
+        gap: 10px;
+        align-items: center;
     }
 
     .container {
@@ -55,24 +54,27 @@
 
     .user-logo {
 		border-radius: 50%;
-        width: 20%;
-        min-width: 47px;
         height: fit-content;
+        min-width: 47px;
+        width: 10%;
 	}
 
     .hero-name {
+        display: flex;
+        flex-direction: column;
         font-size: 2rem;
         text-shadow: 3px 3px 5px black;
         color: wheat;
         width: 100%;
         height: fit-content;
+        align-items: center;
     }
 
     .life-bar {
         font-size: 1rem;
-        color: black;
-        text-shadow: 2px 2px 5px gray;
-        width: fit-content;
+        color: white;
+        text-shadow: 2px 2px 5px black;
+        width: 150px;
         gap: 10px;
         display: flex;
         flex-direction: row;
@@ -98,6 +100,11 @@
     @media screen and (min-width: 800px) {
         .container {
             flex-direction: row;
+            gap: 50px;
+        }
+        .user-logo {
+            min-width: 100px;
+            width: 20%;
         }
     }
 </style>
