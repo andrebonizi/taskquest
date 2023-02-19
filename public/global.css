@@ -85,4 +85,5 @@ h2 {
    cursor: pointer;
    z-index: 5;
    font-size: 1.5rem;
+   position: relative;
 }

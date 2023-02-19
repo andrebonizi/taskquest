@@ -14,6 +14,7 @@
   import { getFirstName, player, storeUser } from "./data/user";
   import { getFirestore } from "firebase/firestore";
   import { initialItems } from "./data/items";
+  import { collapse } from "./utils/collapse";
 
   export let firebaseConfig: FirebaseConfig;
 
@@ -71,11 +72,6 @@
     }
     items[emptySlotIndex] = newItem;
     return true;
-  }
-
-  function collapse(event) {
-    const { style } = event.detail.div;
-    style.display = style.display === "none" ? "flex" : "none";
   }
 </script>
 
@@ -171,9 +167,6 @@
     cursor: pointer;
     font-size: 30px;
     width: min-content;
-    position: absolute;
-    top: 0;
-    right: 0;
   }
 
   @media screen and (min-width: 800px) {

@@ -3,7 +3,7 @@
   import { bounceOut } from "svelte/easing";
   import { createEventDispatcher, onMount } from "svelte";
   import { fly } from "svelte/transition";
-  import { isMobile } from "../utils/device";
+  import { initialCollapse } from "../utils/collapse";
 
   export let hero;
 
@@ -12,11 +12,15 @@
   let container;
 
   onMount(() => {
-    isMobile() ? (container.style.display = "none") : "flex";
+    initialCollapse(container);
   });
 
   function change() {
-    dispatch("change", { div: this.nextSibling.nextSibling });
+    dispatch("change", {
+      div: this.nextSibling.nextSibling,
+      height: "200px",
+      padding: "20px",
+    });
   }
 </script>
 
@@ -54,6 +58,7 @@
     margin-top: 10px;
     padding: 20px;
     gap: 5px;
+    transition: 1s;
   }
 
   .level {
