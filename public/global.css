@@ -4,23 +4,15 @@
    box-sizing: border-box;
 }
 
-html,
-body {
-   position: relative;
-   width: 100%;
-   height: 100%;
-   background-image: url("https://wallpapercrafter.com/th800/143063-sky-village-mountains-windmill-medieval.jpg");
-   background-size: cover;
-}
-
 body {
    color: #333;
    margin: 0;
-   height: 100%;
-   padding: 8px;
+   padding: 0;
    box-sizing: border-box;
    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
       Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+   background-image: url("https://wallpapercrafter.com/th800/143063-sky-village-mountains-windmill-medieval.jpg");
+   background-size: cover;
 }
 
 a {

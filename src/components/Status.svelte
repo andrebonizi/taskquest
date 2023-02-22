@@ -18,7 +18,7 @@
   function change() {
     dispatch("change", {
       div: this.nextSibling.nextSibling,
-      height: "200px",
+      height: "150px",
       padding: "20px",
     });
   }
@@ -49,16 +49,20 @@
   }
 
   .hero-base {
+    background: url("../thumbnail.png");
+    background-size: contain;
+    background-repeat: no-repeat;
     display: flex;
     flex-direction: column;
-    border-radius: 10px;
+    border-radius: 20px;
     align-items: center;
     color: black;
-    background-color: rgba(255, 255, 255, 0.421);
     margin-top: 10px;
-    padding: 20px;
     gap: 5px;
     transition: 1s;
+    overflow: hidden;
+    height: 150px;
+    padding: 20px;
   }
 
   .level {

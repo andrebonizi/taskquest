@@ -6,7 +6,7 @@ export const player = {
     power: 1,
     guard: 0,
     speed: 1,
-    gold: 0,
+    gold: 10,
     xp: 0,
     level: 1,
     inventory: [],
@@ -20,10 +20,10 @@ export const player = {
 export async function getUser(db, user) {
     const docRef = doc(db, "users", user.uid);
     const docSnap = await getDoc(docRef);
-    
+
     if (docSnap.exists()) {
         const userDoc =  await docSnap.data();
-        
+
         return userDoc;
     } else {
         console.log('New user!', user)
@@ -59,7 +59,7 @@ export function formatUser(user) {
 export async function isUserStored(db, user) {
     const docRef = doc(db, "users", user.uid);
     const docSnap = await getDoc(docRef);
-    
+
     return docSnap.exists();
 }
 
@@ -72,7 +72,7 @@ export async function storeUser(db, user) {
         doc(
             usersRef,
             user.uid
-        ), 
+        ),
         formatUser(user)
     );
     console.log(user.displayName, ' was saved on database.');

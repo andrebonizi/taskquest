@@ -30,10 +30,9 @@
   $: items = initialItems;
   $: hero = player;
 
-  onAuthStateChanged(auth, setUer);
+  onAuthStateChanged(auth, setUser);
 
-  function setUer(user) {
-    console.log("User: ", user);
+  function setUser(user) {
     loggedUser = user;
     hero.name = getFirstName(loggedUser);
     storeUser(db, user);
@@ -55,23 +54,9 @@
     hero.life -= 1;
   }
 
-  function buyItem(event) {
-    const newItem = event.detail.product;
-    const addToInventory = addItemToInvetory(newItem);
-    if (!addToInventory) {
-      return alert("Your inventory is Full!");
-    }
-    hero.gold -= newItem.price;
-  }
-
-  function addItemToInvetory(newItem) {
-    let emptySlot = items.find((item) => !item.name);
-    let emptySlotIndex = items.indexOf(emptySlot);
-    if (emptySlotIndex == -1) {
-      return false;
-    }
-    items[emptySlotIndex] = newItem;
-    return true;
+  function updateItems(event) {
+    items = event.detail.items;
+    hero.gold = event.detail.gold;
   }
 </script>
 
@@ -81,29 +66,16 @@
   {/if}
 
   <div class="header">
+    {#if loggedUser} <User user={loggedUser} {hero} /> {/if}
     <div>
       {#if !loggedUser}
-        <button
-          on:click={() => {
-            login(auth, AUTH_PROVIDER);
-          }}
-        >
-          Login
-        </button>
+        <button on:click={() => login(auth, AUTH_PROVIDER)}> Login </button>
       {:else}
-        <p
-          class="logout-btn"
-          on:click={() => {
-            logout(auth);
-          }}
-        >
-          🚪
-        </p>
+        <p class="logout-btn" on:click={() => logout(auth)}>🚪</p>
       {/if}
     </div>
   </div>
   <div class="container">
-    {#if loggedUser} <User user={loggedUser} {hero} /> {/if}
     <div class="menu">
       <Status {hero} on:change={collapse} />
       <Inventory {hero} {items} on:change={collapse} />
@@ -113,7 +85,12 @@
         on:playerHit={playerHit}
         on:change={collapse}
       />
-      <Store gold={hero.gold} on:buyItem={buyItem} on:change={collapse} />
+      <Store
+        gold={hero.gold}
+        {items}
+        on:change={collapse}
+        on:buy={updateItems}
+      />
     </div>
     <MusicButton />
   </div>
@@ -123,12 +100,12 @@
   @import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
 
   main {
+    background: linear-gradient(to top, gray, white);
     text-align: left;
-    padding: 0;
-    max-width: 100vw;
+    padding: 8px;
     margin: 0;
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
   }
 
   .menu {
@@ -152,15 +129,12 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    width: 100%;
-    max-height: 100%;
   }
 
   .header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    flex: 1;
   }
 
   .logout-btn {

@@ -107,6 +107,8 @@
     display: flex;
     flex-direction: column;
     transition: 1s;
+    overflow: hidden;
+    height: 385px;
   }
 
   .quest-config {

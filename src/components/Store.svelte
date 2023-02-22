@@ -3,6 +3,7 @@
   import { initialCollapse } from "../utils/collapse";
 
   export let gold;
+  export let items;
 
   const dispatch = createEventDispatcher();
 
@@ -14,7 +15,7 @@
       type: "consumable",
       description: "Recupera a vida.",
       attrib: { life: 5 },
-      price: 1,
+      price: 0,
       level: 1,
     },
     {
@@ -56,10 +57,7 @@
   });
 
   function handleBuyItem(product) {
-    delete product.active;
-    return gold >= product.price
-      ? dispatch("buyItem", { product })
-      : alert("Not enough gold");
+    return gold >= product.price ? buyItem(product) : alert("Not enough gold");
   }
 
   function change() {
@@ -68,6 +66,18 @@
       height: "300px",
       padding: "10px",
     });
+  }
+
+  function buyItem(product) {
+    const emptySlotIndex = items.indexOf(items.find((item) => !item.name));
+    if (emptySlotIndex === -1) {
+      return alert("Your inventory is Full!");
+    }
+
+    items[emptySlotIndex] = product;
+    console.log(items[emptySlotIndex]);
+    gold -= product.price;
+    dispatch("buy", { items, gold });
   }
 </script>
 
@@ -107,7 +117,8 @@
     padding: 10px;
     background-color: rgba(105, 105, 105, 0.646);
     transition: 1s;
-    transition-property: opacity 0.5;
+    overflow: hidden;
+    height: 300px;
   }
 
   .products {

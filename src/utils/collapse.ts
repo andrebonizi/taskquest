@@ -4,8 +4,8 @@ export function initialCollapse(container) {
   Object.assign(
     container.style,
     isMobile()
-      ? { opacity: 0, height: "0px", padding: "0px" }
-      : { opacity: 1, height: "200px", padding: "20px" }
+      ? { opacity: 0, height: "0px", padding: "0" }
+      : { opacity: 1, height: container.style.height, padding: container.style.padding }
   );
 }
 

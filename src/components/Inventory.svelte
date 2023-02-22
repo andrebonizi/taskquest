@@ -8,12 +8,6 @@
 
   const dispatch = createEventDispatcher();
 
-  let base = {
-    power: hero.power,
-    guard: hero.guard,
-    speed: hero.speed,
-  };
-
   let equipments = {
     weapon: {},
     armor: {},
@@ -52,20 +46,20 @@
 
     switch (item.type) {
       case "weapon":
-        hero.power = base.power + item.attrib.power;
+        hero.power += item.attrib.power;
         break;
       case "armor":
-        hero.guard = base.guard + item.attrib.guard;
+        hero.guard += item.attrib.guard;
         break;
       case "speed":
-        hero.speed = base.speed + item.attrib.speed;
+        hero.speed += item.attrib.speed;
         break;
     }
     alert(`${item.icon}${item.name} equipped!`);
   }
 
   function getEquipDisplay(equip) {
-    if (equip.name === undefined) return "Empty slot...";
+    if (equip.name === undefined) return "Nothing...";
 
     return equip.icon + " " + equip.name;
   }
@@ -113,6 +107,8 @@
     border: 5px outset gray;
     width: min-content;
     transition: 1s;
+    overflow: hidden;
+    height: 450px;
   }
 
   .container {
@@ -142,15 +138,5 @@
     padding-left: 10px;
     border: 3px inset rgb(146, 146, 146);
     background-color: rgb(245, 245, 245);
-  }
-
-  @keyframes collapseHeight {
-    0% {
-      height: 0;
-    }
-
-    100% {
-      height: fit-content;
-    }
   }
 </style>
