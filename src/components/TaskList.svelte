@@ -117,6 +117,9 @@
   }
 
   .quest-list {
+    background: url("../thumbnail.png");
+    background-size: cover;
+    background-position-x: center;
     height: 220px;
     border: 3px inset rgb(173, 87, 17);
     overflow: auto;
