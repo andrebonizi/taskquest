@@ -6,6 +6,7 @@
   import { initialCollapse } from "../utils/collapse";
 
   export let hero;
+  export let user;
 
   const dispatch = createEventDispatcher();
 
@@ -18,7 +19,7 @@
   function change() {
     dispatch("change", {
       div: this.nextSibling.nextSibling,
-      height: "150px",
+      height: "350px",
       padding: "20px",
     });
   }
@@ -26,17 +27,22 @@
 
 <main>
   <h2 on:click={change}>🫀 Status</h2>
-  <div class="hero-base" bind:this={container}>
-    Level {hero.level}
+  <div class="hero-base background" bind:this={container}>
+    <div class="info">
+      Name:  <br>
+      Level {hero.level}
+
+    </div>
     <div class="level">
       {#key hero.xp}
+      {hero.xp} xp 
+      <br>
         <progress
           in:fly={{ x: 5, duration: 200, opacity: 1, easing: bounceOut }}
           class="xp-bar"
           value={hero.xp}
           max="100"
         />
-        {hero.xp} xp
       {/key}
     </div>
     <Attributes {hero} />
@@ -48,26 +54,30 @@
     width: 270px;
   }
 
-  .hero-base {
-    background: url("../thumbnail.png");
+  .background {
+    background: url("../interface/papyros_v.png");
     background-size: contain;
     background-repeat: no-repeat;
+    border-radius: 20px;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .hero-base {
     display: flex;
     flex-direction: column;
-    border-radius: 20px;
-    align-items: center;
+    align-items: flex-start;
     color: black;
     margin-top: 10px;
     gap: 5px;
     transition: 1s;
     overflow: hidden;
-    height: 150px;
+    height: 350px;
     padding: 20px;
   }
-
+  
   .level {
     display: flex;
-    flex-direction: row;
   }
 
   progress {
