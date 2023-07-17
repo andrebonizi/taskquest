@@ -94,7 +94,8 @@
 
   p {
     width: fit-content;
-    color: black;
+    color: lightgoldenrodyellow;
+    text-shadow: 2px 2px 5px black;
   }
 
   .container {
@@ -117,7 +118,7 @@
   }
 
   .quest-list {
-    background: url("../thumbnail.png");
+    background: url("../interface/papyros_v.png");
     background-size: cover;
     background-position-x: center;
     height: 220px;
@@ -148,7 +149,7 @@
 
   select {
     border-radius: 5px;
-    height: 35px;
+    height: fit-content;
     background: lightgoldenrodyellow;
   }
 
