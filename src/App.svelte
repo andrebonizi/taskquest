@@ -33,6 +33,9 @@
   onAuthStateChanged(auth, setUser);
 
   function setUser(user) {
+    console.log('setting user:', user)
+    if (!user) return;
+    
     loggedUser = user;
     hero.name = getFirstName(loggedUser);
     storeUser(db, user);
@@ -77,7 +80,7 @@
   </div>
   <div class="container">
     <div class="menu">
-      <Status {hero} on:change={collapse} />
+      <Status {hero} user={loggedUser} on:change={collapse} />
       <Inventory {hero} {items} on:change={collapse} />
       <TaskList
         player={hero}
@@ -116,7 +119,7 @@
     border-radius: 10px;
     border: 2px outset gray;
     font-family: "Lobster";
-    width: 100%;
+    width: 90%;
     padding-bottom: 20px;
     display: flex;
     align-items: center;
@@ -141,6 +144,9 @@
     cursor: pointer;
     font-size: 30px;
     width: min-content;
+    position: absolute;
+    left: 0;
+    margin-left: 20px;
   }
 
   @media screen and (min-width: 800px) {
