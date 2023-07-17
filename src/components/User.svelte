@@ -34,7 +34,9 @@
 
 <main class="container">
   <div class="basic">
-    <img class="user-logo" src={getUserImage(user)} alt={user.displayName} />
+    {#if getUserImage(user)}
+      <img class="user-logo" src={getUserImage(user)} alt={user.displayName} />
+    {/if}
     <div class="hero-name">
       {user.displayName.split(" ")[0]}<br />
       <div class="life-bar">
@@ -48,9 +50,6 @@
           {hero.life}
         {/key}
       </div>
-    </div>
-    <div>
-      {hero.gold}
     </div>
   </div>
 </main>
