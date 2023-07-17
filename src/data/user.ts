@@ -23,7 +23,7 @@ export async function getUser(db, user) {
 
     if (docSnap.exists()) {
         const userDoc =  await docSnap.data();
-
+        console.log('User already exists!', userDoc)
         return userDoc;
     } else {
         console.log('New user!', user)
@@ -33,22 +33,25 @@ export async function getUser(db, user) {
 
 export function formatUser(user) {
     const formatted = {
-        uid: user.uid,
-        name: user.displayName,
-        photoSrc: user.photoURL,
-        player: {
+        info: {
+            name: user.displayName,
+            photoSrc: user.photoURL,
+        },
+        stats: {
             life: 10,
             power: 1,
             guard: 0,
             speed: 1,
-            gold: 0,
-            xp: 0,
             level: 1,
-            inventory: [],
+            xp: 0,
+        },
+        items: {
+            gold: 0,
+            bag: [],
             equip: {
-                weapon: 0,
-                armor: 0,
-                misc: 0,
+                weapon: "stick",
+                armor: "cloth",
+                misc: "boot",
             },
         }
     }
@@ -57,6 +60,12 @@ export function formatUser(user) {
 }
 
 export async function isUserStored(db, user) {
+    console.log("checking user: ", user);
+
+    if (user === null && user === undefined) {
+        return true;
+    }
+
     const docRef = doc(db, "users", user.uid);
     const docSnap = await getDoc(docRef);
 
@@ -64,7 +73,7 @@ export async function isUserStored(db, user) {
 }
 
 export async function storeUser(db, user) {
-    if (isUserStored(db, user)) return;
+    if (await isUserStored(db, user)) return;
 
     console.log('User is being stored...');
     const usersRef = collection(db, "users");
