@@ -39,7 +39,7 @@
 
 <style>
     .music-button {
-		position: absolute;
+		position: fixed;
 		display: flex;
 		align-items: center;
 		justify-content: center;
