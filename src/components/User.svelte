@@ -1,44 +1,24 @@
 <script>
-  import { fly } from "svelte/transition";
-  import { bounceOut } from "svelte/easing";
+  import { fly } from 'svelte/transition';
+  import { bounceOut } from 'svelte/easing';
 
   export let hero;
   export let user;
 
-  function getUserImage(user) {
-    user.photoURL;
-  }
-
   function getFaceIcon(life) {
-    if (life < 0 || life > 10) return;
-    switch (life) {
-      case 0:
-      case 1:
-      case 2:
-        return "😰";
-      case 3:
-      case 4:
-      case 5:
-        return "😬";
-      case 6:
-      case 7:
-      case 8:
-        return "😅";
-      case 9:
-      case 10:
-      case 11:
-        return "🙂";
-    }
+    if (life < 0 || life > 10) return null;
+    if (life < 2) return '😰';
+    if (life < 5) return '😬';
+    if (life < 8) return '😅';
+    if (life < 11) return '🙂';
   }
 </script>
 
 <main class="container">
   <div class="basic">
-    {#if getUserImage(user)}
-      <img class="user-logo" src={getUserImage(user)} alt={user.displayName} />
-    {/if}
+    <img class="user-logo" src={user.photoURL} alt="profile" />
     <div class="hero-name">
-      {user.displayName.split(" ")[0]}<br />
+      {user.displayName.split(' ')[0]}<br />
       <div class="life-bar">
         {#key hero.life}
           {getFaceIcon(hero.life)}
@@ -67,7 +47,7 @@
     border-radius: 10px;
     border: 2px outset gray;
     padding: 10px;
-    font-family: "Lobster";
+    font-family: 'Lobster';
     padding-bottom: 30px;
     width: 100%;
     display: flex;

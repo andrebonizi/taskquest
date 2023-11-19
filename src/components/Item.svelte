@@ -1,46 +1,40 @@
-<script lang='ts'>
-  import { createEventDispatcher } from 'svelte';
+<script lang="ts">
+  import type { Item } from "../interfaces/inventory";
 
-  interface Item {
-    icon?: string;
-    name?: string;
-    type?: string;
-    description?: string;
-    attrib?: Object;
-    index?: number;
-  }
-  
+  import { createEventDispatcher } from "svelte";
+
   export let item: Item;
   export let index: number;
 
-  item.index = index;
   const dispatch = createEventDispatcher();
 
   function getIcon(): string {
-    return item.icon? item.icon: '';
+    return item.icon ? item.icon : "";
   }
 
-  function useItem() {
-    dispatch('use', {
-      item
-    })
-    if (item.type === 'consumable') destroy()
+  function isConsumable(): boolean {
+    return item.type === "consumable";
   }
 
-  function destroy() {
-    dispatch('destroy', {
-      item
-    })
-    item = {}
+  function useItem(): void {
+    dispatch("use", { item });
+    if (isConsumable()) destroy();
   }
+
+  function destroy(): void {
+    dispatch("destroy", { item });
+    item = {};
+  }
+
+  item.index = index;
 </script>
 
-<div class="cell" on:click={()=>{useItem()}} >
+<div class="cell" on:click={useItem}>
   {getIcon()}
 </div>
 
 <style>
-  .cell{
+  .cell {
     display: flex;
     align-items: center;
     justify-content: center;

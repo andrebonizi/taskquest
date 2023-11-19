@@ -8,13 +8,8 @@
 
   const dispatch = createEventDispatcher();
 
-  let equipments = {
-    weapon: {},
-    armor: {},
-    misc: {},
-  };
-
-  let container;
+  let container: HTMLDivElement;
+  let equipments = { weapon: {}, armor: {}, misc: {} };
 
   onMount(() => {
     initialCollapse(container);

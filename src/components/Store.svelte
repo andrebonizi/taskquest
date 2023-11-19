@@ -2,11 +2,12 @@
   import { createEventDispatcher, onMount } from "svelte";
   import { initialCollapse } from "../utils/collapse";
 
-  export let gold;
+  export let gold: number;
   export let items;
 
   const dispatch = createEventDispatcher();
 
+  let container;
   let products = [
     {
       active: true,
@@ -50,14 +51,20 @@
     },
   ];
 
-  let container;
-
   onMount(() => {
     initialCollapse(container);
   });
 
   function handleBuyItem(product) {
-    return gold >= product.price ? buyItem(product) : alert("Not enough gold");
+    if (gold < product.price) {
+      alert("Not enough gold");
+    }
+
+    const emptySlotIndex = items.indexOf(items.find((item) => !item.name));
+    if (emptySlotIndex === -1) {
+      return alert("Inventory is Full!");
+    }
+    buyItem(product, emptySlotIndex);
   }
 
   function change() {
@@ -68,14 +75,8 @@
     });
   }
 
-  function buyItem(product) {
-    const emptySlotIndex = items.indexOf(items.find((item) => !item.name));
-    if (emptySlotIndex === -1) {
-      return alert("Your inventory is Full!");
-    }
-
-    items[emptySlotIndex] = product;
-    console.log(items[emptySlotIndex]);
+  function buyItem(product, index) {
+    items[index] = product;
     gold -= product.price;
     dispatch("buy", { items, gold });
   }

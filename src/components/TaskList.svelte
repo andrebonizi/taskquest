@@ -5,23 +5,23 @@
 
   export let player;
 
+  const PLACEHOLDER_TEXT = "What will you fight for?";
+  const EXPAND_HEIGHT = "385px";
+  const EXPAND_PADDING = "20px";
   const dispatch = createEventDispatcher();
 
-  let newItem = "";
-  let level = 1;
+  let taskInput = "";
+  let taskLevel = 1;
 
   $: todoList = [];
 
+  function taskFactory() {
+    return { text: taskInput, done: false, enemy: enemies[taskLevel - 1] };
+  }
+
   function addToList() {
-    todoList = [
-      ...todoList,
-      {
-        text: newItem,
-        status: false,
-        enemy: enemies[level - 1],
-      },
-    ];
-    newItem = "";
+    todoList = [...todoList, taskFactory()];
+    taskInput = "";
   }
 
   function removeFromList(event) {
@@ -29,11 +29,12 @@
     todoList = todoList;
   }
 
+  function enemyFactory(level) {
+    return { level, monster: enemies[level - 1] };
+  }
+
   function callBattle(event) {
-    dispatch("startBattle", {
-      level: event.detail.level,
-      monster: enemies[event.detail.level - 1],
-    });
+    dispatch("startBattle", enemyFactory(event.detail.level));
   }
 
   function playerHit() {
@@ -41,11 +42,12 @@
   }
 
   function change() {
-    dispatch("change", {
-      div: this.nextSibling.nextSibling,
-      height: "385px",
-      padding: "20px",
-    });
+    const div = this.nextSibling.nextSibling;
+    dispatch("change", { div, height: EXPAND_HEIGHT, padding: EXPAND_PADDING });
+  }
+
+  function handleEnemy(enemy) {
+    return player.level + 2 >= enemy.level;
   }
 </script>
 
@@ -55,18 +57,18 @@
     <div class="quest-config">
       <p>Task:</p>
       <input
-        bind:value={newItem}
+        bind:value={taskInput}
         class="quest-input"
         type="text"
-        placeholder="What will you fight for?"
+        placeholder={PLACEHOLDER_TEXT}
       />
 
       <p>Enemy:</p>
       <div class="enemy">
-        <select bind:value={level}>
+        <select bind:value={taskLevel}>
           {#each enemies as enemy}
-            {#if player.level + 2 >= enemy.level}
-              <option value={enemy.level}> {enemy.icon} {enemy.name}</option>
+            {#if handleEnemy(enemy)}
+              <option value={enemy.level}>{enemy.icon} {enemy.name}</option>
             {/if}
           {/each}
         </select>
@@ -90,6 +92,11 @@
 <style>
   main {
     width: 270px;
+  }
+  @media screen and (min-width: 1024px) {
+    main {
+      width: 800px;
+    }
   }
 
   p {

@@ -1,20 +1,21 @@
 <script lang="ts">
-  import type { Config as FirebaseConfig } from "./interfaces/firebase";
+  import type { Config as FirebaseConfig } from './interfaces/firebase';
+  import type { User as FirebaseUser } from 'firebase/auth';
 
-  import TaskList from "./components/TaskList.svelte";
-  import Battle from "./components/Battle.svelte";
-  import User from "./components/User.svelte";
-  import Inventory from "./components/Inventory.svelte";
-  import Status from "./components/Status.svelte";
-  import Store from "./components/Store.svelte";
-  import { initializeApp } from "firebase/app";
-  import { login, logout, AUTH_PROVIDER, getFirebaseAuth } from "./utils/auth";
-  import { onAuthStateChanged } from "firebase/auth";
-  import MusicButton from "./components/MusicButton.svelte";
-  import { getFirstName, player, storeUser } from "./data/user";
-  import { getFirestore } from "firebase/firestore";
-  import { initialItems } from "./data/items";
-  import { collapse } from "./utils/collapse";
+  import TaskList from './components/TaskList.svelte';
+  import Battle from './components/Battle.svelte';
+  import User from './components/User.svelte';
+  import Inventory from './components/Inventory.svelte';
+  import Status from './components/Status.svelte';
+  import Store from './components/Store.svelte';
+  import { initializeApp } from 'firebase/app';
+  import { login, logout, AUTH_PROVIDER, getFirebaseAuth } from './utils/auth';
+  import { onAuthStateChanged } from 'firebase/auth';
+  import MusicButton from './components/MusicButton.svelte';
+  import { getFirstName, player, storeUser } from './data/user';
+  import { getFirestore } from 'firebase/firestore';
+  import { initialItems } from './data/items';
+  import { collapse } from './utils/collapse';
 
   export let firebaseConfig: FirebaseConfig;
 
@@ -26,19 +27,18 @@
 
   $: loggedUser = null;
   $: level = 1;
-  $: monster = "";
+  $: monster = '';
   $: items = initialItems;
   $: hero = player;
 
   onAuthStateChanged(auth, setUser);
 
-  function setUser(user) {
-    console.log('setting user:', user)
-    if (!user) return;
-    
-    loggedUser = user;
+  function setUser(fbUser: FirebaseUser) {
+    if (!fbUser) return;
+
+    loggedUser = fbUser;
     hero.name = getFirstName(loggedUser);
-    storeUser(db, user);
+    storeUser(db, fbUser);
   }
 
   function startBattle(event) {
@@ -80,7 +80,7 @@
   </div>
   <div class="container">
     <div class="menu">
-      <Status {hero} user={loggedUser} on:change={collapse} />
+      <Status {hero} on:change={collapse} />
       <Inventory {hero} {items} on:change={collapse} />
       <TaskList
         player={hero}
@@ -100,7 +100,7 @@
 </main>
 
 <style>
-  @import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
+  @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
   main {
     background: linear-gradient(to top, gray, white);
@@ -118,8 +118,8 @@
     );
     border-radius: 10px;
     border: 2px outset gray;
-    font-family: "Lobster";
-    width: 90%;
+    font-family: 'Lobster';
+    width: 100%;
     padding-bottom: 20px;
     display: flex;
     align-items: center;
@@ -145,8 +145,9 @@
     font-size: 30px;
     width: min-content;
     position: absolute;
-    left: 0;
-    margin-left: 20px;
+    right: 0;
+    margin-right: 20px;
+    text-shadow: 2px 2px 4px black;
   }
 
   @media screen and (min-width: 800px) {
