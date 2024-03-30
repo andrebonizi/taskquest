@@ -1,4 +1,8 @@
-import type { DocumentData, DocumentSnapshot } from 'firebase/firestore';
+import type {
+  DocumentData,
+  DocumentSnapshot,
+  Firestore,
+} from 'firebase/firestore';
 
 export type Snapshot = DocumentSnapshot<DocumentData>;
 
@@ -10,4 +14,11 @@ export interface Config {
   messagingSenderId: string;
   appId: string;
   measurementId: string;
+}
+
+export interface FirebaseUser {
+  displayName: string;
+  photoURL: URL;
+  store: Firestore;
+  uid: string;
 }

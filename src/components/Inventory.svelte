@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Item from "./Item.svelte";
-  import { createEventDispatcher, onMount } from "svelte";
-  import { initialCollapse } from "../utils/collapse";
+  import Item from './Item.svelte';
+  import { createEventDispatcher, onMount } from 'svelte';
+  import { initialCollapse } from '../utils/collapse';
 
   export let hero;
   export let items;
@@ -17,8 +17,8 @@
 
   function useItem(event) {
     const { item } = event.detail;
-    if (item.type === "consumable") consume(item);
-    if (item.type === "weapon" || item.type === "armor" || item.type === "misc")
+    if (item.type === 'consumable') consume(item);
+    if (item.type === 'weapon' || item.type === 'armor' || item.type === 'misc')
       equip(item);
   }
 
@@ -40,13 +40,13 @@
     items[item.index] = aux;
 
     switch (item.type) {
-      case "weapon":
+      case 'weapon':
         hero.power += item.attrib.power;
         break;
-      case "armor":
+      case 'armor':
         hero.guard += item.attrib.guard;
         break;
-      case "speed":
+      case 'speed':
         hero.speed += item.attrib.speed;
         break;
     }
@@ -54,21 +54,21 @@
   }
 
   function getEquipDisplay(equip) {
-    if (equip.name === undefined) return "Nothing...";
+    if (equip.name === undefined) return 'Nothing...';
 
-    return equip.icon + " " + equip.name;
+    return equip.icon + ' ' + equip.name;
   }
 
   function change() {
-    dispatch("change", {
+    dispatch('change', {
       div: this.nextSibling.nextSibling,
-      height: "450px",
-      padding: "0px",
+      height: '450px',
+      padding: '0px',
     });
   }
 </script>
 
-<main>
+<main class="menu-box">
   <h2 on:click={change}>🧳 Inventory</h2>
   <div class="inventory" bind:this={container}>
     <div class="equipments">
@@ -87,10 +87,6 @@
 </main>
 
 <style>
-  main {
-    width: 270px;
-  }
-
   .inventory {
     display: flex;
     flex-direction: column;
@@ -107,7 +103,6 @@
   }
 
   .container {
-    width: fit-content;
     padding: 5px;
     display: grid;
     place-items: center;

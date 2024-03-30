@@ -1,6 +1,14 @@
-import type { Snapshot } from '../interfaces/firebase';
+import type { FirebaseUser, Snapshot } from '../interfaces/firebase';
 
-import { collection, doc, getDoc, setDoc } from 'firebase/firestore';
+import {
+  DocumentData,
+  Firestore,
+  collection,
+  doc,
+  getDoc,
+  setDoc,
+} from 'firebase/firestore';
+import { User } from '../interfaces/user';
 
 export const player = {
   name: '',
@@ -19,40 +27,45 @@ export const player = {
   },
 };
 
-async function getUserSnapshot(db, user): Promise<Snapshot> {
+async function getSnapshot(db: Firestore, user): Promise<Snapshot> {
   const userRef = doc(db, 'users', user.uid);
   const userSnapshot = await getDoc(userRef);
 
   return userSnapshot;
 }
 
-export async function getUser(db, user) {
-  const docSnap = await getUserSnapshot(db, user);
+function getSnapData(snap: Snapshot): DocumentData {
+  return snap.data();
+}
+
+export async function sincUser(db, user) {
+  const docSnap = await getSnapshot(db, user);
 
   if (docSnap.exists()) {
-    const userDoc = docSnap.data();
+    const userDoc = getSnapData(docSnap);
     console.log('User already exists!', userDoc);
     return userDoc;
   } else {
     console.log('New user!', user);
-    return storeUser(db, user);
+    storeUser(db, user);
   }
 }
 
-export function formatUser(user) {
-  const formatted = {
+export function formatUser(user: FirebaseUser): Partial<User> {
+  const formattedUser = {
     name: user.displayName,
     photoSrc: user.photoURL,
-    uid: user.uid,
+    id: user.uid,
   };
 
-  return formatted;
+  return formattedUser;
 }
 
-export async function isUserStored(db, user) {
-  console.log('checking user: ', user);
-  const docSnap = await getUserSnapshot(db, user);
-  return docSnap.exists();
+export async function isUserStored(
+  db: Firestore,
+  user: User
+): Promise<boolean> {
+  return (await getSnapshot(db, user)).exists();
 }
 
 export async function storeUser(db, user) {
@@ -60,11 +73,12 @@ export async function storeUser(db, user) {
 
   console.log('User is being saved...');
   const usersRef = collection(db, 'users');
-  await setDoc(doc(usersRef, user.uid), formatUser(user));
-  console.log(user.displayName, ' was saved on database.');
+  const result = await setDoc(doc(usersRef, user.uid), formatUser(user));
+  console.log(user.displayName, ' was saved on database. ', result);
 }
 
-export function getFirstName(user): string {
+export function getFirstName(user: FirebaseUser): string {
   if (!user) return 'Unknown';
+
   return user.displayName.split(' ')[0];
 }

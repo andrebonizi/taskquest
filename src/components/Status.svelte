@@ -7,8 +7,8 @@
 
   export let hero;
 
-  const EXPAND_HEIGHT = '350px';
-  const EXPAND_PADDING = '20px';
+  const EXPAND_HEIGHT = '200px';
+  const EXPAND_PADDING = '30px';
   const STATUS_LABEL = '🫀 Status';
   const dispatch = createEventDispatcher();
 
@@ -24,7 +24,7 @@
   }
 </script>
 
-<main>
+<main class="menu-box">
   <h2 on:click={change}>{STATUS_LABEL}</h2>
   <div class="hero-base background" bind:this={container}>
     <div class="info">
@@ -48,12 +48,8 @@
 </main>
 
 <style>
-  main {
-    width: 270px;
-  }
-
   .background {
-    background: url('../interface/papyros_v.png');
+    background: url('../interface/papyrus_h.png');
     background-size: contain;
     background-repeat: no-repeat;
     border-radius: 20px;
@@ -70,7 +66,6 @@
     gap: 5px;
     transition: 1s;
     overflow: hidden;
-    height: 350px;
     padding: 20px;
   }
 

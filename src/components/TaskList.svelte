@@ -1,16 +1,16 @@
 <script>
-  import Task from "../components/Task.svelte";
-  import { createEventDispatcher } from "svelte";
-  import { enemies } from "../data/enemies";
+  import Task from '../components/Task.svelte';
+  import { createEventDispatcher } from 'svelte';
+  import { enemies } from '../data/enemies';
 
   export let player;
 
-  const PLACEHOLDER_TEXT = "What will you fight for?";
-  const EXPAND_HEIGHT = "385px";
-  const EXPAND_PADDING = "20px";
+  const PLACEHOLDER_TEXT = 'What will you fight for?';
+  const EXPAND_HEIGHT = '385px';
+  const EXPAND_PADDING = '20px';
   const dispatch = createEventDispatcher();
 
-  let taskInput = "";
+  let taskInput = '';
   let taskLevel = 1;
 
   $: todoList = [];
@@ -21,7 +21,7 @@
 
   function addToList() {
     todoList = [...todoList, taskFactory()];
-    taskInput = "";
+    taskInput = '';
   }
 
   function removeFromList(event) {
@@ -34,16 +34,16 @@
   }
 
   function callBattle(event) {
-    dispatch("startBattle", enemyFactory(event.detail.level));
+    dispatch('startBattle', enemyFactory(event.detail.level));
   }
 
   function playerHit() {
-    dispatch("playerHit");
+    dispatch('playerHit');
   }
 
   function change() {
     const div = this.nextSibling.nextSibling;
-    dispatch("change", { div, height: EXPAND_HEIGHT, padding: EXPAND_PADDING });
+    dispatch('change', { div, height: EXPAND_HEIGHT, padding: EXPAND_PADDING });
   }
 
   function handleEnemy(enemy) {
@@ -51,7 +51,7 @@
   }
 </script>
 
-<main>
+<main class="menu-box">
   <h2 class="collapse" on:click={change}>📜 Quests & Tasks!</h2>
   <div class="container">
     <div class="quest-config">
@@ -90,9 +90,6 @@
 </main>
 
 <style>
-  main {
-    width: 270px;
-  }
   @media screen and (min-width: 1024px) {
     main {
       width: 800px;
@@ -109,7 +106,7 @@
     border-radius: 10px;
     padding: 20px;
     border: 2px outset rgb(173, 87, 17);
-    font-family: "Lobster";
+    font-family: 'Lobster';
     font-weight: lighter;
     background: gray;
     display: flex;
@@ -125,7 +122,7 @@
   }
 
   .quest-list {
-    background: url("../interface/papyros_v.png");
+    background: url('../interface/papyrus_h.png');
     background-size: cover;
     background-position-x: center;
     height: 220px;
@@ -133,6 +130,7 @@
     overflow: auto;
     background-color: rgba(235, 235, 235, 0.528);
     width: 100%;
+    padding: 40px;
   }
 
   .quest-input {

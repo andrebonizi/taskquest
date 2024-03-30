@@ -2,16 +2,16 @@
   import type { Config as FirebaseConfig } from './interfaces/firebase';
   import type { User as FirebaseUser } from 'firebase/auth';
 
-  import TaskList from './components/TaskList.svelte';
   import Battle from './components/Battle.svelte';
-  import User from './components/User.svelte';
   import Inventory from './components/Inventory.svelte';
+  import MusicButton from './components/MusicButton.svelte';
   import Status from './components/Status.svelte';
   import Store from './components/Store.svelte';
+  import TaskList from './components/TaskList.svelte';
+  import User from './components/User.svelte';
   import { initializeApp } from 'firebase/app';
   import { login, logout, AUTH_PROVIDER, getFirebaseAuth } from './utils/auth';
   import { onAuthStateChanged } from 'firebase/auth';
-  import MusicButton from './components/MusicButton.svelte';
   import { getFirstName, player, storeUser } from './data/user';
   import { getFirestore } from 'firebase/firestore';
   import { initialItems } from './data/items';
@@ -69,7 +69,9 @@
   {/if}
 
   <div class="header">
-    {#if loggedUser} <User user={loggedUser} {hero} /> {/if}
+    {#if loggedUser}
+      <User user={loggedUser} {hero} />
+    {/if}
     <div>
       {#if !loggedUser}
         <button on:click={() => login(auth, AUTH_PROVIDER)}> Login </button>

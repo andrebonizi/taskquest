@@ -1,3 +1,6 @@
+import type { FirebaseApp } from 'firebase/app';
+import type { Auth } from 'firebase/auth';
+
 import {
   signInWithPopup,
   GoogleAuthProvider,
@@ -7,7 +10,7 @@ import {
 
 export const AUTH_PROVIDER = new GoogleAuthProvider();
 
-export function getFirebaseAuth(app) {
+export function getFirebaseAuth(app: FirebaseApp): Auth {
   console.log('Getting Firebase Auth');
   return getAuth(app);
 }

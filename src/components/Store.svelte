@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { createEventDispatcher, onMount } from "svelte";
-  import { initialCollapse } from "../utils/collapse";
+  import { createEventDispatcher, onMount } from 'svelte';
+  import { initialCollapse } from '../utils/collapse';
 
   export let gold: number;
   export let items;
@@ -11,40 +11,40 @@
   let products = [
     {
       active: true,
-      icon: "🍎",
-      name: "Apple",
-      type: "consumable",
-      description: "Recupera a vida.",
+      icon: '🍎',
+      name: 'Apple',
+      type: 'consumable',
+      description: 'Recupera a vida.',
       attrib: { life: 5 },
       price: 0,
       level: 1,
     },
     {
       active: true,
-      icon: "🍌",
-      name: "Banana",
-      type: "consumable",
-      description: "Recupera a vida.",
+      icon: '🍌',
+      name: 'Banana',
+      type: 'consumable',
+      description: 'Recupera a vida.',
       attrib: { life: 5 },
       price: 1,
       level: 1,
     },
     {
       active: true,
-      icon: "🔧",
-      name: "Wrench",
-      type: "weapon",
-      description: "Equipamento.",
+      icon: '🔧',
+      name: 'Wrench',
+      type: 'weapon',
+      description: 'Equipamento.',
       attrib: { power: 1 },
       price: 1,
       level: 1,
     },
     {
       active: true,
-      icon: "🔨",
-      name: "Hammer",
-      type: "weapon",
-      description: "Equipamento.",
+      icon: '🔨',
+      name: 'Hammer',
+      type: 'weapon',
+      description: 'Equipamento.',
       attrib: { power: 2 },
       price: 1,
       level: 1,
@@ -57,32 +57,32 @@
 
   function handleBuyItem(product) {
     if (gold < product.price) {
-      alert("Not enough gold");
+      alert('Not enough gold');
     }
 
     const emptySlotIndex = items.indexOf(items.find((item) => !item.name));
     if (emptySlotIndex === -1) {
-      return alert("Inventory is Full!");
+      return alert('Inventory is Full!');
     }
     buyItem(product, emptySlotIndex);
   }
 
   function change() {
-    dispatch("change", {
+    dispatch('change', {
       div: this.nextSibling.nextSibling,
-      height: "300px",
-      padding: "10px",
+      height: '300px',
+      padding: '10px',
     });
   }
 
   function buyItem(product, index) {
     items[index] = product;
     gold -= product.price;
-    dispatch("buy", { items, gold });
+    dispatch('buy', { items, gold });
   }
 </script>
 
-<main>
+<main class="menu-box">
   <h2 on:click={change}>💰 Market</h2>
   <div class="container" bind:this={container}>
     <div class="products">
@@ -107,10 +107,6 @@
 </main>
 
 <style>
-  main {
-    width: 270px;
-  }
-
   .container {
     display: flex;
     height: fit-content;
@@ -138,7 +134,7 @@
     padding: 5px;
     border-radius: 10px;
     background: lightgoldenrodyellow;
-    font-family: "Lobster";
+    font-family: 'Lobster';
     justify-content: space-between;
     align-items: center;
     user-select: none;
