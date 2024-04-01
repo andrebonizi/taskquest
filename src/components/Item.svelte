@@ -30,7 +30,7 @@
 </script>
 
 <div class="cell" on:click={useItem}>
-  {getIcon()}
+  <span>{getIcon()}</span> 
 </div>
 
 <style>
@@ -40,10 +40,24 @@
     justify-content: center;
     border: 5px inset rgb(167, 167, 167);
     border-radius: 2px;
-    width: 35px;
-    height: 35px;
+    width: 45px;
+    height: 45px;
     font-size: 1rem;
     background-color: rgb(247, 247, 247);
     cursor: pointer;
+  }
+  .cell span{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .cell span icon{
+    display: flex;
+    width: 100%;
+    height: 100%;
   }
 </style>

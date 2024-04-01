@@ -9,6 +9,7 @@
   import Store from './components/Store.svelte';
   import TaskList from './components/TaskList.svelte';
   import User from './components/User.svelte';
+  import Ranking from './components/Ranking.svelte';
   import { initializeApp } from 'firebase/app';
   import { login, logout, AUTH_PROVIDER, getFirebaseAuth } from './utils/auth';
   import { onAuthStateChanged } from 'firebase/auth';
@@ -24,18 +25,22 @@
   const db = getFirestore(app);
 
   let battle: boolean;
-
+  
+ 
   $: loggedUser = null;
   $: level = 1;
   $: monster = '';
   $: items = initialItems;
   $: hero = player;
 
+
+
   onAuthStateChanged(auth, setUser);
 
+  
   function setUser(fbUser: FirebaseUser) {
-    if (!fbUser) return;
 
+    if (!fbUser) return;
     loggedUser = fbUser;
     hero.name = getFirstName(loggedUser);
     storeUser(db, fbUser);
@@ -99,6 +104,9 @@
     </div>
     <MusicButton />
   </div>
+  <div class="container">
+    <Ranking  db={db}/>
+  </div>
 </main>
 
 <style>
@@ -109,8 +117,10 @@
     text-align: left;
     padding: 8px;
     margin: 0;
-    height: 100vh;
     width: 100vw;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
   }
 
   .menu {
@@ -134,6 +144,8 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    height: fit-content;
+    padding: 10px;
   }
 
   .header {

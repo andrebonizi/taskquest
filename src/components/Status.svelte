@@ -50,11 +50,12 @@
 <style>
   .background {
     background: url('../interface/papyrus_h.png');
-    background-size: contain;
-    background-repeat: no-repeat;
+    background-size: cover;
+    background-repeat: round;
     border-radius: 20px;
     display: flex;
     justify-content: flex-start;
+    width: 100%;
   }
 
   .hero-base {

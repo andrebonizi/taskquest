@@ -96,7 +96,7 @@
     background-size: 50%;
     border-radius: 10px;
     border: 5px outset gray;
-    width: min-content;
+    width: 100%;
     transition: 1s;
     overflow: hidden;
     height: 450px;
@@ -106,8 +106,10 @@
     padding: 5px;
     display: grid;
     place-items: center;
-    grid-template-columns: repeat(5, 50px);
-    grid-template-rows: repeat(5, 50px);
+    grid-template-columns: repeat(5, auto);
+    grid-template-rows: repeat(5, auto);
+    width: 100%;
+    height: 100%;
   }
 
   .equipments {
@@ -115,7 +117,9 @@
     flex-direction: column;
     padding: 20px;
     border-radius: 10px 10px 0px 0px;
-    width: 260px;
+    /* width: 260px; */
+    width: 100%;
+    
   }
 
   .equipments > div {
