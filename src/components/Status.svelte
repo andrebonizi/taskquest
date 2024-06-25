@@ -76,4 +76,10 @@
   progress {
     width: 100px;
   }
+
+  @media screen and (min-width: 800px) {
+    .background {
+      background: url('../interface/papyros_v.png');
+    }
+  }
 </style>
