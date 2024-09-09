@@ -2,7 +2,6 @@
   import Item from './Item.svelte';
   import { createEventDispatcher, onMount } from 'svelte';
   import { initialCollapse } from '../utils/collapse';
-  import { Equip } from '../interfaces/user';
 
   export let hero;
   export let items;
@@ -10,11 +9,7 @@
   const dispatch = createEventDispatcher();
 
   let container: HTMLDivElement;
-  let equipments: Equip = {
-    weapon: undefined,
-    armor: undefined,
-    misc: undefined,
-  };
+  let equipments = { weapon: {}, armor: {}, misc: {} };
 
   onMount(() => {
     initialCollapse(container);
@@ -39,29 +34,29 @@
     items[item.index] = {};
   }
 
-  function equip(item: Item): void {
+  function equip(item: Item) {
     let aux = equipments[item.type];
     equipments[item.type] = item;
     items[item.index] = aux;
     //tech debt - attrib infinite increase
-    // switch (item.type) {
-    //   case 'weapon':
-    //     hero.power += item.attrib.power;
-    //     break;
-    //   case 'armor':
-    //     hero.guard += item.attrib.guard;
-    //     break;
-    //   case 'speed':
-    //     hero.speed += item.attrib.speed;
-    //     break;
-    // }
+    switch (item.type) {
+      case 'weapon':
+        hero.power += item.attrib.power;
+        break;
+      case 'armor':
+        hero.guard += item.attrib.guard;
+        break;
+      case 'speed':
+        hero.speed += item.attrib.speed;
+        break;
+    }
     dispatch('equipItem', {
       equip: item,
     });
     alert(`${item.icon}${item.name} equipped!`);
   }
 
-  function getEquipDisplay(equip): string {
+  function getEquipDisplay(equip) {
     if (equip.name === undefined) return 'Nothing...';
 
     return equip.icon + ' ' + equip.name;
