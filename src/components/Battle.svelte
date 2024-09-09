@@ -1,55 +1,17 @@
 <script>
-  import { fly } from "svelte/transition";
-  import { bounceOut } from "svelte/easing";
-  import { onMount, onDestroy, createEventDispatcher } from "svelte";
+  import { fly } from 'svelte/transition';
+  import { bounceOut } from 'svelte/easing';
+  import { onMount, onDestroy, createEventDispatcher } from 'svelte';
+  import { clock } from '../data/icons';
+  import { damage, shake } from '../data/animation';
 
   export let level = 1;
-  export let monster = "";
+  export let monster = '';
   export let player;
 
   const dispatch = createEventDispatcher();
   const maxLife = player.life;
-
-  const timerMap = {
-    12: "🕐",
-    11: "🕑",
-    10: "🕒",
-    9: "🕓",
-    8: "🕔",
-    7: "🕕",
-    6: "🕖",
-    5: "🕗",
-    4: "🕘",
-    3: "🕙",
-    2: "🕚",
-    1: "🕛",
-  };
-  const damage = [
-    {
-      filter: "hue-rotate(330deg)",
-      transform: "translateX(-50%) translateY(-40%) scale(1)",
-    },
-    {
-      filter: "hue-rotate(330deg)",
-      transform: "translateX(-50%) translateY(-60%) scale(1)",
-    },
-  ];
-
-  const shake = [
-    {
-      filter: "hue-rotate(110deg)",
-      transform: "translateX(-40%) translateY(-50%) scale(1.2)",
-    },
-    {
-      filter: "hue-rotate(110deg)",
-      transform: "translateX(-60%) translateY(-50%) scale(1)",
-    },
-  ];
-
-  const timing = {
-    duration: 100,
-    iterations: 2,
-  };
+  const timing = { duration: 100, iterations: 2 };
 
   let count = 12;
   let timer;
@@ -57,22 +19,9 @@
   let animate;
 
   $: trigger = false;
-
-  $: enemy = {
-    life: 10 * level,
-    power: 1 * level,
-    speed: 1 * level,
-  };
-
+  $: enemy = { life: 10 * level, power: 1 * level, speed: 1 * level };
+  // ??????
   $: player = player;
-
-  onMount(() => {
-    timer = startTimer();
-  });
-
-  onDestroy(() => {
-    clearTimeout(timer);
-  });
 
   function startTimer() {
     trigger = true;
@@ -89,8 +38,8 @@
 
   function move(node) {
     if (node) {
-      node.style.top = Math.random() * (window.screen.height / 2) + "px";
-      node.style.left = Math.random() * (window.screen.width / 2) + "px";
+      node.style.top = Math.random() * (window.screen.height / 2) + 'px';
+      node.style.left = Math.random() * (window.screen.width / 2) + 'px';
     }
   }
 
@@ -133,8 +82,11 @@
       player.life = player.maxLife;
       player.gold = 0;
     }
-    dispatch("endBattle", { player: player });
+    dispatch('endBattle', { player: player });
   }
+
+  onMount(() => (timer = startTimer()));
+  onDestroy(() => clearTimeout(timer));
 </script>
 
 <div class="background">
@@ -146,7 +98,9 @@
       {#if enemy.life <= 0}
         <div class="battle-reward">
           <h1>You win! 🎉</h1>
+          <br />
           <h2>Got {level}💵 money!</h2>
+          <br />
           <button on:click={finishBattle}> ❌ Finish! </button>
         </div>
       {:else}
@@ -190,7 +144,7 @@
           >
             🗡 Attack!
             {#key count}
-              {timerMap[count]}
+              {clock[count]}
             {/key}
           </button>
         {/if}

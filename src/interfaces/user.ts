@@ -1,3 +1,5 @@
+import type { Item } from './inventory';
+
 export interface User {
   id: string;
   name: string;
@@ -15,12 +17,12 @@ export interface Player {
   def: number;
   dex: number;
 
-  inventory: Array<string>;
+  inventory: Array<Item>;
   equip: Equip;
 }
 
 export interface Equip {
-  weapon: number;
-  armor: number;
-  misc: number;
+  weapon: Item;
+  armor: Item;
+  misc: Item;
 }

@@ -20,7 +20,7 @@
   }
 
   .atributes > div {
-    font-size: 1rem;
+    font-size: 1.2rem;
     margin: 1px;
     padding: 1px;
   }

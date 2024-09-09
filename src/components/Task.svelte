@@ -1,18 +1,18 @@
 <script>
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher } from 'svelte';
 
-  const FIGHT = "💥 Fight!";
-  const QUIT = "☠️ Quit!";
+  const FIGHT = '💥 Fight!';
+  const QUIT = '☠️ Quit!';
   const dispatch = createEventDispatcher();
 
   export let id;
   export let task;
 
   function removeFromList(index, done) {
-    dispatch("remove", { index });
+    dispatch('remove', { index });
     done
-      ? dispatch("startBattle", { level: task.enemy.level })
-      : dispatch("explode");
+      ? dispatch('startBattle', { level: task.enemy.level })
+      : dispatch('playerHit');
   }
 
   function fightButton(checked) {
@@ -52,8 +52,7 @@
     align-items: center;
     justify-content: flex-start;
     text-align: left;
-    margin: 5px;
-    padding: 0 15px;
+    padding: 0 5px;
     border-bottom: 1px solid rgb(88, 57, 11);
   }
   .level-icon {

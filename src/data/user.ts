@@ -27,18 +27,24 @@ export const player = {
   },
 };
 
-async function getSnapshot(db: Firestore, user): Promise<Snapshot> {
+async function getSnapshot(
+  db: Firestore,
+  user: FirebaseUser
+): Promise<Snapshot> {
   const userRef = doc(db, 'users', user.uid);
-  const userSnapshot = await getDoc(userRef);
-
-  return userSnapshot;
+  try {
+    const userSnapshot = await getDoc(userRef);
+    return userSnapshot;
+  } catch (e) {
+    throw new Error(`Error on get firestore doc. \n ${e}`);
+  }
 }
 
 function getSnapData(snap: Snapshot): DocumentData {
   return snap.data();
 }
 
-export async function sincUser(db, user) {
+export async function sincUser(db: Firestore, user: FirebaseUser) {
   const docSnap = await getSnapshot(db, user);
 
   if (docSnap.exists()) {
@@ -63,12 +69,12 @@ export function formatUser(user: FirebaseUser): Partial<User> {
 
 export async function isUserStored(
   db: Firestore,
-  user: User
+  user: FirebaseUser
 ): Promise<boolean> {
   return (await getSnapshot(db, user)).exists();
 }
 
-export async function storeUser(db, user) {
+export async function storeUser(db: Firestore, user: FirebaseUser) {
   if (await isUserStored(db, user)) return;
 
   console.log('User is being saved...');

@@ -20,10 +20,10 @@ export const armor = {
   silkshirt: '👚',
   bikini: '👙',
   kimono: '👘',
-  backpack: '🎒',
 };
 
 export const tools = {
+  backpack: '🎒',
   handbag: '👜',
   mallet: '💼',
   purse: '👛',
@@ -139,4 +139,19 @@ export const items = {
   armor,
   misc,
   use,
+};
+
+export const clock = {
+  1: '🕛',
+  2: '🕚',
+  3: '🕙',
+  4: '🕘',
+  5: '🕗',
+  6: '🕖',
+  7: '🕕',
+  8: '🕔',
+  9: '🕓',
+  10: '🕒',
+  11: '🕑',
+  12: '🕐',
 };

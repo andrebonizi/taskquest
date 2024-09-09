@@ -82,7 +82,7 @@
           task={item}
           on:remove={removeFromList}
           on:startBattle={callBattle}
-          on:hit={playerHit}
+          on:playerHit={playerHit}
         />
       {/each}
     </div>
@@ -98,8 +98,11 @@
 
   p {
     width: fit-content;
-    color: lightgoldenrodyellow;
+    color: lightblue;
     text-shadow: 2px 2px 5px black;
+    margin-right: -10px;
+    z-index: 10;
+    font-size: 1.5rem;
   }
 
   .container {
@@ -113,19 +116,20 @@
     flex-direction: column;
     transition: 1s;
     overflow: hidden;
-    height: 385px;
+    height: 70vh;
   }
 
   .quest-config {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-around;
   }
 
   .quest-list {
     background: url('../interface/papyrus_h.png');
     background-size: cover;
     background-position-x: center;
-    height: 220px;
+    height: 100%;
     border: 3px inset rgb(173, 87, 17);
     overflow: auto;
     background-color: rgba(235, 235, 235, 0.528);
@@ -137,12 +141,11 @@
     background: lightgoldenrodyellow;
     color: rgb(0, 0, 0);
     border-radius: 5px;
-    padding-left: 20px;
     min-width: 50%;
   }
 
   .quest-input::placeholder {
-    color: rgb(43, 38, 38);
+    color: black;
   }
 
   .enemy {
@@ -150,23 +153,29 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    font-size: 1.5rem;
+    padding: 0;
+    margin: 0;
   }
 
   select {
     border-radius: 5px;
-    height: fit-content;
     background: lightgoldenrodyellow;
   }
 
   .add-button {
     display: flex;
     width: fit-content;
-    background-color: darkcyan;
+    background: linear-gradient(
+      rgba(165, 42, 42, 0.773),
+      rgba(173, 87, 17, 0.838)
+    );
     border-radius: 10px;
     box-shadow: 2px 2px 5px black;
     cursor: pointer;
     padding: 5px;
     margin-top: -30px;
+    margin-left: 30px;
     font-size: 1.5rem;
   }
 

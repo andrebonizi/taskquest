@@ -1,11 +1,12 @@
 <script lang="ts">
-  import type { Config as FirebaseConfig } from './interfaces/firebase';
-  import type { User as FirebaseUser } from 'firebase/auth';
+  import type {
+    Config as FirebaseConfig,
+    FirebaseUser,
+  } from './interfaces/firebase';
 
   import Battle from './components/Battle.svelte';
   import Inventory from './components/Inventory.svelte';
   import MusicButton from './components/MusicButton.svelte';
-  import Status from './components/Status.svelte';
   import Store from './components/Store.svelte';
   import TaskList from './components/TaskList.svelte';
   import User from './components/User.svelte';
@@ -33,12 +34,12 @@
 
   onAuthStateChanged(auth, setUser);
 
-  function setUser(fbUser: FirebaseUser) {
+  function setUser(fbUser) {
     if (!fbUser) return;
 
     loggedUser = fbUser;
     hero.name = getFirstName(loggedUser);
-    storeUser(db, fbUser);
+    storeUser(db, fbUser as FirebaseUser);
   }
 
   function startBattle(event) {
@@ -61,6 +62,17 @@
     items = event.detail.items;
     hero.gold = event.detail.gold;
   }
+
+  function useItem(event) {
+    const maxLife = hero.level * 10;
+    hero.life += event.detail.life ? event.detail.life : 0;
+    hero.life = hero.life >= maxLife ? maxLife : hero.life;
+  }
+
+  function equipItem({ detail: player }) {
+    console.log(player);
+    console.log(hero);
+  }
 </script>
 
 <main>
@@ -70,7 +82,7 @@
 
   <div class="header">
     {#if loggedUser}
-      <User user={loggedUser} {hero} />
+      <User user={loggedUser} {hero} on:playerHit={playerHit} />
     {/if}
     <div>
       {#if !loggedUser}
@@ -82,8 +94,14 @@
   </div>
   <div class="container">
     <div class="menu">
-      <Status {hero} on:change={collapse} />
-      <Inventory {hero} {items} on:change={collapse} />
+      <!-- <Status {hero} on:change={collapse} /> -->
+      <Inventory
+        {hero}
+        {items}
+        on:change={collapse}
+        on:useItem={useItem}
+        on:equipItem={equipItem}
+      />
       <TaskList
         player={hero}
         on:startBattle={startBattle}
@@ -105,7 +123,7 @@
   @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
   main {
-    background: linear-gradient(to top, gray, white);
+    background: linear-gradient(to top, black, gray);
     text-align: left;
     padding: 8px;
     margin: 0;
@@ -114,10 +132,6 @@
   }
 
   .menu {
-    background: linear-gradient(
-      rgba(165, 42, 42, 0.773),
-      rgba(173, 87, 17, 0.838)
-    );
     border-radius: 10px;
     border: 2px outset gray;
     font-family: 'Lobster';

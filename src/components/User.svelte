@@ -1,17 +1,10 @@
 <script>
   import { fly } from 'svelte/transition';
   import { bounceOut } from 'svelte/easing';
+  import Status from './Status.svelte';
 
   export let hero;
   export let user;
-
-  function getFaceIcon(life) {
-    if (life < 0 || life > 10) return null;
-    if (life < 2) return '😰';
-    if (life < 5) return '😬';
-    if (life < 8) return '😅';
-    if (life < 11) return '🙂';
-  }
 </script>
 
 <main class="container">
@@ -21,7 +14,7 @@
       {user.displayName.split(' ')[0]}<br />
       <div class="life-bar">
         {#key hero.life}
-          {getFaceIcon(hero.life)}
+          <p class="heart">🫀</p>
           <progress
             in:fly={{ x: 5, duration: 200, easing: bounceOut, opacity: 1 }}
             value={hero.life * 10}
@@ -32,6 +25,7 @@
       </div>
     </div>
   </div>
+  <Status {hero} />
 </main>
 
 <style>
@@ -42,13 +36,17 @@
     align-items: center;
   }
 
+  .heart {
+    font-size: 3rem;
+    margin-right: -20px;
+  }
+
   .container {
     background: linear-gradient(rgba(63, 63, 63, 0.69), rgb(16, 32, 44));
     border-radius: 10px;
     border: 2px outset gray;
-    padding: 10px;
+    padding-left: 10px;
     font-family: 'Lobster';
-    padding-bottom: 30px;
     width: 100%;
     display: flex;
     flex-direction: column;

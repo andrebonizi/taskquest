@@ -2,6 +2,7 @@
   import Item from './Item.svelte';
   import { createEventDispatcher, onMount } from 'svelte';
   import { initialCollapse } from '../utils/collapse';
+  import { Equip } from '../interfaces/user';
 
   export let hero;
   export let items;
@@ -9,7 +10,11 @@
   const dispatch = createEventDispatcher();
 
   let container: HTMLDivElement;
-  let equipments = { weapon: {}, armor: {}, misc: {} };
+  let equipments: Equip = {
+    weapon: undefined,
+    armor: undefined,
+    misc: undefined,
+  };
 
   onMount(() => {
     initialCollapse(container);
@@ -23,10 +28,10 @@
   }
 
   function consume(item) {
-    const maxLife = hero.level * 10;
-    hero.life += item.attrib.life ? item.attrib.life : 0;
-    hero.life = hero.life >= maxLife ? maxLife : hero.life;
     alert(`${item.icon}${item.name} used!`);
+    dispatch('useItem', {
+      life: item.attrib.life,
+    });
   }
 
   function destroyItem(event) {
@@ -34,26 +39,29 @@
     items[item.index] = {};
   }
 
-  function equip(item) {
+  function equip(item: Item): void {
     let aux = equipments[item.type];
     equipments[item.type] = item;
     items[item.index] = aux;
-
-    switch (item.type) {
-      case 'weapon':
-        hero.power += item.attrib.power;
-        break;
-      case 'armor':
-        hero.guard += item.attrib.guard;
-        break;
-      case 'speed':
-        hero.speed += item.attrib.speed;
-        break;
-    }
+    //tech debt - attrib infinite increase
+    // switch (item.type) {
+    //   case 'weapon':
+    //     hero.power += item.attrib.power;
+    //     break;
+    //   case 'armor':
+    //     hero.guard += item.attrib.guard;
+    //     break;
+    //   case 'speed':
+    //     hero.speed += item.attrib.speed;
+    //     break;
+    // }
+    dispatch('equipItem', {
+      equip: item,
+    });
     alert(`${item.icon}${item.name} equipped!`);
   }
 
-  function getEquipDisplay(equip) {
+  function getEquipDisplay(equip): string {
     if (equip.name === undefined) return 'Nothing...';
 
     return equip.icon + ' ' + equip.name;

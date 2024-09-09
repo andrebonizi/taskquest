@@ -38,8 +38,7 @@ select,
 textarea {
    font-family: inherit;
    font-size: inherit;
-   -webkit-padding: 0.4em 0;
-   padding: 0.4em;
+   padding-left: 10px;
    margin: 0 0 0.5em 0;
    box-sizing: border-box;
    border: 1px solid #ccc;
@@ -76,13 +75,17 @@ h2 {
    padding-left: 10px;
    cursor: pointer;
    z-index: 5;
-   font-size: 1.5rem;
+   font-size: 2.5rem;
    position: relative;
 }
 
 .menu-box {
    width: 95%;
    margin-left: 10px;
+}
+
+.container {
+   background: linear-gradient(rgba(63, 63, 63, 0.69), rgb(16, 32, 44));
 }
 
 @media screen and (min-width: 1024px) {

@@ -9,7 +9,7 @@
 
   const EXPAND_HEIGHT = '200px';
   const EXPAND_PADDING = '30px';
-  const STATUS_LABEL = '🫀 Status';
+  const STATUS_LABEL = ' Status';
   const dispatch = createEventDispatcher();
 
   let container;
@@ -18,6 +18,14 @@
     initialCollapse(container);
   });
 
+  function getFaceIcon(life) {
+    if (life < 0 || life > 10) return null;
+    if (life < 2) return '😰';
+    if (life < 5) return '😬';
+    if (life < 8) return '😅';
+    if (life < 11) return '🙂';
+  }
+
   function change() {
     const div = this.nextSibling.nextSibling;
     dispatch('change', { div, height: EXPAND_HEIGHT, padding: EXPAND_PADDING });
@@ -25,45 +33,47 @@
 </script>
 
 <main class="menu-box">
-  <h2 on:click={change}>{STATUS_LABEL}</h2>
-  <div class="hero-base background" bind:this={container}>
+  <h2 on:click={change}>{getFaceIcon(hero.life)}{STATUS_LABEL}</h2>
+  <div class="hero-base" bind:this={container}>
     <div class="info">
-      Name: <br />
       Level {hero.level}
-    </div>
-    <div class="level">
-      {#key hero.xp}
-        {hero.xp} xp
-        <br />
-        <progress
-          in:fly={{ x: 5, duration: 200, opacity: 1, easing: bounceOut }}
-          class="xp-bar"
-          value={hero.xp}
-          max="100"
-        />
-      {/key}
+      <div class="level">
+        {#key hero.xp}
+          Exp: {hero.xp}
+          <progress
+            in:fly={{ x: 5, duration: 200, opacity: 1, easing: bounceOut }}
+            class="xp-bar"
+            value={hero.xp}
+            max="100"
+          />
+        {/key}
+      </div>
     </div>
     <Attributes {hero} />
   </div>
 </main>
 
 <style>
-  .background {
-    background: url('../interface/papyrus_h.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    border-radius: 20px;
+  .menu-box {
     display: flex;
-    justify-content: flex-start;
+    flex-direction: column;
+    width: fit-content;
+    padding: 0;
+    border-radius: 10px;
+    font-size: 2rem;
   }
 
   .hero-base {
     display: flex;
-    flex-direction: column;
+    background-color: transparent;
+    filter: drop-shadow(3px 3px 6px white);
+    border: 1px solid black;
+    border-radius: 25px;
+    flex-direction: row;
     align-items: flex-start;
     color: black;
     margin-top: 10px;
-    gap: 5px;
+    gap: 100px;
     transition: 1s;
     overflow: hidden;
     padding: 20px;
@@ -75,11 +85,6 @@
 
   progress {
     width: 100px;
-  }
-
-  @media screen and (min-width: 800px) {
-    .background {
-      background: url('../interface/papyros_v.png');
-    }
+    margin-left: 30px;
   }
 </style>
