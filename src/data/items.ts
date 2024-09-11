@@ -86,7 +86,7 @@ export const initialItems = [
     attrib: { guard: 1 },
   },
   {
-    icon: armor.backpack,
+    icon: misc.tools.backpack,
     name: 'Backpack',
     type: 'armor',
     description: 'Equipamento.',
