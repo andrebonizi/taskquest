@@ -1,6 +1,6 @@
 import { Config } from '../interfaces/firebase';
 
-export function getFirebaseConfig(): Config {
+export function getFirebaseConfig(): Config | null {
   try {
     const apiKey = process.env.FIREBASE_API_KEY;
     const authDomain = process.env.FIREBASE_AUTH_DOMAIN;
@@ -20,8 +20,7 @@ export function getFirebaseConfig(): Config {
       measurementId,
     };
   } catch (e) {
-    console.group('ERROR loading firebase env variables');
-    console.error(e);
-    return;
+    console.error('ERROR loading firebase env variables');
+    return null;
   }
 }

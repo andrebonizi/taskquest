@@ -67,15 +67,8 @@ export function formatUser(user: FirebaseUser): Partial<User> {
   return formattedUser;
 }
 
-export async function isUserStored(
-  db: Firestore,
-  user: FirebaseUser
-): Promise<boolean> {
-  return (await getSnapshot(db, user)).exists();
-}
-
 export async function storeUser(db: Firestore, user: FirebaseUser) {
-  if (await isUserStored(db, user)) return;
+  if ((await getSnapshot(db, user)).exists()) return;
 
   console.log('User is being saved...');
   const usersRef = collection(db, 'users');

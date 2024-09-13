@@ -3,6 +3,9 @@
     Config as FirebaseConfig,
     FirebaseUser,
   } from './interfaces/firebase';
+  import type { FirebaseApp } from 'firebase/app';
+  import type { Auth } from 'firebase/auth';
+  import type { Firestore } from 'firebase/firestore';
 
   import Battle from './components/Battle.svelte';
   import Inventory from './components/Inventory.svelte';
@@ -20,10 +23,9 @@
 
   export let firebaseConfig: FirebaseConfig;
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getFirebaseAuth(app);
-  const db = getFirestore(app);
-
+  let app: FirebaseApp;
+  let auth: Auth;
+  let db: Firestore;
   let battle: boolean;
 
   $: loggedUser = null;
@@ -32,7 +34,12 @@
   $: items = initialItems;
   $: hero = player;
 
-  onAuthStateChanged(auth, setUser);
+  if (firebaseConfig) {
+    app = initializeApp(firebaseConfig);
+    auth = getFirebaseAuth(app);
+    db = getFirestore(app);
+    onAuthStateChanged(auth, setUser);
+  }
 
   function setUser(fbUser) {
     if (!fbUser) return;
