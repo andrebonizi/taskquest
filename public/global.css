@@ -92,4 +92,7 @@ h2 {
    .menu-box {
      width: 270px;
    }
+   h2 {
+      font-size: 2rem;
+   }
  }

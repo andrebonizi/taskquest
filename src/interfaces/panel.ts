@@ -1,8 +1,9 @@
 export type Unit = 'px' | 'rem' | '%';
-export type SizeProp = `${number}${Unit}`;
+export type SizeProp = `${string}${Unit}`;
+export type Numeric = string | number;
 
 export interface collapseStyle {
-  opacity: string | number;
-  height: string;
-  padding: string | number;
+  opacity: Numeric;
+  height: SizeProp;
+  padding: Numeric;
 }

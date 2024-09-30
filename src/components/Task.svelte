@@ -1,8 +1,7 @@
 <script>
   import { createEventDispatcher } from 'svelte';
+  import { FIGHT, QUIT } from '../utils/constants';
 
-  const FIGHT = '💥 Fight!';
-  const QUIT = '☠️ Quit!';
   const dispatch = createEventDispatcher();
 
   export let id;
@@ -22,13 +21,6 @@
 
 <div class="quest">
   <input {id} bind:checked={task.done} type="checkbox" />
-  <span>
-    <p style="--task-color: {task.enemy.taskColor}">
-      LV
-      <span class="level-icon">{task.enemy.level ?? 1}</span>
-      {task.enemy.icon}:
-    </p>
-  </span>
   <label for={id} class:checked={task.done}>{task.text}</label>
   <span class="fight" on:click={() => removeFromList(id, task.done)}>
     <button>{fightButton(task.done)}</button>
@@ -60,8 +52,6 @@
     align-items: center;
     justify-content: center;
     background-color: var(--task-color);
-    border: 2px solid rgb(4, 50, 27);
-    border-radius: 100%;
     width: 22px;
     height: 22px;
   }

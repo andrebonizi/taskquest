@@ -15,8 +15,8 @@
       name: 'Apple',
       type: 'consumable',
       description: 'Recupera a vida.',
-      attrib: { life: 5 },
-      price: 0,
+      attrib: { life: 3 },
+      price: 1,
       level: 1,
     },
     {
@@ -26,7 +26,7 @@
       type: 'consumable',
       description: 'Recupera a vida.',
       attrib: { life: 5 },
-      price: 1,
+      price: 2,
       level: 1,
     },
     {
@@ -36,7 +36,7 @@
       type: 'weapon',
       description: 'Equipamento.',
       attrib: { power: 1 },
-      price: 1,
+      price: 10,
       level: 1,
     },
     {
@@ -46,7 +46,7 @@
       type: 'weapon',
       description: 'Equipamento.',
       attrib: { power: 2 },
-      price: 1,
+      price: 20,
       level: 1,
     },
   ];
@@ -57,7 +57,7 @@
 
   function handleBuyItem(product) {
     if (gold < product.price) {
-      alert('Not enough gold');
+      return alert('Not enough gold');
     }
 
     const emptySlotIndex = items.indexOf(items.find((item) => !item.name));

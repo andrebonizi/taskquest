@@ -178,7 +178,7 @@
     top: 0;
     left: 0;
     background-color: rgba(0, 0, 0, 0.2);
-    z-index: 1;
+    z-index: 10;
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -202,5 +202,16 @@
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
     font-size: 200px;
+  }
+
+  @media screen and (max-width: 800px) {
+    .monster {
+      font-size: 100px;
+    }
+    .container {
+      padding: 0;
+      width: 90%;
+      height: 90%;
+    }
   }
 </style>

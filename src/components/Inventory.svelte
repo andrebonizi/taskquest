@@ -1,19 +1,14 @@
 <script lang="ts">
+  import type { Item as ItemType } from '../interfaces/inventory';
   import Item from './Item.svelte';
-  import { createEventDispatcher, onMount } from 'svelte';
-  import { initialCollapse } from '../utils/collapse';
+  import { createEventDispatcher } from 'svelte';
+  import type { Player } from '../interfaces/user';
 
-  export let hero;
-  export let items;
+  export let hero: Player;
 
   const dispatch = createEventDispatcher();
 
   let container: HTMLDivElement;
-  let equipments = { weapon: {}, armor: {}, misc: {} };
-
-  onMount(() => {
-    initialCollapse(container);
-  });
 
   function useItem(event) {
     const { item } = event.detail;
@@ -31,14 +26,12 @@
 
   function destroyItem(event) {
     const { item } = event.detail;
-    items[item.index] = {};
+    hero.items[item.index] = {};
   }
 
-  function equip(item: Item) {
-    let aux = equipments[item.type];
-    equipments[item.type] = item;
-    items[item.index] = aux;
+  function changeAttribByEquip(item) {
     //tech debt - attrib infinite increase
+    console.log('Hero: ', hero);
     switch (item.type) {
       case 'weapon':
         hero.power += item.attrib.power;
@@ -50,14 +43,21 @@
         hero.speed += item.attrib.speed;
         break;
     }
+  }
+
+  function equip(item: ItemType) {
+    let aux = hero.equip[item.type];
+    hero.equip[item.type] = item;
+    hero.items[item.index] = aux;
+    changeAttribByEquip(item);
     dispatch('equipItem', {
       equip: item,
     });
     alert(`${item.icon}${item.name} equipped!`);
   }
 
-  function getEquipDisplay(equip) {
-    if (equip.name === undefined) return 'Nothing...';
+  function getEquipDisplay(equip: ItemType) {
+    if (!equip) return 'Nothing...';
 
     return equip.icon + ' ' + equip.name;
   }
@@ -65,7 +65,7 @@
   function change() {
     dispatch('change', {
       div: this.nextSibling.nextSibling,
-      height: '450px',
+      height: '300px',
       padding: '0px',
     });
   }
@@ -75,13 +75,13 @@
   <h2 on:click={change}>🧳 Inventory</h2>
   <div class="inventory" bind:this={container}>
     <div class="equipments">
-      <div>{getEquipDisplay(equipments.weapon)}</div>
-      <div>{getEquipDisplay(equipments.armor)}</div>
-      <div>{getEquipDisplay(equipments.misc)}</div>
+      <div>{getEquipDisplay(hero.equip.weapon)}</div>
+      <div>{getEquipDisplay(hero.equip.armor)}</div>
+      <div>{getEquipDisplay(hero.equip.misc)}</div>
     </div>
     <div class="container">
-      {#key items}
-        {#each items as item, index}
+      {#key hero.items}
+        {#each hero.items as item, index}
           <Item {item} {index} on:use={useItem} on:destroy={destroyItem} />
         {/each}
       {/key}
@@ -99,10 +99,10 @@
     background-size: 50%;
     border-radius: 10px;
     border: 5px outset gray;
-    width: min-content;
+    width: 100%;
     transition: 1s;
     overflow: hidden;
-    height: 450px;
+    height: 300px;
   }
 
   .container {
@@ -110,7 +110,7 @@
     display: grid;
     place-items: center;
     grid-template-columns: repeat(5, 50px);
-    grid-template-rows: repeat(5, 50px);
+    grid-template-rows: repeat(2, 50px);
   }
 
   .equipments {

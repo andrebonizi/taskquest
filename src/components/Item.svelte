@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { Item } from "../interfaces/inventory";
+  import type { Item } from '../interfaces/inventory';
 
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher } from 'svelte';
 
   export let item: Item;
   export let index: number;
@@ -9,20 +9,20 @@
   const dispatch = createEventDispatcher();
 
   function getIcon(): string {
-    return item.icon ? item.icon : "";
+    return item.icon ? item.icon : '';
   }
 
   function isConsumable(): boolean {
-    return item.type === "consumable";
+    return item.type === 'consumable';
   }
 
   function useItem(): void {
-    dispatch("use", { item });
+    dispatch('use', { item });
     if (isConsumable()) destroy();
   }
 
   function destroy(): void {
-    dispatch("destroy", { item });
+    dispatch('destroy', { item });
     item = {};
   }
 

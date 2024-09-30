@@ -125,6 +125,8 @@ export const stuff = {
   doubleLockpick: '🖇',
   battery: '🔋',
   locker: '🔒',
+  coin: '🪙',
+  money: '💵',
 };
 
 export const use = {
@@ -155,3 +157,11 @@ export const clock = {
   11: '🕑',
   12: '🕐',
 };
+
+export function getFaceIcon(life: number): string | null {
+  if (life < 0 || life > 10) return null;
+  if (life < 2) return '😰';
+  if (life < 5) return '😬';
+  if (life < 8) return '😅';
+  if (life < 11) return '🙂';
+}

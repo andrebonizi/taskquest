@@ -20,7 +20,6 @@ export function getFirebaseConfig(): Config | null {
       measurementId,
     };
   } catch (e) {
-    console.error('ERROR loading firebase env variables');
     return null;
   }
 }

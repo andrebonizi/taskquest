@@ -2,6 +2,7 @@
   import { fly } from 'svelte/transition';
   import { bounceOut } from 'svelte/easing';
   import Status from './Status.svelte';
+  import { stuff } from '../data/icons';
 
   export let hero;
   export let user;
@@ -9,7 +10,11 @@
 
 <main class="container">
   <div class="basic">
-    <img class="user-logo" src={user.photoURL} alt="profile" />
+    <img
+      class="user-logo"
+      src={user.photoURL ? user.photoURL : 'char/draw_yourself.png'}
+      alt="profile"
+    />
     <div class="hero-name">
       {user.displayName.split(' ')[0]}<br />
       <div class="life-bar">
@@ -20,11 +25,27 @@
             value={hero.life * 10}
             max="100"
           />
-          {hero.life}
         {/key}
       </div>
     </div>
   </div>
+  <div class="info">
+    <div class="level">
+      Level: {hero.level}
+    </div>
+    {#key hero.xp}
+      <div class="exp">
+        Xp:
+        <progress
+          in:fly={{ x: 5, duration: 200, opacity: 1, easing: bounceOut }}
+          class="xp-bar"
+          value={hero.xp}
+          max="100"
+        />
+      </div>
+    {/key}
+  </div>
+  <div class="money">{hero.gold} {stuff.coin}</div>
   <Status {hero} />
 </main>
 
@@ -37,8 +58,20 @@
   }
 
   .heart {
-    font-size: 3rem;
+    font-size: 1.5rem;
     margin-right: -20px;
+    color: whitesmoke;
+  }
+
+  .money {
+    font-size: 1.5rem;
+    margin-right: 20px;
+    margin-bottom: -10px;
+    color: whitesmoke;
+    text-shadow: 3px 3px 5px black;
+    display: flex;
+    align-items: end;
+    justify-content: flex-end;
   }
 
   .container {
@@ -60,6 +93,7 @@
   }
 
   .hero-name {
+    align-items: flex-start;
     display: flex;
     flex-direction: column;
     font-size: 2rem;
@@ -67,20 +101,18 @@
     color: wheat;
     width: 100%;
     height: fit-content;
-    align-items: center;
   }
 
   .life-bar {
-    font-size: 1rem;
+    font-size: 0.6rem;
     color: white;
     text-shadow: 2px 2px 5px black;
     width: 150px;
-    gap: 10px;
     display: flex;
     flex-direction: row;
     padding: 0;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-evenly;
   }
 
   .life-bar > progress {
@@ -97,7 +129,27 @@
     border-radius: 20px;
   }
 
+  .info {
+    color: black;
+    font-size: 1.3rem;
+    display: flex;
+    justify-content: space-around;
+    width: 65vw;
+  }
+  progress {
+    width: 100px;
+  }
   @media screen and (min-width: 800px) {
+    .hero-name {
+      display: flex;
+      flex-direction: column;
+      font-size: 2rem;
+      text-shadow: 3px 3px 5px black;
+      color: wheat;
+      width: 100%;
+      height: fit-content;
+      align-items: center;
+    }
     .container {
       flex-direction: row;
       gap: 50px;
@@ -105,6 +157,40 @@
     .user-logo {
       min-width: 100px;
       width: 20%;
+    }
+    .heart {
+      font-size: 3rem;
+      margin-right: -10px;
+      color: whitesmoke;
+    }
+    .money {
+      font-size: 3rem;
+      margin-left: -130px;
+      color: whitesmoke;
+      text-shadow: 3px 3px 5px black;
+      display: flex;
+      align-items: start;
+    }
+    .life-bar {
+      font-size: 1rem;
+      color: white;
+      text-shadow: 2px 2px 5px black;
+      width: 150px;
+      gap: 10px;
+      display: flex;
+      flex-direction: row;
+      padding: 0;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .info {
+      padding-top: 20px;
+      color: black;
+      font-size: 1.3rem;
+      display: flex;
+      justify-content: end;
+      flex-direction: column;
+      width: min-content;
     }
   }
 </style>

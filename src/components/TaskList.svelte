@@ -49,6 +49,10 @@
   function handleEnemy(enemy) {
     return player.level + 2 >= enemy.level;
   }
+
+  function handleKey(event) {
+    if (event.key === 'Enter') addToList();
+  }
 </script>
 
 <main class="menu-box">
@@ -58,6 +62,7 @@
       <p>Task:</p>
       <input
         bind:value={taskInput}
+        on:keydown={handleKey}
         class="quest-input"
         type="text"
         placeholder={PLACEHOLDER_TEXT}
@@ -101,7 +106,7 @@
     color: lightblue;
     text-shadow: 2px 2px 5px black;
     margin-right: -10px;
-    z-index: 10;
+    z-index: 5;
     font-size: 1.5rem;
   }
 
@@ -181,5 +186,14 @@
 
   .add-button:hover {
     scale: 1.1;
+  }
+  @media screen and (max-width: 800px) {
+    .quest-config {
+      flex-direction: column;
+    }
+
+    .quest-list {
+      padding: 10px;
+    }
   }
 </style>

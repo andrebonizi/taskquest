@@ -1,28 +1,24 @@
-import type { Item } from './inventory';
+import type { Equips, Item } from './inventory';
 
 export interface User {
   id: string;
   name: string;
-  photoSrc: URL;
-  player: Player;
+  photoSrc: string;
+  player: string;
 }
 
-export interface Player {
+export interface Attributes {
+  power?: number;
+  guard?: number;
+  speed?: number;
+}
+
+export interface Player extends Attributes {
   level: number;
-  hp: number;
+  life: number;
   xp: number;
   gold: number;
 
-  atk: number;
-  def: number;
-  dex: number;
-
-  inventory: Array<Item>;
-  equip: Equip;
-}
-
-export interface Equip {
-  weapon: Item;
-  armor: Item;
-  misc: Item;
+  items: Array<Item>;
+  equip: Equips;
 }

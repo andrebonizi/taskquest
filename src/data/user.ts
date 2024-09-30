@@ -1,83 +1,28 @@
-import type { FirebaseUser, Snapshot } from '../interfaces/firebase';
+import type { UserInfo } from 'firebase/auth';
 
-import {
-  DocumentData,
-  Firestore,
-  collection,
-  doc,
-  getDoc,
-  setDoc,
-} from 'firebase/firestore';
-import { User } from '../interfaces/user';
+async function imageValidation(imgSrc: string): Promise<string> {
+  const res = await fetch(imgSrc);
 
-export const player = {
-  name: '',
-  life: 10,
-  power: 1,
-  guard: 0,
-  speed: 1,
-  gold: 10,
-  xp: 0,
-  level: 1,
-  inventory: [],
-  equip: {
-    weapon: 0,
-    armor: 0,
-    misc: 0,
-  },
-};
-
-async function getSnapshot(
-  db: Firestore,
-  user: FirebaseUser
-): Promise<Snapshot> {
-  const userRef = doc(db, 'users', user.uid);
-  try {
-    const userSnapshot = await getDoc(userRef);
-    return userSnapshot;
-  } catch (e) {
-    throw new Error(`Error on get firestore doc. \n ${e}`);
+  if (res.status === 200) {
+    const img = new Image();
+    img.src = imgSrc;
   }
+
+  return imgSrc;
 }
 
-function getSnapData(snap: Snapshot): DocumentData {
-  return snap.data();
-}
-
-export async function sincUser(db: Firestore, user: FirebaseUser) {
-  const docSnap = await getSnapshot(db, user);
-
-  if (docSnap.exists()) {
-    const userDoc = getSnapData(docSnap);
-    console.log('User already exists!', userDoc);
-    return userDoc;
-  } else {
-    console.log('New user!', user);
-    storeUser(db, user);
-  }
-}
-
-export function formatUser(user: FirebaseUser): Partial<User> {
+export async function formatUser(user: UserInfo): Promise<any> {
+  const imgSrc = await imageValidation(user.photoURL);
   const formattedUser = {
     name: user.displayName,
-    photoSrc: user.photoURL,
+    photoSrc: imgSrc,
     id: user.uid,
   };
 
   return formattedUser;
 }
 
-export async function storeUser(db: Firestore, user: FirebaseUser) {
-  if ((await getSnapshot(db, user)).exists()) return;
-
-  console.log('User is being saved...');
-  const usersRef = collection(db, 'users');
-  const result = await setDoc(doc(usersRef, user.uid), formatUser(user));
-  console.log(user.displayName, ' was saved on database. ', result);
-}
-
-export function getFirstName(user: FirebaseUser): string {
+export function getFirstName(user: UserInfo): string {
   if (!user) return 'Unknown';
-
   return user.displayName.split(' ')[0];
 }
