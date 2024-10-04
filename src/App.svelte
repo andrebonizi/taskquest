@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Config as FirebaseConfig } from './interfaces/firebase';
   import type { FirebaseApp } from 'firebase/app';
-  import type { Auth, User as FirebaseUser } from 'firebase/auth';
+  import type { Auth, User } from 'firebase/auth';
   import type { Firestore } from 'firebase/firestore';
 
   import Battle from './components/Battle.svelte';
@@ -9,7 +9,7 @@
   import MusicButton from './components/MusicButton.svelte';
   import Store from './components/Store.svelte';
   import TaskList from './components/TaskList.svelte';
-  import User from './components/User.svelte';
+  import Info from './components/Info.svelte';
   import { initializeApp } from 'firebase/app';
   import {
     login,
@@ -18,11 +18,10 @@
     getFirebaseAuth,
   } from './firebase/auth';
   import { onAuthStateChanged } from 'firebase/auth';
-  import { getFirstName } from './data/user';
   import { getFirestore } from 'firebase/firestore';
   import { initialItems } from './data/items';
   import { collapse } from './utils/collapse';
-  import { setLocalUser } from './utils/cache';
+  import { setLocalUser } from './data/user';
   import { storeUser } from './firebase/data';
   import { player } from './data/player';
 
@@ -48,7 +47,7 @@
     }
   }
 
-  function setUser(fbUser: FirebaseUser) {
+  function setUser(fbUser: User) {
     console.log('auth changed', fbUser);
     if (!fbUser) return;
 
@@ -57,14 +56,17 @@
     storeUser(db, fbUser);
   }
 
-  function startBattle(event) {
-    level = event.detail.level;
-    monster = event.detail.monster;
+  function startBattle(event: CustomEvent) {
+    const { detail } = event;
+
+    level = detail.level;
+    monster = detail.monster;
     battle = true;
   }
 
-  function handleBattle(event) {
-    hero = event.detail.player;
+  function endBattle(event: CustomEvent) {
+    const { player } = event.detail;
+    hero = player;
     battle = false;
   }
 
@@ -85,24 +87,24 @@
   }
 
   function equipItem() {
-    //this is weird, but updates info on child components
+    //this is weird, but forces updates data on child components
     hero = hero;
   }
 </script>
 
 <main>
   {#if battle}
-    <Battle {level} {monster} player={hero} on:endBattle={handleBattle} />
+    <Battle {level} {monster} player={hero} on:endBattle={endBattle} />
   {/if}
 
   <div class="header">
     {#if loggedUser}
-      <User user={loggedUser} {hero} on:playerHit={playerHit} />
-      <button id="logout-btn" class="logout-btn" on:click={() => logout(auth)}>
+      <Info user={loggedUser} {hero} />
+      <button class="logout-btn" on:click={() => logout(auth)}>
         Sair 🚪
       </button>
     {:else}
-      <User user={{ displayName: 'Ninguém', photoURL: '' }} {hero} />
+      <Info user={{ displayName: 'Ninguém', photoURL: '' }} {hero} />
       <button class="logout-btn" on:click={() => login(auth, AUTH_PROVIDER)}>
         Login
       </button>
@@ -110,7 +112,6 @@
   </div>
   <div class="container">
     <div class="menu">
-      <!-- <Status {hero} on:change={collapse} /> -->
       <TaskList
         player={hero}
         on:startBattle={startBattle}

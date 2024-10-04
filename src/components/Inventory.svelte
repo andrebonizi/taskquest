@@ -1,8 +1,12 @@
 <script lang="ts">
   import type { Item as ItemType } from '../interfaces/inventory';
-  import Item from './Item.svelte';
-  import { createEventDispatcher } from 'svelte';
   import type { Player } from '../interfaces/user';
+
+  import Item from './Item.svelte';
+
+  import { ATTRIBS } from '../data/player';
+  import { createEventDispatcher } from 'svelte';
+  import { EQUIP_TYPES } from '../data/items';
 
   export let hero: Player;
 
@@ -10,11 +14,10 @@
 
   let container: HTMLDivElement;
 
-  function useItem(event) {
+  function useItem(event: CustomEvent) {
     const { item } = event.detail;
     if (item.type === 'consumable') consume(item);
-    if (item.type === 'weapon' || item.type === 'armor' || item.type === 'misc')
-      equip(item);
+    if (EQUIP_TYPES.includes(item.type)) equip(item);
   }
 
   function consume(item) {
@@ -29,37 +32,30 @@
     hero.items[item.index] = {};
   }
 
-  function changeAttribByEquip(item) {
-    //tech debt - attrib infinite increase
-    console.log('Hero: ', hero);
-    switch (item.type) {
-      case 'weapon':
-        hero.power += item.attrib.power;
-        break;
-      case 'armor':
-        hero.guard += item.attrib.guard;
-        break;
-      case 'speed':
-        hero.speed += item.attrib.speed;
-        break;
-    }
+  function changeAttrib(item: ItemType, current: ItemType): void {
+    if (item.name === 'Nothing...' || item.type === 'consumable') return;
+
+    ATTRIBS.forEach((a) => {
+      hero[a] -= current.attrib[a] || 0;
+      hero[a] += item.attrib[a] || 0;
+    });
+  }
+
+  function swapEquip(equip: ItemType): ItemType {
+    const current = hero.equip[equip.type];
+    hero.equip[equip.type] = equip;
+    hero.items[equip.index] = current;
+    return current;
   }
 
   function equip(item: ItemType) {
-    let aux = hero.equip[item.type];
-    hero.equip[item.type] = item;
-    hero.items[item.index] = aux;
-    changeAttribByEquip(item);
-    dispatch('equipItem', {
-      equip: item,
-    });
+    changeAttrib(item, swapEquip(item));
+    dispatch('equipItem', { equip: item });
     alert(`${item.icon}${item.name} equipped!`);
   }
 
   function getEquipDisplay(equip: ItemType) {
-    if (!equip) return 'Nothing...';
-
-    return equip.icon + ' ' + equip.name;
+    return !equip ? 'Nothing...' : equip.icon + ' ' + equip.name;
   }
 
   function change() {

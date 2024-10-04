@@ -31,7 +31,7 @@
   </div>
   <div class="info">
     <div class="level">
-      Level: {hero.level}
+      Lv {hero.level}
     </div>
     {#key hero.xp}
       <div class="exp">
@@ -130,11 +130,12 @@
   }
 
   .info {
-    color: black;
+    color: whitesmoke;
     font-size: 1.3rem;
     display: flex;
     justify-content: space-around;
     width: 65vw;
+    text-shadow: 2px 1px 3px black;
   }
   progress {
     width: 100px;
@@ -185,8 +186,7 @@
     }
     .info {
       padding-top: 20px;
-      color: black;
-      font-size: 1.3rem;
+      font-size: 1.5rem;
       display: flex;
       justify-content: end;
       flex-direction: column;

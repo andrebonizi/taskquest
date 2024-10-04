@@ -44,4 +44,5 @@ export function login(auth: Auth, provider: AuthProvider) {
 export function logout(auth: Auth) {
   console.log('logging out...');
   signOut(auth);
+  location.reload();
 }
