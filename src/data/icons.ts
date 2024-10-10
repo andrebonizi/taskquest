@@ -143,6 +143,23 @@ export const items = {
   use,
 };
 
+export const magic = {
+  fire: '🔥',
+  ice: '❄️',
+  thunder: '⚡',
+  meteor: '☄️',
+  water: '💧',
+  wave: '🌊',
+  wind: '🌪️',
+  storm: '🌩️',
+};
+
+export const map = {
+  mountain: '🏔️',
+  tree: '🌲',
+  grass: '🌾',
+};
+
 export const clock = {
   1: '🕛',
   2: '🕚',

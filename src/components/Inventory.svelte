@@ -5,8 +5,9 @@
   import Item from './Item.svelte';
 
   import { ATTRIBS } from '../data/player';
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher, onMount } from 'svelte';
   import { EQUIP_TYPES } from '../data/items';
+  import { initialCollapse } from '../utils/collapse';
 
   export let hero: Player;
 
@@ -65,6 +66,10 @@
       padding: '0px',
     });
   }
+
+  onMount(() => {
+    initialCollapse(container);
+  });
 </script>
 
 <main class="menu-box">
@@ -98,7 +103,6 @@
     width: 100%;
     transition: 1s;
     overflow: hidden;
-    height: 300px;
   }
 
   .container {

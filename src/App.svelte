@@ -71,7 +71,6 @@
   }
 
   function playerHit() {
-    alert(`You lost 1 life!`);
     hero.life -= 1;
   }
 
@@ -94,7 +93,13 @@
 
 <main>
   {#if battle}
-    <Battle {level} {monster} player={hero} on:endBattle={endBattle} />
+    <Battle
+      {level}
+      {monster}
+      player={hero}
+      on:endBattle={endBattle}
+      on:playerHit={playerHit}
+    />
   {/if}
 
   <div class="header">

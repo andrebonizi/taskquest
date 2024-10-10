@@ -10,7 +10,6 @@
   export let player;
 
   const dispatch = createEventDispatcher();
-  const maxLife = player.life;
   const timing = { duration: 100, iterations: 2 };
 
   let count = 12;
@@ -20,7 +19,6 @@
 
   $: trigger = false;
   $: enemy = { life: 10 * level, power: 1 * level, speed: 1 * level };
-  // ??????
   $: player = player;
 
   function startTimer() {
@@ -57,6 +55,7 @@
   function enemyAttack() {
     animate.animate(shake, timing);
     player.life -= enemy.power - player.guard;
+    dispatch('playerHit');
     move(attackBtn);
     resetCount();
   }
@@ -98,29 +97,13 @@
       {#if enemy.life <= 0}
         <div class="battle-reward">
           <h1>You win! 🎉</h1>
-          <br />
-          <h2>Got {level}💵 money!</h2>
-          <br />
+          <h1>Got {level} money! 💵</h1>
           <button on:click={finishBattle}> ❌ Finish! </button>
         </div>
       {:else}
         <div class="health-bars">
           <div>
-            {player.name}:
-            {#if player.life < 3}😰{:else if player.life < 6}😬{:else if player.life < 8}😅{:else}🙂{/if}
-            {#key player.life}
-              {player.life}
-            {/key}
-            {#key player.life}
-              <progress
-                in:fly={{ x: 5, duration: 200, easing: bounceOut, opacity: 1 }}
-                value={player.life}
-                max={maxLife}
-              />
-            {/key}
-          </div>
-          <div>
-            Enemy:
+            Monster:
             {#key enemy.life}
               <progress
                 in:fly={{ x: 5, duration: 200, easing: bounceOut, opacity: 1 }}
@@ -137,15 +120,12 @@
         </div>
         {#if trigger}
           <button
-            class="attack"
+            class="btn"
             use:move
             on:click={playerAttack}
             bind:this={attackBtn}
           >
-            🗡 Attack!
-            {#key count}
-              {clock[count]}
-            {/key}
+            {#key count}{clock[count]}{/key}Hit!🎯
           </button>
         {/if}
       {/if}
@@ -157,18 +137,25 @@
   .health-bars {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    padding: 20px;
   }
   .battle-reward {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
+    height: 100%;
   }
-  .attack {
+  .btn {
     font-size: 1.5rem;
-    border: 2px solid red;
+    border-style: outset;
     position: absolute;
+    background-color: lightblue;
     width: 100px;
+    opacity: 0.8;
+    display: flex;
+    justify-content: space-between;
   }
   button {
     border-radius: 50px;
@@ -201,17 +188,15 @@
     top: 50%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
-    font-size: 200px;
+    font-size: 250px;
   }
 
   @media screen and (max-width: 800px) {
-    .monster {
-      font-size: 100px;
-    }
     .container {
       padding: 0;
       width: 90%;
-      height: 90%;
+      height: 70%;
+      margin-top: 40%;
     }
   }
 </style>

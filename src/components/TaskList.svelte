@@ -2,12 +2,14 @@
   import Task from '../components/Task.svelte';
   import { createEventDispatcher } from 'svelte';
   import { enemies } from '../data/enemies';
+  import {
+    EXPAND_HEIGHT,
+    EXPAND_PADDING,
+    PLACEHOLDER_TEXT,
+  } from '../utils/constants';
 
   export let player;
 
-  const PLACEHOLDER_TEXT = 'What will you fight for?';
-  const EXPAND_HEIGHT = '385px';
-  const EXPAND_PADDING = '20px';
   const dispatch = createEventDispatcher();
 
   let taskInput = '';
@@ -46,12 +48,20 @@
     dispatch('change', { div, height: EXPAND_HEIGHT, padding: EXPAND_PADDING });
   }
 
-  function handleEnemy(enemy) {
+  function handleEnemyLevel(enemy) {
     return player.level + 2 >= enemy.level;
   }
 
   function handleKey(event) {
     if (event.key === 'Enter') addToList();
+  }
+
+  function handleFocus() {
+    navigator.virtualKeyboard.show();
+  }
+
+  function handleBlur() {
+    navigator.virtualKeyboard.hide();
   }
 </script>
 
@@ -63,6 +73,8 @@
       <input
         bind:value={taskInput}
         on:keydown={handleKey}
+        on:focus={handleFocus}
+        on:blur={handleBlur}
         class="quest-input"
         type="text"
         placeholder={PLACEHOLDER_TEXT}
@@ -72,7 +84,7 @@
       <div class="enemy">
         <select bind:value={taskLevel}>
           {#each enemies as enemy}
-            {#if handleEnemy(enemy)}
+            {#if handleEnemyLevel(enemy)}
               <option value={enemy.level}>{enemy.icon} {enemy.name}</option>
             {/if}
           {/each}
@@ -121,7 +133,7 @@
     flex-direction: column;
     transition: 1s;
     overflow: hidden;
-    height: 70vh;
+    height: 400px;
   }
 
   .quest-config {
