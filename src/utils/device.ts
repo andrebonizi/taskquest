@@ -1,3 +1,3 @@
 export function isMobile() {
-    return window.innerWidth < 800;
+  return window.innerWidth < 800;
 }

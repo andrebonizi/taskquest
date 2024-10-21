@@ -2,66 +2,56 @@
   import Task from '../components/Task.svelte';
   import { createEventDispatcher } from 'svelte';
   import { enemies } from '../data/enemies';
-  import {
-    EXPAND_HEIGHT,
-    EXPAND_PADDING,
-    PLACEHOLDER_TEXT,
-  } from '../utils/constants';
+  import { expandStyleFactory, taskFactory } from '../utils/factories';
+  import { PLACEHOLDER_TEXT } from '../utils/constants';
 
   export let player;
 
   const dispatch = createEventDispatcher();
 
-  let taskInput = '';
-  let taskLevel = 1;
+  let task = taskFactory();
 
   $: todoList = [];
 
-  function taskFactory() {
-    return { text: taskInput, done: false, enemy: enemies[taskLevel - 1] };
+  function storeTasks(tasks) {
+    todoList = tasks;
+    //console.log(tasks);
+
+    const rt = tasks.values((item) => {
+      console.log(item);
+    });
+
+    console.log('rt: ', rt);
+    return;
+    localStorage.setItem('q&t_tdl', todoList.toString());
   }
 
   function addToList() {
-    todoList = [...todoList, taskFactory()];
-    taskInput = '';
+    if (task.text === '') {
+      alert('Give it a name!');
+      return;
+    }
+    todoList = [...todoList, task];
+    task = taskFactory();
+    storeTasks(todoList);
   }
 
-  function removeFromList(event) {
-    todoList.splice(event.detail.index, 1);
-    todoList = todoList;
-  }
-
-  function enemyFactory(level) {
-    return { level, monster: enemies[level - 1] };
-  }
-
-  function callBattle(event) {
-    dispatch('startBattle', enemyFactory(event.detail.level));
-  }
-
-  function playerHit() {
-    dispatch('playerHit');
+  function removeFromList(index) {
+    todoList.splice(index, 1);
+    storeTasks(todoList);
   }
 
   function change() {
     const div = this.nextSibling.nextSibling;
-    dispatch('change', { div, height: EXPAND_HEIGHT, padding: EXPAND_PADDING });
+    dispatch('change', expandStyleFactory(div));
   }
 
   function handleEnemyLevel(enemy) {
-    return player.level + 2 >= enemy.level;
+    return player.level + 1 >= enemy.level;
   }
 
   function handleKey(event) {
     if (event.key === 'Enter') addToList();
-  }
-
-  function handleFocus() {
-    navigator.virtualKeyboard.show();
-  }
-
-  function handleBlur() {
-    navigator.virtualKeyboard.hide();
   }
 </script>
 
@@ -71,10 +61,8 @@
     <div class="quest-config">
       <p>Task:</p>
       <input
-        bind:value={taskInput}
+        bind:value={task.text}
         on:keydown={handleKey}
-        on:focus={handleFocus}
-        on:blur={handleBlur}
         class="quest-input"
         type="text"
         placeholder={PLACEHOLDER_TEXT}
@@ -82,14 +70,14 @@
 
       <p>Enemy:</p>
       <div class="enemy">
-        <select bind:value={taskLevel}>
+        <select bind:value={task.level}>
           {#each enemies as enemy}
             {#if handleEnemyLevel(enemy)}
               <option value={enemy.level}>{enemy.icon} {enemy.name}</option>
             {/if}
           {/each}
         </select>
-        <div class="add-button" on:click={addToList}>➕</div>
+        <div class="add-button" on:click={addToList}>⤵️</div>
       </div>
     </div>
     <div class="quest-list">
@@ -97,9 +85,9 @@
         <Task
           id={index}
           task={item}
-          on:remove={removeFromList}
-          on:startBattle={callBattle}
-          on:playerHit={playerHit}
+          on:remove={() => removeFromList(index)}
+          on:startBattle={() => dispatch('startBattle', { level: item.level })}
+          on:playerHit={() => dispatch('playerHit')}
         />
       {/each}
     </div>
@@ -118,8 +106,9 @@
     color: lightblue;
     text-shadow: 2px 2px 5px black;
     margin-right: -10px;
-    z-index: 5;
-    font-size: 1.5rem;
+    z-index: 1;
+    font-size: 1rem;
+    letter-spacing: 3px;
   }
 
   .container {
@@ -159,6 +148,7 @@
     color: rgb(0, 0, 0);
     border-radius: 5px;
     min-width: 50%;
+    height: 35px;
   }
 
   .quest-input::placeholder {
@@ -168,7 +158,7 @@
   .enemy {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     font-size: 1.5rem;
     padding: 0;
@@ -180,20 +170,15 @@
     background: lightgoldenrodyellow;
   }
 
+  select > option {
+    background: green;
+  }
+
   .add-button {
-    display: flex;
-    width: fit-content;
-    background: linear-gradient(
-      rgba(165, 42, 42, 0.773),
-      rgba(173, 87, 17, 0.838)
-    );
-    border-radius: 10px;
-    box-shadow: 2px 2px 5px black;
+    text-shadow: 1px 2px 5px black;
     cursor: pointer;
-    padding: 5px;
-    margin-top: -30px;
-    margin-left: 30px;
-    font-size: 1.5rem;
+    font-size: 2.5rem;
+    margin-top: -10px;
   }
 
   .add-button:hover {

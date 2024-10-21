@@ -2,7 +2,7 @@
   import { fly } from 'svelte/transition';
   import { bounceOut } from 'svelte/easing';
   import Status from './Status.svelte';
-  import { stuff } from '../data/icons';
+  import { items, status, stuff } from '../data/icons';
 
   export let hero;
   export let user;
@@ -31,21 +31,22 @@
   </div>
   <div class="info">
     <div class="level">
-      Lv {hero.level}
+      Level {hero.level}
     </div>
-    {#key hero.xp}
-      <div class="exp">
-        Xp:
+    <div>
+      {items.use.books.bookCollection}
+      Exp:
+      {#key hero.xp}
         <progress
           in:fly={{ x: 5, duration: 200, opacity: 1, easing: bounceOut }}
           class="xp-bar"
           value={hero.xp}
           max="100"
         />
-      </div>
-    {/key}
+      {/key}
+    </div>
   </div>
-  <div class="money">{hero.gold} {stuff.coin}</div>
+  <div class="money">{stuff.coin} {hero.gold}</div>
   <Status {hero} />
 </main>
 
@@ -135,7 +136,7 @@
     font-size: 1.3rem;
     display: flex;
     justify-content: space-around;
-    width: 65vw;
+    width: 100%;
     text-shadow: 2px 1px 3px black;
   }
   progress {

@@ -3,10 +3,11 @@
   import { bounceOut } from 'svelte/easing';
   import { onMount, onDestroy, createEventDispatcher } from 'svelte';
   import { clock } from '../data/icons';
+  import { enemies } from '../data/enemies';
   import { damage, shake } from '../data/animation';
+  import Background from './Background.svelte';
 
   export let level = 1;
-  export let monster = '';
   export let player;
 
   const dispatch = createEventDispatcher();
@@ -90,15 +91,15 @@
 
 <div class="background">
   {#if player.life <= 0}
-    You Lost....💀
-    <button on:click={finishBattle}>❌ Finish!</button>
+    <button class="btn" on:click={finishBattle}>💀 ...Game Over... 💀</button>
   {:else}
+    <Background />
     <div class="container">
       {#if enemy.life <= 0}
         <div class="battle-reward">
           <h1>You win! 🎉</h1>
           <h1>Got {level} money! 💵</h1>
-          <button on:click={finishBattle}> ❌ Finish! </button>
+          <button class="btn" on:click={finishBattle}> All right! </button>
         </div>
       {:else}
         <div class="health-bars">
@@ -116,7 +117,7 @@
           </div>
         </div>
         <div class="monster" bind:this={animate}>
-          {monster.icon}
+          {enemies[level - 1].icon}
         </div>
         {#if trigger}
           <button
@@ -146,22 +147,22 @@
     justify-content: space-evenly;
     align-items: center;
     height: 100%;
+    color: white;
+    text-shadow: 1px 3px 5px black;
   }
   .btn {
     font-size: 1.5rem;
     border-style: outset;
     position: absolute;
-    background-color: lightblue;
+    background: linear-gradient(to top, transparent, lightblue, transparent);
     width: 100px;
     opacity: 0.8;
     display: flex;
-    justify-content: space-between;
-  }
-  button {
+    justify-content: space-around;
     border-radius: 50px;
   }
   .background {
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
     background-color: rgba(0, 0, 0, 0.2);
@@ -170,13 +171,13 @@
     height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
   }
   .container {
     position: relative;
-    background: whitesmoke;
+    background: rgba(0, 0, 0, 0.4);
     padding: 20px;
-    border: 1px solid black;
+    border: 1px outset black;
     border-radius: 50px;
     height: 50%;
     width: 50%;
@@ -185,18 +186,17 @@
   }
   .monster {
     position: absolute;
-    top: 50%;
+    top: 70%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
-    font-size: 250px;
+    font-size: 9rem;
   }
 
   @media screen and (max-width: 800px) {
     .container {
       padding: 0;
       width: 90%;
-      height: 70%;
-      margin-top: 40%;
+      height: 100%;
     }
   }
 </style>

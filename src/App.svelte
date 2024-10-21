@@ -34,7 +34,6 @@
 
   $: loggedUser = null;
   $: level = 1;
-  $: monster = '';
   $: items = initialItems;
   $: hero = player;
 
@@ -58,9 +57,8 @@
 
   function startBattle(event: CustomEvent) {
     const { detail } = event;
-
+    console.log('Lv: ', level);
     level = detail.level;
-    monster = detail.monster;
     battle = true;
   }
 
@@ -95,7 +93,6 @@
   {#if battle}
     <Battle
       {level}
-      {monster}
       player={hero}
       on:endBattle={endBattle}
       on:playerHit={playerHit}
@@ -109,7 +106,7 @@
         Sair 🚪
       </button>
     {:else}
-      <Info user={{ displayName: 'Ninguém', photoURL: '' }} {hero} />
+      <Info user={{ displayName: 'Nobody', photoURL: '' }} {hero} />
       <button class="logout-btn" on:click={() => login(auth, AUTH_PROVIDER)}>
         Login
       </button>
@@ -144,7 +141,6 @@
   @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
   main {
-    background: linear-gradient(to top, black, gray);
     text-align: left;
     padding: 0;
     margin: 0;

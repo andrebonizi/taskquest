@@ -9,9 +9,7 @@
 
   function removeFromList(index, done) {
     dispatch('remove', { index });
-    done
-      ? dispatch('startBattle', { level: task.enemy.level })
-      : dispatch('playerHit');
+    done ? dispatch('startBattle') : dispatch('playerHit');
   }
 
   function fightButton(checked) {

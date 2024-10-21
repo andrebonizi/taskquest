@@ -144,6 +144,7 @@ export const items = {
 };
 
 export const magic = {
+  hit: '💥',
   fire: '🔥',
   ice: '❄️',
   thunder: '⚡',
@@ -152,12 +153,48 @@ export const magic = {
   wave: '🌊',
   wind: '🌪️',
   storm: '🌩️',
+  heal: '⚕️',
 };
 
 export const map = {
-  mountain: '🏔️',
-  tree: '🌲',
+  snowmountain: '🏔️',
+  pine: '🌲',
+  tree: '🌳',
   grass: '🌾',
+  rock: '🪨',
+  cloud: '☁️',
+  woods: '🪵',
+  mountain: '⛰️',
+};
+
+export const fencer = '🤺';
+
+export const enemies = {
+  spider: '🕷️',
+  bat: '🦇',
+  rat: '🐀',
+  racoon: '🦝',
+  scorpion: '🦂',
+  monkey: '🐒',
+  snake: '🐍',
+  shark: '🦈',
+  eagle: '🦅',
+  leopard: '🐆',
+  gorilla: '🦍',
+  crocodile: '🐊',
+  tiger: '🐅',
+  troll: '🧌',
+  rhinoceros: '🦏',
+  dragon: '🐉',
+};
+
+export const status = {
+  info: {
+    level: '⚛️',
+    power: '🔵',
+    guard: '🟩',
+    speed: '🔺',
+  },
 };
 
 export const clock = {

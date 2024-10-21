@@ -1,13 +1,10 @@
 import type { SizeProp, collapseStyle } from '../interfaces/panel';
 
+import { collapseStyleFactory } from './factories';
 import { isMobile } from './device';
 
-function isExpanded(style: collapseStyle): boolean {
+function isVisible(style: collapseStyle): boolean {
   return style.opacity !== '0';
-}
-
-function collapseStyleFactory(): collapseStyle {
-  return { opacity: 0, height: '0px', padding: 0 };
 }
 
 function getStyle(
@@ -17,7 +14,7 @@ function getStyle(
   targetPadding?: SizeProp
 ): collapseStyle {
   if (!container) {
-    return isExpanded(style)
+    return isVisible(style)
       ? collapseStyleFactory()
       : { opacity: 1, height: targetHeight, padding: targetPadding };
   }

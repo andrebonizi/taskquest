@@ -33,7 +33,6 @@ label {
 }
 
 input,
-button,
 select,
 textarea {
    font-family: inherit;
@@ -74,9 +73,10 @@ h2 {
    margin-top: 20px;
    padding-left: 10px;
    cursor: pointer;
-   z-index: 5;
+   z-index: 1;
    font-size: 1.5rem;
    position: relative;
+   letter-spacing: 2px;
 }
 
 .menu-box {

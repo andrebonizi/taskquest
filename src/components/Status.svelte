@@ -1,6 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import { getFaceIcon } from '../data/icons';
+  import { getFaceIcon, status } from '../data/icons';
   import {
     EXPAND_HEIGHT,
     EXPAND_PADDING,
@@ -24,13 +24,13 @@
   <div class="hero-base" bind:this={container}>
     <div class="atributes">
       <div>
-        ♠︎Attack:{#key hero.power}{hero.power}{/key}
+        {status.info.power}Attack:{#key hero.power}{hero.power}{/key}
       </div>
       <div>
-        ♦︎Defense:{#key hero.guard}{hero.guard}{/key}
+        {status.info.guard}Defense:{#key hero.guard}{hero.guard}{/key}
       </div>
       <div>
-        ♣︎Speed:{#key hero.speed}{hero.speed}{/key}
+        {status.info.speed}Speed:{#key hero.speed}{hero.speed}{/key}
       </div>
     </div>
   </div>
