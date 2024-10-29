@@ -100,17 +100,15 @@
   {/if}
 
   <div class="header">
-    {#if loggedUser}
-      <Info user={loggedUser} {hero} />
-      <button class="logout-btn" on:click={() => logout(auth)}>
-        Sair 🚪
-      </button>
-    {:else}
-      <Info user={{ displayName: 'Nobody', photoURL: '' }} {hero} />
-      <button class="logout-btn" on:click={() => login(auth, AUTH_PROVIDER)}>
-        Login
-      </button>
-    {/if}
+    <Info user={loggedUser || { displayName: 'Nobody', photoURL: '' }} {hero} />
+    <button
+      class="logout-btn"
+      on:click={() => {
+        loggedUser ? logout(auth) : login(auth, AUTH_PROVIDER);
+      }}
+    >
+      {!loggedUser ? 'Login' : 'Sair 🚪'}
+    </button>
   </div>
   <div class="container">
     <div class="menu">
