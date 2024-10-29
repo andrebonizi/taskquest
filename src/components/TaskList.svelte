@@ -15,10 +15,9 @@
 
   function storeTasks(tasks) {
     todoList = tasks;
-    //console.log(tasks);
-
     const rt = tasks.values((item) => {
       console.log(item);
+      return [item, ...tasks];
     });
 
     console.log('rt: ', rt);

@@ -11,7 +11,7 @@
   export let player;
 
   const dispatch = createEventDispatcher();
-  const timing = { duration: 100, iterations: 2 };
+  const timing = { duration: 200, iterations: 2 };
 
   let count = 12;
   let timer;

@@ -46,7 +46,7 @@
       {/key}
     </div>
   </div>
-  <div class="money">{stuff.coin} {hero.gold}</div>
+  <div class="money">{stuff.money} {hero.gold}</div>
   <Status {hero} />
 </main>
 
@@ -56,6 +56,7 @@
     flex-direction: row;
     gap: 10px;
     align-items: center;
+    max-width: 300px;
   }
 
   .heart {
@@ -95,13 +96,11 @@
   }
 
   .hero-name {
-    align-items: flex-start;
     display: flex;
     flex-direction: column;
     font-size: 2rem;
     text-shadow: 3px 3px 5px black;
     color: wheat;
-    width: 100%;
     height: fit-content;
   }
 
@@ -149,9 +148,7 @@
       font-size: 2rem;
       text-shadow: 3px 3px 5px black;
       color: wheat;
-      width: 100%;
       height: fit-content;
-      align-items: center;
     }
     .container {
       flex-direction: row;
@@ -168,7 +165,6 @@
     }
     .money {
       font-size: 3rem;
-      margin-left: -130px;
       color: whitesmoke;
       text-shadow: 3px 3px 5px black;
       display: flex;

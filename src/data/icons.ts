@@ -171,26 +171,25 @@ export const fencer = '🤺';
 
 export const enemies = {
   spider: '🕷️',
-  bat: '🦇',
   rat: '🐀',
+  bat: '🦇',
   racoon: '🦝',
-  scorpion: '🦂',
   monkey: '🐒',
+  scorpion: '🦂',
   snake: '🐍',
   shark: '🦈',
   eagle: '🦅',
   leopard: '🐆',
   gorilla: '🦍',
-  crocodile: '🐊',
   tiger: '🐅',
-  troll: '🧌',
+  crocodile: '🐊',
   rhinoceros: '🦏',
+  troll: '🧌',
   dragon: '🐉',
 };
 
 export const status = {
   info: {
-    level: '⚛️',
     power: '🔵',
     guard: '🟩',
     speed: '🔺',
@@ -214,8 +213,10 @@ export const clock = {
 
 export function getFaceIcon(life: number): string | null {
   if (life < 0 || life > 10) return null;
-  if (life < 2) return '😰';
-  if (life < 5) return '😬';
+  if (life < 3) return '😭';
+  if (life < 5) return '😰';
+  if (life < 7) return '😬';
   if (life < 8) return '😅';
-  if (life < 11) return '🙂';
+  if (life < 10) return '🙂';
+  if (life < 11) return '😃';
 }

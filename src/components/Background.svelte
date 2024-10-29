@@ -1,5 +1,5 @@
 <script>
-  import { map } from '../data/icons';
+  import { food, map } from '../data/icons';
 </script>
 
 <div class="map">
