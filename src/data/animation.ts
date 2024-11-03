@@ -19,3 +19,6 @@ export const shake = [
     transform: 'translateX(-50%) translateY(-80%) scale(1)',
   },
 ];
+
+export const quickTiming = { duration: 100, iterations: 2 };
+export const slowTiming = { duration: 200, iterations: 1 };

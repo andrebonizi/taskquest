@@ -4,12 +4,12 @@
   import type { Auth, User } from 'firebase/auth';
   import type { Firestore } from 'firebase/firestore';
 
-  import Battle from './components/Battle.svelte';
-  import Inventory from './components/Inventory.svelte';
+  import Battle from './components/battle/Battle.svelte';
+  import Inventory from './components/items/Inventory.svelte';
   import MusicButton from './components/MusicButton.svelte';
   import Store from './components/Store.svelte';
-  import TaskList from './components/TaskList.svelte';
-  import Info from './components/Info.svelte';
+  import TaskList from './components/tasks/TaskList.svelte';
+  import Info from './components/info/Info.svelte';
   import { initializeApp } from 'firebase/app';
   import {
     login,
@@ -101,14 +101,16 @@
 
   <div class="header">
     <Info user={loggedUser || { displayName: 'Nobody', photoURL: '' }} {hero} />
-    <button
-      class="logout-btn"
-      on:click={() => {
-        loggedUser ? logout(auth) : login(auth, AUTH_PROVIDER);
-      }}
-    >
-      {!loggedUser ? 'Login' : 'Sair 🚪'}
-    </button>
+    {#if window.navigator.onLine}
+      <button
+        class="logout-btn"
+        on:click={() => {
+          loggedUser ? logout(auth) : login(auth, AUTH_PROVIDER);
+        }}
+      >
+        {!loggedUser ? 'Login' : 'Sair 🚪'}
+      </button>
+    {/if}
   </div>
   <div class="container">
     <div class="menu">

@@ -1,5 +1,5 @@
 <script>
-  import { food, map } from '../data/icons';
+  import { map } from '../../data/icons';
 </script>
 
 <div class="map">
@@ -9,7 +9,7 @@
   <p style="top: 3%; left: 60%; font-size: 8rem;">{map.cloud}</p>
   <p class="snowmountain">{map.snowmountain}</p>
   <p class="mountain">{map.mountain}</p>
-  <p style="font-size: 3rem; top: 40%; left:50%;">{map.rock}</p>
+  <p style="font-size: 3rem; top: 35%; left:50%;">{map.rock}</p>
   <p class="pine">{map.tree}</p>
   <p class="tree">{map.pine}</p>
   <p style="font-size: 5rem; top: 50%;">{map.rock}</p>

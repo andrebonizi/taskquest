@@ -2,16 +2,15 @@
   import { fly } from 'svelte/transition';
   import { bounceOut } from 'svelte/easing';
   import { onMount, onDestroy, createEventDispatcher } from 'svelte';
-  import { clock } from '../data/icons';
-  import { enemies } from '../data/enemies';
-  import { damage, shake } from '../data/animation';
+  import { clock } from '../../data/icons';
+  import { enemies } from '../../data/enemies';
+  import { damage, quickTiming, shake, slowTiming } from '../../data/animation';
   import Background from './Background.svelte';
 
   export let level = 1;
   export let player;
 
   const dispatch = createEventDispatcher();
-  const timing = { duration: 200, iterations: 2 };
 
   let count = 12;
   let timer;
@@ -47,14 +46,14 @@
   }
 
   function playerAttack() {
-    animate.animate(damage, timing);
+    animate.animate(damage, quickTiming);
     enemy.life = enemy.life - player.power;
     switchTrigger();
     resetCount();
   }
 
   function enemyAttack() {
-    animate.animate(shake, timing);
+    animate.animate(shake, slowTiming);
     player.life -= enemy.power - player.guard;
     dispatch('playerHit');
     move(attackBtn);
