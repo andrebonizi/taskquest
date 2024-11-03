@@ -2,7 +2,7 @@
   import { fly } from 'svelte/transition';
   import { bounceOut } from 'svelte/easing';
   import Status from './Status.svelte';
-  import { items, status, stuff } from '../data/icons';
+  import { items, status, stuff } from '../../data/icons';
 
   export let hero;
   export let user;

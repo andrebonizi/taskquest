@@ -1,6 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import { FIGHT, QUIT } from '../utils/constants';
+  import { FIGHT, QUIT } from '../../utils/constants';
 
   const dispatch = createEventDispatcher();
 

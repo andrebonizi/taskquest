@@ -1,11 +1,11 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import { getFaceIcon, status } from '../data/icons';
+  import { getFaceIcon, status } from '../../data/icons';
   import {
     EXPAND_HEIGHT,
     EXPAND_PADDING,
     STATUS_LABEL,
-  } from '../utils/constants';
+  } from '../../utils/constants';
 
   export let hero;
 

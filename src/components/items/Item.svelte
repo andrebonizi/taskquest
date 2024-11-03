@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Item } from '../interfaces/inventory';
+  import type { Item } from '../../interfaces/inventory';
 
   import { createEventDispatcher } from 'svelte';
 

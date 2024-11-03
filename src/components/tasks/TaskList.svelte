@@ -1,9 +1,9 @@
 <script>
-  import Task from '../components/Task.svelte';
+  import Task from './Task.svelte';
   import { createEventDispatcher } from 'svelte';
-  import { enemies } from '../data/enemies';
-  import { expandStyleFactory, taskFactory } from '../utils/factories';
-  import { PLACEHOLDER_TEXT } from '../utils/constants';
+  import { enemies } from '../../data/enemies';
+  import { expandStyleFactory, taskFactory } from '../../utils/factories';
+  import { PLACEHOLDER_TEXT } from '../../utils/constants';
 
   export let player;
 

@@ -1,13 +1,13 @@
 <script lang="ts">
-  import type { Item as ItemType } from '../interfaces/inventory';
-  import type { Player } from '../interfaces/user';
+  import type { Item as ItemType } from '../../interfaces/inventory';
+  import type { Player } from '../../interfaces/user';
 
   import Item from './Item.svelte';
 
-  import { ATTRIBS } from '../data/player';
+  import { ATTRIBS } from '../../data/player';
   import { createEventDispatcher, onMount } from 'svelte';
-  import { EQUIP_TYPES } from '../data/items';
-  import { initialCollapse } from '../utils/collapse';
+  import { EQUIP_TYPES } from '../../data/items';
+  import { initialCollapse } from '../../utils/collapse';
 
   export let hero: Player;
 
