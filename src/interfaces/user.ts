@@ -1,4 +1,5 @@
 import type { Equips, Item } from './inventory';
+import { Task } from './task';
 
 export interface User {
   id: string;
@@ -21,4 +22,5 @@ export interface Player extends Attributes {
 
   items: Array<Item>;
   equip: Equips;
+  tasks: Task[];
 }
