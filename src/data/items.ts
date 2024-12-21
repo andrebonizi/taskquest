@@ -8,7 +8,7 @@ export function consumableFactory(data): Item {
   return itemFactory({ ...data, type: 'consumable' });
 }
 
-export function equipFactory(data): Item {
+export function equipFactory(data = {}): Item {
   return itemFactory({ ...data, type: 'weapon' });
 }
 

@@ -13,8 +13,9 @@ export const player: Player = {
   level: 1,
   items: initialItems,
   equip: {
-    weapon: equipFactory({}),
-    armor: equipFactory({}),
-    misc: equipFactory({}),
+    weapon: equipFactory(),
+    armor: equipFactory(),
+    misc: equipFactory(),
   },
+  tasks: [],
 };
