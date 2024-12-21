@@ -1,11 +1,13 @@
-<script>
+<script lang="ts">
+  import type { Player } from '../../interfaces/user';
+
   import Task from './Task.svelte';
   import { createEventDispatcher } from 'svelte';
   import { enemies } from '../../data/enemies';
   import { expandStyleFactory, taskFactory } from '../../utils/factories';
   import { PLACEHOLDER_TEXT } from '../../utils/constants';
 
-  export let player;
+  export let hero: Player;
 
   const dispatch = createEventDispatcher();
 
@@ -20,7 +22,6 @@
       return [item, ...tasks];
     });
 
-    console.log('rt: ', rt);
     return;
     localStorage.setItem('q&t_tdl', todoList.toString());
   }
@@ -46,7 +47,7 @@
   }
 
   function handleEnemyLevel(enemy) {
-    return player.level + 1 >= enemy.level;
+    return hero.level + 1 >= enemy.level;
   }
 
   function handleKey(event) {
