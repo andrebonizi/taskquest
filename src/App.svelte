@@ -30,10 +30,10 @@
   let app: FirebaseApp;
   let auth: Auth;
   let db: Firestore;
-  let battle: boolean;
+  let battleOn: boolean;
 
   $: loggedUser = null;
-  $: level = 1;
+  $: taskLevel = 1;
   $: items = initialItems;
   $: hero = player;
 
@@ -57,15 +57,14 @@
 
   function startBattle(event: CustomEvent) {
     const { detail } = event;
-    console.log('Lv: ', level);
-    level = detail.level;
-    battle = true;
+    taskLevel = detail.level;
+    battleOn = true;
   }
 
   function endBattle(event: CustomEvent) {
     const { player } = event.detail;
     hero = player;
-    battle = false;
+    battleOn = false;
   }
 
   function playerHit() {
@@ -83,17 +82,17 @@
     hero.life = hero.life >= maxLife ? maxLife : hero.life;
   }
 
-  function equipItem() {
+  function updateStats() {
     //this is weird, but forces updates data on child components
     hero = hero;
   }
 </script>
 
 <main>
-  {#if battle}
+  {#if battleOn}
     <Battle
-      {level}
-      player={hero}
+      level={taskLevel}
+      {hero}
       on:endBattle={endBattle}
       on:playerHit={playerHit}
     />
@@ -108,14 +107,14 @@
           loggedUser ? logout(auth) : login(auth, AUTH_PROVIDER);
         }}
       >
-        {!loggedUser ? 'Login' : 'Sair 🚪'}
+        {!loggedUser ? 'Login 🚪' : 'Sair 🔚'}
       </button>
     {/if}
   </div>
   <div class="container">
     <div class="menu">
       <TaskList
-        player={hero}
+        {hero}
         on:startBattle={startBattle}
         on:playerHit={playerHit}
         on:change={collapse}
@@ -124,7 +123,7 @@
         {hero}
         on:change={collapse}
         on:useItem={useItem}
-        on:equipItem={equipItem}
+        on:equipItem={updateStats}
       />
       <Store
         gold={hero.gold}
