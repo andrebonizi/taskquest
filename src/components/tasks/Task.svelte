@@ -45,18 +45,6 @@
     padding: 0 5px;
     border-bottom: 1px solid rgb(88, 57, 11);
   }
-  .level-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--task-color);
-    width: 22px;
-    height: 22px;
-  }
-  .quest p {
-    padding: 0 10px;
-    font-weight: 700;
-  }
   .quest label {
     display: inline-block;
     flex: 1;
