@@ -8,7 +8,7 @@
   import Background from './Background.svelte';
 
   export let level = 1;
-  export let player;
+  export let hero;
 
   const dispatch = createEventDispatcher();
 
@@ -19,7 +19,7 @@
 
   $: trigger = false;
   $: enemy = { life: 10 * level, power: 1 * level, speed: 1 * level };
-  $: player = player;
+  $: player = hero;
 
   function startTimer() {
     trigger = true;
@@ -54,8 +54,8 @@
 
   function enemyAttack() {
     animate.animate(shake, slowTiming);
-    player.life -= enemy.power - player.guard;
-    dispatch('playerHit');
+    //player.life -= enemy.power - player.guard;
+    dispatch('playerHit', { damage: enemy.power });
     move(attackBtn);
     resetCount();
   }

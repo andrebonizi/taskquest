@@ -1,13 +1,6 @@
 import type { Equips, Item } from './inventory';
 import { Task } from './task';
 
-export interface User {
-  id: string;
-  name: string;
-  photoSrc: string;
-  player: string;
-}
-
 export interface Attributes {
   power?: number;
   guard?: number;

@@ -24,6 +24,7 @@
   import { setLocalUser } from './data/user';
   import { storeUser } from './firebase/data';
   import { player } from './data/player';
+  import { NOBODY_FACE } from './utils/constants';
 
   export let firebaseConfig: FirebaseConfig;
 
@@ -99,7 +100,10 @@
   {/if}
 
   <div class="header">
-    <Info user={loggedUser || { displayName: 'Nobody', photoURL: '' }} {hero} />
+    <Info
+      user={loggedUser || { displayName: 'Nobody', photoURL: NOBODY_FACE }}
+      {hero}
+    />
     {#if window.navigator.onLine}
       <button
         class="logout-btn"

@@ -1,26 +1,14 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
   import { getFaceIcon, status } from '../../data/icons';
-  import {
-    EXPAND_HEIGHT,
-    EXPAND_PADDING,
-    STATUS_LABEL,
-  } from '../../utils/constants';
+  import { STATUS_LABEL } from '../../utils/constants';
 
   export let hero;
 
-  const dispatch = createEventDispatcher();
-
   let container;
-
-  function change() {
-    const div = this.nextSibling.nextSibling;
-    dispatch('change', { div, height: EXPAND_HEIGHT, padding: EXPAND_PADDING });
-  }
 </script>
 
 <main class="menu-box">
-  <h2 on:click={change}>{getFaceIcon(hero.life)}{STATUS_LABEL}</h2>
+  <h2>{getFaceIcon(hero.life)}{STATUS_LABEL}</h2>
   <div class="hero-base" bind:this={container}>
     <div class="atributes">
       <div>
@@ -64,9 +52,6 @@
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-  }
-  .atributes div > span {
-    color: black;
   }
   .atributes > div {
     font-size: 1.3rem;
