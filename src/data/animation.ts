@@ -1,23 +1,16 @@
+const hue = 'hue-rotate';
+const x = 'translateX';
+const y = 'translateY';
+const s = 'scale';
+
 export const damage = [
-  {
-    filter: 'hue-rotate(330deg)',
-    transform: 'translateX(-20%) translateY(-50%) scale(1)',
-  },
-  {
-    filter: 'hue-rotate(330deg)',
-    transform: 'translateX(-80%) translateY(-50%) scale(1)',
-  },
+  { filter: `${hue}(330deg)`, transform: `${x}(-20%) ${y}(-50%) ${s}(1)` },
+  { filter: `${hue}(330deg)`, transform: `${x}(-80%) ${y}(-50%) ${s}(1)` },
 ];
 
 export const shake = [
-  {
-    filter: 'hue-rotate(110deg)',
-    transform: 'translateX(-50%) translateY(-40%) scale(1.2)',
-  },
-  {
-    filter: 'hue-rotate(110deg)',
-    transform: 'translateX(-50%) translateY(-80%) scale(1)',
-  },
+  { filter: `${hue}(110deg)`, transform: `${x}(-50%) ${y}(-40%) ${s}(1.2)` },
+  { filter: `${hue}(110deg)`, transform: `${x}(-50%) ${y}(-80%) ${s}(1)` },
 ];
 
 export const quickTiming = { duration: 100, iterations: 2 };
