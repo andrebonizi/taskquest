@@ -8,7 +8,7 @@
 </script>
 
 <main class="menu-box">
-  <h2>{getFaceIcon(hero.life)}{STATUS_LABEL}</h2>
+  <h2>{STATUS_LABEL}{getFaceIcon(hero.life)}</h2>
   <div class="hero-base" bind:this={container}>
     <div class="atributes">
       <div>

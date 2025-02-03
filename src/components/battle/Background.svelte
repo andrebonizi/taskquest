@@ -12,13 +12,18 @@
   <p style="font-size: 3rem; top: 35%; left:50%;">{map.rock}</p>
   <p class="pine">{map.tree}</p>
   <p class="tree">{map.pine}</p>
+  <p style="font-size: 5rem; top: 25%; left:40%;">{map.pine}</p>
+  <p style="font-size: 7rem; top: 26%; left:20%;">{map.pine}</p>
+  <p class="tree">{map.pine}</p>
+  <p class="tree">{map.pine}</p>
+  <p class="tree">{map.pine}</p>
   <p style="font-size: 5rem; top: 50%;">{map.rock}</p>
 </div>
 
 <style>
   .map {
     z-index: 2;
-    position: absolute;
+    position: fixed;
     background-color: lightblue;
     background: linear-gradient(to top, white, steelblue);
     border-radius: 50px;
@@ -30,14 +35,14 @@
     overflow: hidden;
   }
   .floor {
-    position: absolute;
+    position: fixed;
     background: linear-gradient(to top, brown, darkgreen);
     height: 70%;
     width: 100%;
     bottom: 0;
   }
   .map > p {
-    position: absolute;
+    position: fixed;
   }
   .mountain {
     font-size: 8rem;

@@ -29,9 +29,9 @@
 <style>
   .checked {
     text-decoration: line-through;
-    color: red;
   }
   label {
+    user-select: none;
     color: black;
     display: inline-block;
     margin-right: 20px;
@@ -66,10 +66,5 @@
     color: sandybrown;
     width: fit-content;
     height: 35px;
-    cursor: pointer;
-    transition: 0.5s ease all;
-  }
-  button:hover {
-    scale: 1.1;
   }
 </style>

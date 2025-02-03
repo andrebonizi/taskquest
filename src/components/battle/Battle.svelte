@@ -4,7 +4,12 @@
   import { onMount, onDestroy, createEventDispatcher } from 'svelte';
   import { clock } from '../../data/icons';
   import { enemies } from '../../data/enemies';
-  import { damage, quickTiming, shake, slowTiming } from '../../data/animation';
+  import {
+    damage,
+    quickTiming,
+    slowTiming,
+    tackle,
+  } from '../../data/animation';
   import Background from './Background.svelte';
 
   export let level = 1;
@@ -15,7 +20,7 @@
   let count = 12;
   let timer;
   let attackBtn;
-  let animate;
+  let monster;
 
   $: trigger = false;
   $: enemy = { life: 10 * level, power: 1 * level, speed: 1 * level };
@@ -46,14 +51,14 @@
   }
 
   function playerAttack() {
-    animate.animate(damage, quickTiming);
+    monster.animate(damage, slowTiming);
     enemy.life = enemy.life - player.power;
     switchTrigger();
     resetCount();
   }
 
   function enemyAttack() {
-    animate.animate(shake, slowTiming);
+    monster.animate(tackle, quickTiming);
     //player.life -= enemy.power - player.guard;
     dispatch('playerHit', { damage: enemy.power });
     move(attackBtn);
@@ -115,7 +120,7 @@
             💀
           </div>
         </div>
-        <div class="monster" bind:this={animate}>
+        <div class="monster" bind:this={monster}>
           {enemies[level - 1].icon}
         </div>
         {#if trigger}
@@ -161,7 +166,7 @@
     border-radius: 50px;
   }
   .background {
-    position: relative;
+    position: fixed;
     top: 0;
     left: 0;
     background-color: rgba(0, 0, 0, 0.2);
@@ -185,10 +190,10 @@
   }
   .monster {
     position: absolute;
-    top: 70%;
+    top: 90%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
-    font-size: 9rem;
+    font-size: 15rem;
   }
 
   @media screen and (max-width: 800px) {
@@ -196,6 +201,14 @@
       padding: 0;
       width: 90%;
       height: 100%;
+    }
+
+    .monster {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+      font-size: 9rem;
     }
   }
 </style>

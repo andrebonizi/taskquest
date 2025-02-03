@@ -23,7 +23,7 @@
   import { collapse } from './utils/collapse';
   import { setLocalUser } from './data/user';
   import { storeUser } from './firebase/data';
-  import { player } from './data/player';
+  import { getLocalPlayer, setLocalPlayer } from './data/player';
   import { NOBODY_FACE } from './utils/constants';
 
   export let firebaseConfig: FirebaseConfig;
@@ -31,12 +31,12 @@
   let app: FirebaseApp;
   let auth: Auth;
   let db: Firestore;
-  let battleOn: boolean;
+  let battleOn: boolean = false;
 
   $: loggedUser = null;
   $: taskLevel = 1;
   $: items = initialItems;
-  $: hero = player;
+  $: hero = getLocalPlayer();
 
   if (window.navigator.onLine) {
     if (firebaseConfig) {
@@ -65,6 +65,7 @@
   function endBattle(event: CustomEvent) {
     const { player } = event.detail;
     hero = player;
+    setLocalPlayer(player);
     battleOn = false;
   }
 

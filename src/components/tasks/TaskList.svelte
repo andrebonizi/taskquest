@@ -13,22 +13,22 @@
 
   let task = taskFactory();
 
-  $: todoList = [];
+  $: todoList = getTasks();
 
   function storeTasks(tasks) {
-    todoList = tasks;
-    const rt = tasks.values((item) => {
-      console.log(item);
-      return [item, ...tasks];
-    });
+    console.log('stored');
+    //todoList = tasks;
+    localStorage.setItem('q&t_tl', JSON.stringify(todoList));
+    todoList = todoList;
+  }
 
-    return;
-    localStorage.setItem('q&t_tdl', todoList.toString());
+  function getTasks() {
+    return JSON.parse(localStorage.getItem('q&t_tl')) || [];
   }
 
   function addToList() {
     if (task.text === '') {
-      alert('Give it a name!');
+      alert('You shall name thy quest!');
       return;
     }
     todoList = [...todoList, task];
@@ -39,6 +39,11 @@
   function removeFromList(index) {
     todoList.splice(index, 1);
     storeTasks(todoList);
+  }
+
+  function checkTask() {
+    //storeTasks(todoList);
+    console.log('checkTask');
   }
 
   function change() {
@@ -88,6 +93,7 @@
           on:remove={() => removeFromList(index)}
           on:startBattle={() => dispatch('startBattle', { level: item.level })}
           on:playerHit={() => dispatch('playerHit')}
+          on:test={() => checkTask()}
         />
       {/each}
     </div>
@@ -132,7 +138,6 @@
   }
 
   .quest-list {
-    background: url('../interface/papyrus_h.png');
     background-size: cover;
     background-position-x: center;
     height: 100%;

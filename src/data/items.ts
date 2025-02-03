@@ -13,7 +13,7 @@ export function equipFactory(data = {}): Item {
 }
 
 export function itemFactory({
-  name = 'Nothing...',
+  name = '...',
   description = '',
   icon = '',
   attrib = {},
