@@ -1,5 +1,7 @@
 <script>
   import { items } from '../../data/icons';
+  import { fly } from 'svelte/transition';
+  import { bounceOut } from 'svelte/easing';
 
   export let hero;
 </script>
