@@ -183,14 +183,14 @@
     padding: 20px;
     border: 1px outset black;
     border-radius: 50px;
-    height: 50%;
-    width: 50%;
+    height: 100%;
+    width: 100%;
     z-index: 2;
     opacity: 1;
   }
   .monster {
     position: absolute;
-    top: 90%;
+    top: 60%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
     font-size: 15rem;

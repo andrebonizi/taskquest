@@ -64,8 +64,8 @@
 
   function endBattle(event: CustomEvent) {
     const { player } = event.detail;
-    hero = player;
     setLocalPlayer(player);
+    hero = player;
     battleOn = false;
   }
 
@@ -75,6 +75,7 @@
 
   function updateItems(event) {
     items = event.detail.items;
+    hero.items = items;
     hero.gold = event.detail.gold;
   }
 
@@ -84,8 +85,9 @@
     hero.life = hero.life >= maxLife ? maxLife : hero.life;
   }
 
-  function updateStats() {
+  function updateStats(event) {
     //this is weird, but forces updates data on child components
+    console.log('item: ', event.detail.item);
     hero = hero;
   }
 </script>

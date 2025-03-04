@@ -51,7 +51,7 @@
 
   function equip(item: ItemType) {
     changeAttrib(item, swapEquip(item));
-    dispatch('equipItem', { equip: item });
+    dispatch('equipItem', { item: item });
     alert(`${item.icon}${item.name} equipped!`);
   }
 
