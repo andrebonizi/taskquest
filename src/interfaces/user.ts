@@ -1,5 +1,5 @@
 import type { Equips, Item } from './inventory';
-import { Task } from './task';
+import { TaskData } from './task';
 
 export interface Attributes {
   power?: number;
@@ -15,5 +15,5 @@ export interface Player extends Attributes {
 
   items: Array<Item>;
   equip: Equips;
-  tasks: Task[];
+  tasks: TaskData[];
 }

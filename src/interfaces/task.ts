@@ -1,7 +1,8 @@
-export interface Task {
+export interface TaskData {
+  code: number;
   text: string;
-  status: boolean;
-  enemy: Enemy;
+  done: boolean;
+  level: number;
 }
 
 export interface Enemy {

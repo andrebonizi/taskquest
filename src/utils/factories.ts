@@ -1,7 +1,15 @@
 import { collapseStyle } from '../interfaces/panel';
+import { TaskData } from '../interfaces/task';
 import { EXPAND_HEIGHT, EXPAND_PADDING } from './constants';
 
-export const taskFactory = () => ({ code: 0, text: '', done: false, level: 1 });
+export function taskFactory(): TaskData {
+  return {
+    code: 0,
+    text: '',
+    done: false,
+    level: 1,
+  };
+}
 
 export const expandStyleFactory = (div: HTMLDivElement) => ({
   div,
