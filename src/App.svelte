@@ -57,8 +57,7 @@
   }
 
   function startBattle(event: CustomEvent) {
-    const { detail } = event;
-    taskLevel = detail.level;
+    taskLevel = event.detail.level;
     battleOn = true;
   }
 
@@ -89,7 +88,7 @@
 
   function updateStats(event) {
     //this is weird, but forces updates data on child components
-    console.log('item: ', event.detail.item);
+    //console.log('item: ', event.detail.item);
     hero = hero;
   }
 </script>
