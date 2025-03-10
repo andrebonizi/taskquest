@@ -69,8 +69,10 @@
     battleOn = false;
   }
 
-  function playerHit() {
-    hero.life -= 1;
+  function playerHit(event) {
+    const { damage } = event.detail;
+
+    hero.life -= damage > hero.guard ? damage - hero.guard : 0;
   }
 
   function updateItems(event) {
