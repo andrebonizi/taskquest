@@ -59,7 +59,6 @@
 
   function enemyAttack() {
     monster.animate(tackle, quickTiming);
-    //player.life -= enemy.power - player.guard;
     dispatch('playerHit', { damage: enemy.power });
     move(attackBtn);
     resetCount();

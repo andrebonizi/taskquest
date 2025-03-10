@@ -15,9 +15,8 @@
 
   $: todoList = getTasks();
 
-  function storeTasks(tasks) {
+  function storeTasks() {
     console.log('stored');
-    //todoList = tasks;
     localStorage.setItem('q&t_tl', JSON.stringify(todoList));
     todoList = todoList;
   }
@@ -33,12 +32,12 @@
     }
     todoList = [...todoList, task];
     task = taskFactory();
-    storeTasks(todoList);
+    storeTasks();
   }
 
   function removeFromList(index) {
     todoList.splice(index, 1);
-    storeTasks(todoList);
+    storeTasks();
   }
 
   function checkTask() {
