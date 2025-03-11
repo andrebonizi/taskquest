@@ -1,7 +1,6 @@
 import type { SizeProp, collapseStyle } from '../interfaces/panel';
 
 import { collapseStyleFactory } from './factories';
-import { isMobile } from './device';
 
 function isVisible(style: collapseStyle): boolean {
   return style.opacity !== '0';
@@ -20,9 +19,7 @@ function getStyle(
   }
 
   const { height, padding } = container.style;
-  return isMobile()
-    ? collapseStyleFactory()
-    : ({ opacity: 1, height, padding } as collapseStyle);
+  return { opacity: 1, height, padding } as collapseStyle;
 }
 
 export function initialCollapse(container: HTMLDivElement): void {
