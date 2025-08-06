@@ -34,7 +34,15 @@ export const tackle = [
   },
   {
     filter: `${hue}${blue}`,
-    transform: `${xAxis}${mid} ${yAxis}${mid} ${s}(1.2)`,
+    transform: `${xAxis}${mid} ${yAxis}${mid} ${s}(1.5)`,
+  },
+  {
+    filter: `${hue}${blue}`,
+    transform: `${xAxis}${mid} ${yAxis}${mid} ${s}(1.5)`,
+  },
+  {
+    filter: `${hue}${blue}`,
+    transform: `${xAxis}${mid} ${yAxis}${mid} ${s}(1.5)`,
   },
   {
     filter: `${hue}${blue}`,
@@ -44,3 +52,9 @@ export const tackle = [
 
 export const quickTiming = { duration: 100, iterations: 1 };
 export const slowTiming = { duration: 150, iterations: 1 };
+
+const battleChar = {
+  golf: '🏌🏻',
+  slick: '🚶🏻',
+  base: '🚶🏻',
+};

@@ -12,8 +12,8 @@
   import Info from './components/info/Info.svelte';
   import { initializeApp } from 'firebase/app';
   import {
-    login,
-    logout,
+    signin,
+    signout,
     AUTH_PROVIDER,
     getFirebaseAuth,
   } from './firebase/auth';
@@ -47,7 +47,7 @@
     }
   }
 
-  function setUser(fbUser: User) {
+  function setUser(fbUser: User): void {
     console.log('auth changed', fbUser);
     if (!fbUser) return;
 
@@ -56,40 +56,44 @@
     storeUser(db, fbUser);
   }
 
-  function startBattle(event: CustomEvent) {
+  function startBattle(event: CustomEvent): void {
     taskLevel = event.detail.level;
     battleOn = true;
   }
 
-  function endBattle(event: CustomEvent) {
+  function endBattle(event: CustomEvent): void {
     const { player } = event.detail;
-    setLocalPlayer(player);
     hero = player;
     battleOn = false;
+    setLocalPlayer(hero);
   }
 
-  function playerHit(event) {
+  function playerHit(event: CustomEvent) {
     const { damage } = event.detail;
 
     hero.life -= damage > hero.guard ? damage - hero.guard : 0;
+    setLocalPlayer(hero);
   }
 
-  function updateItems(event) {
+  function updateItems(event: CustomEvent): void {
     items = event.detail.items;
     hero.items = items;
     hero.gold = event.detail.gold;
+    setLocalPlayer(hero);
   }
 
-  function useItem(event) {
+  function useItem(event: CustomEvent): void {
     const maxLife = hero.level * 10;
     hero.life += event.detail.life ? event.detail.life : 0;
     hero.life = hero.life >= maxLife ? maxLife : hero.life;
+    setLocalPlayer(hero);
   }
 
   function updateStats(event) {
     //this is weird, but forces updates data on child components
     //console.log('item: ', event.detail.item);
     hero = hero;
+    setLocalPlayer(hero);
   }
 </script>
 
@@ -112,7 +116,7 @@
       <button
         class="logout-btn"
         on:click={() => {
-          loggedUser ? logout(auth) : login(auth, AUTH_PROVIDER);
+          loggedUser ? signout(auth) : signin(auth, AUTH_PROVIDER);
         }}
       >
         {!loggedUser ? 'Login 🚪' : 'Sair 🔚'}

@@ -169,19 +169,44 @@ export const map = {
 
 export const fencer = '🤺';
 
+export const jobs = {
+  none: '🙍',
+  //phisical
+  worker: '👷',
+  fighter: '👨‍🚒',
+  blacksmith: '👨‍🏭',
+  knight: '👮‍♂️',
+  guard: '💂‍♂️',
+  farmer: '👨‍🌾',
+  spaceman: '👨‍🚀',
+  king: '🤴',
+  ninja: '🥷',
+  hero: '🦸‍♂️',
+  //mental
+  student: '🧑‍🏫',
+  detective: '🕵️‍♂️',
+  medic: '👨‍⚕️',
+  chef: '👨‍🍳',
+  idol: '👨‍🎤',
+  mechanic: '👨‍🔧',
+  chemist: '👨‍🔬',
+  artist: '👨‍🎨',
+  judge: '👨‍⚖️',
+  wizard: '🧙‍♂️',
+};
+
 export const enemies = {
   spider: '🕷️',
   rat: '🐀',
   bat: '🦇',
   racoon: '🦝',
-  monkey: '🐒',
   scorpion: '🦂',
+  monkey: '🐒',
   snake: '🐍',
-  shark: '🦈',
   eagle: '🦅',
   leopard: '🐆',
-  gorilla: '🦍',
   tiger: '🐅',
+  gorilla: '🦍',
   crocodile: '🐊',
   rhinoceros: '🦏',
   troll: '🧌',

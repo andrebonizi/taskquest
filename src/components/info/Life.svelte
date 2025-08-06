@@ -17,7 +17,6 @@
 <style>
   .heart {
     font-size: 1.5rem;
-    margin-right: -20px;
     color: whitesmoke;
     z-index: 0;
   }

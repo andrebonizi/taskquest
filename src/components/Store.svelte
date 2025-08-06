@@ -83,7 +83,7 @@
 </script>
 
 <main class="menu-box">
-  <h2 on:click={change}>🏪 Market</h2>
+  <h2 on:click={change}>📦 Market</h2>
   <div class="container" bind:this={container}>
     <div class="products">
       {#each products as product}

@@ -12,21 +12,15 @@ import { GOOGLE_ACCESS_TOKEN } from '../utils/constants';
 export const AUTH_PROVIDER = new GoogleAuthProvider();
 
 export function getFirebaseAuth(app: FirebaseApp): Auth {
-  console.log('Getting Firebase Auth');
   return getAuth(app);
 }
 
-export function login(auth: Auth, provider: AuthProvider) {
+export function signin(auth: Auth, provider: AuthProvider) {
   signInWithPopup(auth, provider)
     .then((result: UserCredential) => {
-      // This gives you a Google Access Token. You can use it to access the Google API.
       const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
-      localStorage.setItem(GOOGLE_ACCESS_TOKEN, token);
-      // The signed-in user info.
-      const user: User = result.user;
-      console.log('You are logged as ', user);
-      // ...
+      localStorage.setItem(GOOGLE_ACCESS_TOKEN, credential.accessToken);
+      console.log('You are logged as ', (result.user as User).displayName);
     })
     .catch((error) => {
       // Handle Errors here.
@@ -41,7 +35,7 @@ export function login(auth: Auth, provider: AuthProvider) {
     });
 }
 
-export function logout(auth: Auth) {
+export function signout(auth: Auth) {
   console.log('logging out...');
   signOut(auth);
   location.reload();
