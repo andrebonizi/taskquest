@@ -72,6 +72,14 @@
     height: fit-content;
   }
 
+  .user-logo {
+    min-width: 100px;
+    width: 100%;
+    height: min-content;
+    max-height: 100px;
+    margin: 20px;
+  }
+
   @media screen and (min-width: 800px) {
     .hero-name {
       display: flex;
@@ -84,10 +92,6 @@
     .container {
       flex-direction: row;
       gap: 50px;
-    }
-    .user-logo {
-      min-width: 100px;
-      width: 20%;
     }
   }
 </style>
