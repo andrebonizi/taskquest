@@ -1,0 +1,12 @@
+export const LOCAL_FBUSER = 'q&t_fu';
+export const LOCAL_PLAYER = 'q&t_p';
+export const GOOGLE_ACCESS_TOKEN = 'gat';
+export const NOBODY_FACE = 'char/draw_yourself.png';
+
+export const EXPAND_HEIGHT = '400px';
+export const EXPAND_PADDING = '30px';
+
+export const STATUS_LABEL = ' Status';
+export const FIGHT = 'Fight ⚔️ ';
+export const QUIT = 'Flee! 💨 ';
+export const PLACEHOLDER_TEXT = 'What will you fight for?';

@@ -1,133 +1,213 @@
 <script lang="ts">
-	import type { Config as FirebaseConfig } from './interfaces/firebase';
+  import type { Config as FirebaseConfig } from './interfaces/firebase';
+  import type { FirebaseApp } from 'firebase/app';
+  import type { Auth, User } from 'firebase/auth';
+  import type { Firestore } from 'firebase/firestore';
 
-	import TaskList from './components/TaskList.svelte';
-	import Battle from './components/Battle.svelte';
-	import Inventory from './components/Inventory.svelte';
-	import Store from './components/Store.svelte';
-	import { initializeApp } from 'firebase/app';
-	import { login, logout, AUTH_PROVIDER, getFirebaseAuth, getFirstName } from './utils/auth';
-    import { onAuthStateChanged } from 'firebase/auth';
-	
-	export let firebaseConfig: FirebaseConfig;
+  import Battle from './components/battle/Battle.svelte';
+  import Inventory from './components/items/Inventory.svelte';
+  import MusicButton from './components/MusicButton.svelte';
+  import Store from './components/Store.svelte';
+  import TaskList from './components/tasks/TaskList.svelte';
+  import Info from './components/info/Info.svelte';
+  import { initializeApp } from 'firebase/app';
+  import {
+    signin,
+    signout,
+    AUTH_PROVIDER,
+    getFirebaseAuth,
+  } from './firebase/auth';
+  import { onAuthStateChanged } from 'firebase/auth';
+  import { getFirestore } from 'firebase/firestore';
+  import { initialItems } from './data/items';
+  import { collapse } from './utils/collapse';
+  import { setLocalUser } from './data/user';
+  import { storeUser } from './firebase/data';
+  import { getLocalPlayer, setLocalPlayer } from './data/player';
+  import { NOBODY_FACE } from './utils/constants';
 
-	const app = initializeApp(firebaseConfig);
-	const auth = getFirebaseAuth(app);
-	let battle: boolean;
+  export let firebaseConfig: FirebaseConfig;
 
-	$: loggedUser = null;
-	$: level = 1;
-	$: hero = {
-		life: 10,
-		power: 1,
-		guard: 0,
-		speed: 1,
-		gold: 0,
-		xp: 0,
-		level: 1,
-		name: getFirstName(loggedUser),
-	}
+  let app: FirebaseApp;
+  let auth: Auth;
+  let db: Firestore;
+  let battleOn: boolean = false;
 
-	onAuthStateChanged(auth, (user) => {loggedUser = user});
+  $: loggedUser = null;
+  $: taskLevel = 1;
+  $: items = initialItems;
+  $: hero = getLocalPlayer();
 
-	function startBattle(event) {
-		level = event.detail.level;
-		battle = true;
-	}
+  if (window.navigator.onLine) {
+    if (firebaseConfig) {
+      app = initializeApp(firebaseConfig);
+      auth = getFirebaseAuth(app);
+      db = getFirestore(app);
+      onAuthStateChanged(auth, setUser);
+    }
+  }
 
-	function handleBattle(event) {
-		hero = event.detail.player;
-		battle = false;
-	}
+  function setUser(fbUser: User): void {
+    console.log('auth changed', fbUser);
+    if (!fbUser) return;
 
-	function playerHit() {
-		alert(`Don't give up! You lost 1 life!`)
-		hero.life-=1;
-	}
+    setLocalUser(fbUser);
+    loggedUser = fbUser;
+    storeUser(db, fbUser);
+  }
+
+  function startBattle(event: CustomEvent): void {
+    taskLevel = event.detail.level;
+    battleOn = true;
+  }
+
+  function endBattle(event: CustomEvent): void {
+    const { player } = event.detail;
+    hero = player;
+    battleOn = false;
+    setLocalPlayer(hero);
+  }
+
+  function playerHit(event: CustomEvent) {
+    const { damage } = event.detail;
+
+    hero.life -= damage > hero.guard ? damage - hero.guard : 0;
+    setLocalPlayer(hero);
+  }
+
+  function updateItems(event: CustomEvent): void {
+    items = event.detail.items;
+    hero.items = items;
+    hero.gold = event.detail.gold;
+    setLocalPlayer(hero);
+  }
+
+  function useItem(event: CustomEvent): void {
+    const maxLife = hero.level * 10;
+    hero.life += event.detail.life ? event.detail.life : 0;
+    hero.life = hero.life >= maxLife ? maxLife : hero.life;
+    setLocalPlayer(hero);
+  }
+
+  function updateStats(event) {
+    //this is weird, but forces updates data on child components
+    //console.log('item: ', event.detail.item);
+    hero = hero;
+    setLocalPlayer(hero);
+  }
 </script>
 
 <main>
-	{#if battle}
-		<Battle
-			level={level}
-			player={hero}
-			on:endBattle={handleBattle}
-		/>
-	{/if}
+  {#if battleOn}
+    <Battle
+      level={taskLevel}
+      {hero}
+      on:endBattle={endBattle}
+      on:playerHit={playerHit}
+    />
+  {/if}
 
-	<div class="header">
-		<div>
-			{#if !loggedUser}
-				<button 
-					on:click={() => {login(auth, AUTH_PROVIDER)}}
-				>
-					Login
-				</button>
-
-			{:else}
-				<p 
-					class="logout-btn"
-					on:click={()=> {logout(auth)}} 
-				>
-					🚪
-				</p>
-			{/if}
-		</div>
-	</div>
-	<div class="container">
-		<Inventory
-			user={loggedUser}
-			hero={hero}
-		/>
-		<TaskList
-			player={hero}
-			on:startBattle={startBattle}
-			on:playerHit={playerHit}
-		/>
-		<Store />
-	</div>
+  <div class="header">
+    <Info
+      user={loggedUser || { displayName: 'Nobody', photoURL: NOBODY_FACE }}
+      {hero}
+    />
+    {#if window.navigator.onLine}
+      <button
+        class="logout-btn"
+        on:click={() => {
+          loggedUser ? signout(auth) : signin(auth, AUTH_PROVIDER);
+        }}
+      >
+        {!loggedUser ? 'Login 🚪' : 'Sair 🔚'}
+      </button>
+    {/if}
+  </div>
+  <div class="container">
+    <div class="menu">
+      <TaskList
+        {hero}
+        on:startBattle={startBattle}
+        on:playerHit={playerHit}
+        on:change={collapse}
+      />
+      <Inventory
+        {hero}
+        on:change={collapse}
+        on:useItem={useItem}
+        on:equipItem={updateStats}
+      />
+      <Store
+        gold={hero.gold}
+        {items}
+        on:change={collapse}
+        on:buy={updateItems}
+      />
+    </div>
+    <MusicButton />
+  </div>
 </main>
 
 <style>
-	@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
-	main {
-		text-align: left;
-		padding: 1em;
-		max-width: 100vw;
-		margin: 0;
-	}
+  main {
+    text-align: left;
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+  }
 
-	.container{
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: space-between;
-	}
+  .menu {
+    border-radius: 10px;
+    border: 2px outset gray;
+    font-family: 'Lobster';
+    width: 100%;
+    padding-bottom: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    height: fit-content;
+  }
 
-	.header{
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-	}
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-	.logout-btn {
-		cursor: pointer;
-		font-size: 30px;
-		width: min-content;
-		line-height: 15px;
-		position: absolute;
-		top: 0;
-		right: 0;
-	}
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 
-	@media (max-width: 640px) {
-		main {
-			max-width: none;
-		}
-		.container{
-			flex-direction: column;
-			justify-content: flex-start;
-		}
-	}
+  button {
+    padding: 10px 5px;
+    border-radius: 15px;
+    margin-left: 10px;
+    background: linear-gradient(gray, darkred);
+    cursor: pointer;
+  }
+  .logout-btn {
+    cursor: pointer;
+    font-family: 'Lobster';
+    font-size: 20px;
+    width: min-content;
+    position: absolute;
+    right: 0;
+    margin-right: 20px;
+    text-shadow: 2px 2px 4px black;
+    color: whitesmoke;
+  }
+
+  @media screen and (min-width: 800px) {
+    .menu {
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-around;
+    }
+  }
 </style>

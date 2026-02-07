@@ -1,9 +1,0 @@
-{
-    "rat": {"icon": "🐀", "level": 1},
-    "scorpion": {"icon": "🦂", "level": 2},
-    "snake": {"icon": "🐍", "level": 3},
-    "tiger": {"icon": "🐆", "level": 4},
-    "crocodile": {"icon": "🐊", "level":5},
-    "ogre": {"icon": "👹", "level": 6},
-    "dragon": {"icon": "🐉", "level": 7}
-}
