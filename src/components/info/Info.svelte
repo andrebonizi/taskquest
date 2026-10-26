@@ -2,20 +2,18 @@
   import Level from './Level.svelte';
   import Life from './Life.svelte';
   import Status from './Status.svelte';
-  import { getFirstName } from '../../data/user';
+  import { getFirstName, getPhotoURL } from '../../data/user';
   import { stuff } from '../../data/icons';
-  import { imageValidation } from '../../data/user';
 
   export let hero;
   export let user;
 
   const { money } = stuff;
-  const { photoURL } = user;
 </script>
 
 <main class="container">
   <div class="basic">
-    <img class="user-logo" src={photoURL} alt="profile" />
+    <img class="user-logo" src={getPhotoURL(user)} alt="profile" />
     <div class="hero-name">
       {getFirstName(user)}<br />
       <Life {hero} />

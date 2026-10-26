@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Config as FirebaseConfig } from './interfaces/firebase';
   import type { FirebaseApp } from 'firebase/app';
-  import type { Auth, User } from 'firebase/auth';
+  import type { Auth, NextOrObserver, User, UserInfo } from 'firebase/auth';
   import type { Firestore } from 'firebase/firestore';
 
   import Battle from './components/battle/Battle.svelte';
@@ -23,7 +23,7 @@
   import { collapse } from './utils/collapse';
   import { setLocalUser } from './data/user';
   import { storeUser } from './firebase/data';
-  import { getLocalPlayer, setLocalPlayer } from './data/player';
+  import { getPlayer, setLocalPlayer } from './data/player';
   import { NOBODY_FACE } from './utils/constants';
 
   export let firebaseConfig: FirebaseConfig;
@@ -32,28 +32,35 @@
   let auth: Auth;
   let db: Firestore;
   let battleOn: boolean = false;
+  let loggedUser: UserInfo | null = null;
 
-  $: loggedUser = null;
   $: taskLevel = 1;
   $: items = initialItems;
-  $: hero = getLocalPlayer();
+  $: hero = getPlayer();
 
   if (window.navigator.onLine) {
     if (firebaseConfig) {
       app = initializeApp(firebaseConfig);
       auth = getFirebaseAuth(app);
       db = getFirestore(app);
-      onAuthStateChanged(auth, setUser);
+      onAuthStateChanged(auth, setUser as unknown as NextOrObserver<User>);
     }
   }
 
-  function setUser(fbUser: User): void {
-    console.log('auth changed', fbUser);
-    if (!fbUser) return;
+  function setUser(fbUser: NextOrObserver<User>): void {
+    console.log('auth changed ', fbUser);
 
-    setLocalUser(fbUser);
+    if (!fbUser) return;
+    handleUser(fbUser as unknown as UserInfo);
+  }
+
+  function handleUser(fbUser: UserInfo): void {
+    console.log('DisplayName: ', fbUser.displayName);
+    console.log('PhotoURL: ', fbUser.photoURL);
+
     loggedUser = fbUser;
-    storeUser(db, fbUser);
+    //setLocalUser(fbUser as unknown as User);
+    //storeUser(db, fbUser);
   }
 
   function startBattle(event: CustomEvent): void {
@@ -71,7 +78,7 @@
   function playerHit(event: CustomEvent) {
     const { damage } = event.detail;
 
-    hero.life -= damage > hero.guard ? damage - hero.guard : 0;
+    hero.life -= hero.guard && damage > hero.guard ? damage - hero.guard : 0;
     setLocalPlayer(hero);
   }
 
@@ -89,7 +96,7 @@
     setLocalPlayer(hero);
   }
 
-  function updateStats(event) {
+  function updateStats() {
     //this is weird, but forces updates data on child components
     //console.log('item: ', event.detail.item);
     hero = hero;
@@ -108,10 +115,7 @@
   {/if}
 
   <div class="header">
-    <Info
-      user={loggedUser || { displayName: 'Nobody', photoURL: NOBODY_FACE }}
-      {hero}
-    />
+    <Info user={loggedUser} {hero} />
     {#if window.navigator.onLine}
       <button
         class="logout-btn"

@@ -21,19 +21,14 @@ const player: Player = {
   tasks: [],
 };
 
-export function setLocalPlayer(player: Player = null): void {
+export function setLocalPlayer(player: Player): void {
   if (!player) return;
 
   localStorage.setItem(LOCAL_PLAYER, JSON.stringify(player));
 }
 
-export function getLocalPlayer(): Player {
-  const localPlayer = localStorage.getItem(LOCAL_PLAYER);
-
-  if (localPlayer === null) {
-    console.log('No player data saved...');
-    return player;
-  }
-
-  return JSON.parse(localPlayer);
+export function getPlayer(): Player {
+  return player;
+  //const localPlayer = localStorage.getItem(LOCAL_PLAYER);
+  //return JSON.parse(localPlayer);
 }
