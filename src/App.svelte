@@ -21,10 +21,7 @@
   import { getFirestore } from 'firebase/firestore';
   import { initialItems } from './data/items';
   import { collapse } from './utils/collapse';
-  import { setLocalUser } from './data/user';
-  import { storeUser } from './firebase/data';
   import { getPlayer, setLocalPlayer } from './data/player';
-  import { NOBODY_FACE } from './utils/constants';
 
   export let firebaseConfig: FirebaseConfig;
 

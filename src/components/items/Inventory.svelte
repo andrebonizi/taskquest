@@ -21,14 +21,14 @@
     if (EQUIP_TYPES.includes(item.type)) equip(item);
   }
 
-  function consume(item) {
+  function consume(item: ItemType) {
     alert(`${item.icon}${item.name} used!`);
     dispatch('useItem', {
-      life: item.attrib.life,
+      life: item?.attrib?.life,
     });
   }
 
-  function destroyItem(event) {
+  function destroyItem(event: CustomEvent) {
     const { item } = event.detail;
     hero.items[item.index] = {};
   }

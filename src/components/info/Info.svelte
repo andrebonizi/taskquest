@@ -1,10 +1,11 @@
 <script>
-  import Level from './Level.svelte';
   import Life from './Life.svelte';
   import Status from './Status.svelte';
   import { getFirstName, getPhotoURL } from '../../data/user';
   import { stuff } from '../../data/icons';
-
+  import { items } from '../../data/icons';
+  import { fly } from 'svelte/transition';
+  import { bounceOut } from 'svelte/easing';
   export let hero;
   export let user;
 
@@ -25,7 +26,23 @@
     </div>
   </div>
   <Status {hero} />
-  <Level {hero} />
+  <div class="info">
+    <div>
+      Level {hero.level}
+    </div>
+    <div>
+      {items.use.books.bookCollection}
+      Exp:
+      {#key hero.xp}
+        <progress
+          in:fly={{ x: 5, duration: 200, opacity: 1, easing: bounceOut }}
+          class="xp-bar"
+          value={hero.xp}
+          max="100"
+        />
+      {/key}
+    </div>
+  </div>
 </main>
 
 <style>
@@ -76,6 +93,15 @@
     height: min-content;
     max-height: 100px;
     margin: 20px;
+  }
+
+  .info {
+    color: whitesmoke;
+    font-size: 1.3rem;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    text-shadow: 2px 1px 3px black;
   }
 
   @media screen and (min-width: 800px) {

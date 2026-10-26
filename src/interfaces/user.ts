@@ -5,14 +5,13 @@ export interface Attributes {
   power?: number;
   guard?: number;
   speed?: number;
+  life: number;
+  level: number;
+  xp: number;
+  gold: number;
 }
 
 export interface Player extends Attributes {
-  level: number;
-  life: number;
-  xp: number;
-  gold: number;
-
   items: Array<Item>;
   equip: Equips;
   tasks: TaskData[];
