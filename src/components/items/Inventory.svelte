@@ -93,7 +93,7 @@
 <style>
   .inventory {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-items: center;
     background: gray;
@@ -109,7 +109,7 @@
     padding: 5px;
     display: grid;
     place-items: center;
-    grid-template-columns: repeat(5, 50px);
+    grid-template-columns: repeat(3, 50px);
     grid-template-rows: repeat(2, 50px);
   }
 

@@ -69,21 +69,18 @@
     const { player } = event.detail;
     hero = player;
     battleOn = false;
-    setLocalPlayer(hero);
   }
 
   function playerHit(event: CustomEvent) {
     const { damage } = event.detail;
 
     hero.life -= hero.guard && damage > hero.guard ? damage - hero.guard : 0;
-    setLocalPlayer(hero);
   }
 
   function updateItems(event: CustomEvent): void {
     items = event.detail.items;
     hero.items = items;
     hero.gold = event.detail.gold;
-    setLocalPlayer(hero);
   }
 
   function useItem(event: CustomEvent): void {
@@ -126,17 +123,17 @@
   </div>
   <div class="container">
     <div class="menu">
-      <TaskList
-        {hero}
-        on:startBattle={startBattle}
-        on:playerHit={playerHit}
-        on:change={collapse}
-      />
       <Inventory
         {hero}
         on:change={collapse}
         on:useItem={useItem}
         on:equipItem={updateStats}
+      />
+      <TaskList
+        {hero}
+        on:startBattle={startBattle}
+        on:playerHit={playerHit}
+        on:change={collapse}
       />
       <Store
         gold={hero.gold}

@@ -25,10 +25,12 @@
     color: white;
     text-shadow: 2px 2px 5px black;
     width: 150px;
+    height: 30px;
     display: flex;
     flex-direction: row;
     padding: 0;
     align-items: center;
+    margin-top: 20px;
   }
 
   .life-bar > progress {

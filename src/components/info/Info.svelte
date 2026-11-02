@@ -1,65 +1,15 @@
 <script>
-  import Life from './Life.svelte';
   import Status from './Status.svelte';
-  import { getFirstName, getPhotoURL } from '../../data/user';
-  import { stuff } from '../../data/icons';
-  import { items } from '../../data/icons';
-  import { fly } from 'svelte/transition';
-  import { bounceOut } from 'svelte/easing';
+
   export let hero;
   export let user;
-
-  const { money } = stuff;
 </script>
 
 <main class="container">
-  <div class="basic">
-    <img class="user-logo" src={getPhotoURL(user)} alt="profile" />
-    <div class="hero-name">
-      {getFirstName(user)}<br />
-      <Life {hero} />
-    </div>
-    <div class="money">
-      <span>
-        {money}{hero.gold}
-      </span>
-    </div>
-  </div>
-  <Status {hero} />
-  <div class="info">
-    <div>
-      Level {hero.level}
-    </div>
-    <div>
-      {items.use.books.bookCollection}
-      Exp:
-      {#key hero.xp}
-        <progress
-          in:fly={{ x: 5, duration: 200, opacity: 1, easing: bounceOut }}
-          class="xp-bar"
-          value={hero.xp}
-          max="100"
-        />
-      {/key}
-    </div>
-  </div>
+  <Status {hero} {user} />
 </main>
 
 <style>
-  .basic {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: center;
-    max-width: 300px;
-  }
-
-  .money {
-    font-size: 1.5rem;
-    color: whitesmoke;
-    text-shadow: 3px 3px 5px black;
-  }
-
   .container {
     background: linear-gradient(rgba(63, 63, 63, 0.69), rgb(16, 32, 44));
     border-radius: 10px;
@@ -69,53 +19,5 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-  }
-
-  .user-logo {
-    border-radius: 50%;
-    height: fit-content;
-    min-width: 47px;
-    width: 10%;
-  }
-
-  .hero-name {
-    display: flex;
-    flex-direction: column;
-    font-size: 2rem;
-    text-shadow: 3px 3px 5px black;
-    color: wheat;
-    height: fit-content;
-  }
-
-  .user-logo {
-    min-width: 100px;
-    width: 100%;
-    height: min-content;
-    max-height: 100px;
-    margin: 20px;
-  }
-
-  .info {
-    color: whitesmoke;
-    font-size: 1.3rem;
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    text-shadow: 2px 1px 3px black;
-  }
-
-  @media screen and (min-width: 800px) {
-    .hero-name {
-      display: flex;
-      flex-direction: column;
-      font-size: 2rem;
-      text-shadow: 3px 3px 5px black;
-      color: wheat;
-      height: fit-content;
-    }
-    .container {
-      flex-direction: row;
-      gap: 50px;
-    }
   }
 </style>
